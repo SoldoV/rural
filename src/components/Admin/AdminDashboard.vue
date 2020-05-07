@@ -1,7 +1,9 @@
 <template>
   <v-app id="inspire">
     <navigation />
-    <v-content> </v-content>
+    <v-content class="admin-dashboard-content">
+      <router-view />
+    </v-content>
   </v-app>
 </template>
 
@@ -15,3 +17,10 @@ export default {
   data: () => ({})
 };
 </script>
+
+<style lang="scss" scoped>
+.admin-dashboard-content {
+  margin: 2em;
+}
+</style>
+

@@ -17,7 +17,36 @@ const routes = [
       import(
         /* webpackChunkName: "AdminDashboard" */
         "../components/Admin/AdminDashboard.vue"
-      )
+      ),
+    children: [
+      {
+        path: "/tagovi",
+        name: "Admin tagovi",
+        component: () =>
+          import(
+            /* webpackChunkName: "about" */
+            "../components/Admin/Tagovi.vue"
+          )
+      },
+      {
+        path: "/domacinstva",
+        name: "Admin domacinstva",
+        component: () =>
+          import(
+            /* webpackChunkName: "about" */
+            "../components/Admin/Domacinstva.vue"
+          )
+      },
+      {
+        path: "/gradovi",
+        name: "Admin gradovi",
+        component: () =>
+          import(
+            /* webpackChunkName: "Admingradovi" */
+            "../components/Admin/Gradovi.vue"
+          )
+      }
+    ]
   },
   {
     path: "/about",
