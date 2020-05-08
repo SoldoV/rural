@@ -1,10 +1,10 @@
 <template>
-  <v-app id="inspire">
+  <div>
     <navigation />
     <v-content class="admin-dashboard-content">
       <router-view />
     </v-content>
-  </v-app>
+  </div>
 </template>
 
 <script>

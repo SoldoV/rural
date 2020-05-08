@@ -34,6 +34,8 @@ export default {
   flex-direction: column;
   align-items: flex-start;
   margin-bottom: 56px;
+  margin-left: 10px;
+  margin-right: 10;
 
   .card-item-image {
     background-image: url("../assets/a.jpeg");
