@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
-import Footer from "../components/Footer.vue";
+import Header from "../components/Header.vue";
 
 Vue.use(VueRouter);
 
@@ -11,9 +11,9 @@ const routes = [{
     component: Home
   },
   {
-    path: "/footer",
-    name: "Footer",
-    component: Footer
+    path: "/header",
+    name: "Header",
+    component: Header
   },
   {
     path: "/dashboard",
