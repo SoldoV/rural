@@ -46,6 +46,7 @@
         </v-col>
         <v-col cols="12">
           <v-text-field
+            type="number"
             v-model="item.distance"
             label="Udaljenost"
           ></v-text-field>

@@ -34,9 +34,19 @@
         <span class="hidden-sm-and-down">Admin dashboard</span>
       </v-toolbar-title>
       <v-spacer />
-      <v-btn icon>
-        <v-icon>mdi-apps</v-icon>
-      </v-btn>
+      <v-menu offset-y>
+        <template v-slot:activator="{ on }">
+          <div class="navigation-profile-button" v-on="on">
+            {{ user }}
+            <v-icon left>mdi-account-circle</v-icon>
+          </div>
+        </template>
+        <v-list>
+          <v-list-item>
+            <v-list-item-title>Logout</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </v-app-bar>
   </div>
 </template>
@@ -49,6 +59,7 @@ export default {
   data: () => ({
     dialog: false,
     drawer: null,
+    user: "Vinko Soldo",
     items: [
       { icon: "mdi-home", text: "Domaćinstva", url: "/domacinstva" },
       { icon: "mdi-tag", text: "Tagovi", url: "/tagovi" },
@@ -58,6 +69,9 @@ export default {
 };
 </script>
 <style>
+.navigation-profile-button {
+  cursor: pointer;
+}
 a {
   text-decoration: none !important;
 }
