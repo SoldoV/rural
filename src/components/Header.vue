@@ -13,6 +13,10 @@
             </v-list-item>
           </router-link>
         </template>
+        <div class="header-buttons header-buttons-sidebar">
+          <v-btn depressed class="header-log-in">Registracija</v-btn>
+          <v-btn depressed outlined class="header-sign-up">Prijavite se</v-btn>
+        </div>
       </v-list>
     </v-navigation-drawer>
 
@@ -37,7 +41,7 @@
           >
         </v-tabs>
       </v-toolbar-items>
-      <div class="header-buttons">
+      <div class="header-buttons d-none d-md-block">
         <v-btn depressed class="header-log-in">Registracija</v-btn>
         <v-btn depressed outlined class="header-sign-up">Prijavite se</v-btn>
       </div>
@@ -66,7 +70,19 @@ export default {
 a {
   text-decoration: none;
 }
+
 .header {
+  .header-buttons-sidebar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .header-log-in {
+      margin: 2em 0 2em 0;
+    }
+  }
+
   .header-log-in,
   .header-sign-up {
     border-radius: 4px;
@@ -77,6 +93,7 @@ a {
     line-height: 17.07px;
     text-transform: none !important;
   }
+
   .header-sign-up {
     border: 1px solid rgba(0, 0, 0, 0.12);
   }
@@ -88,6 +105,7 @@ a {
     background-color: #319647 !important;
     color: white !important;
   }
+
   .v-toolbar__items {
     height: 48px !important;
   }
@@ -111,13 +129,16 @@ a {
 .v-toolbar__content {
   height: 126px !important;
 }
+
 .header-toolbar {
   display: flex;
   justify-content: center;
 }
+
 .header-menu {
   margin-right: 16px;
 }
+
 .header-logo {
   width: 180px;
   height: 35px;
