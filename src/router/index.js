@@ -1,14 +1,19 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
+import Card from "../components/CardItem.vue";
 
 Vue.use(VueRouter);
 
-const routes = [
-  {
+const routes = [{
     path: "/",
     name: "Home",
     component: Home
+  },
+  {
+    path: "/card",
+    name: "Card",
+    component: Card
   },
   {
     path: "/dashboard",
@@ -18,9 +23,8 @@ const routes = [
         /* webpackChunkName: "AdminDashboard" */
         "../components/Admin/AdminDashboard.vue"
       ),
-    children: [
-      {
-        path: "/tagovi",
+    children: [{
+        path: "tagovi",
         name: "Admin tagovi",
         component: () =>
           import(
@@ -29,7 +33,7 @@ const routes = [
           )
       },
       {
-        path: "/domacinstva",
+        path: "domacinstva",
         name: "Admin domacinstva",
         component: () =>
           import(
@@ -38,7 +42,7 @@ const routes = [
           )
       },
       {
-        path: "/gradovi",
+        path: "gradovi",
         name: "Admin gradovi",
         component: () =>
           import(

@@ -7,7 +7,7 @@
     >
       <v-list dense>
         <template v-for="item in items">
-          <router-link :key="item.url" :to="item.url">
+          <router-link :key="item.url" :to="'/dashboard' + item.url">
             <v-list-item :key="item.text" link>
               <v-list-item-action>
                 <v-icon>{{ item.icon }}</v-icon>
