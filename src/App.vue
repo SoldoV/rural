@@ -18,11 +18,7 @@ export default {
   },
   data: () => ({
     //
-  }),
-  updated() {
-    console.log("dashboard".indexOf(this.$route.fullPath) > -1);
-    console.log("dashboard".indexOf(this.$route.fullPath));
-  }
+  })
 };
 </script>
 <style lang="scss">
@@ -34,6 +30,15 @@ export default {
 @font-face {
   font-family: "MontserratBold";
   src: url("./assets/fonts/Montserrat-Bold.ttf");
+}
+@font-face {
+  font-family: "BalooPaaji2";
+  src: url("./assets/fonts/BalooPaaji2-Regular.ttf");
+}
+
+@font-face {
+  font-family: "BalooPaaji2Bold";
+  src: url("./assets/fonts/BalooPaaji2-SemiBold.ttf");
 }
 html,
 body {

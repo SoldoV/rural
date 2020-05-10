@@ -63,16 +63,6 @@ export default {};
 </script>
 
 <style lang="scss">
-@font-face {
-  font-family: "BalooPaaji2";
-  src: url("../assets/fonts/BalooPaaji2-Regular.ttf");
-}
-
-@font-face {
-  font-family: "BalooPaaji2Bold";
-  src: url("../assets/fonts/BalooPaaji2-SemiBold.ttf");
-}
-
 .about {
   font-family: "BalooPaaji2" !important;
 
