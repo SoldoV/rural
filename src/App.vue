@@ -1,8 +1,8 @@
 <template>
   <v-app id="app">
-    <Header v-if="'dashboard'.indexOf($route.fullPath) == -1" />
+    <Header v-if="!$route.fullPath.includes('dashboard')" />
     <router-view class="app-page" />
-    <Footer v-if="'dashboard'.indexOf($route.fullPath) == -1" />
+    <Footer v-if="!$route.fullPath.includes('dashboard')" />
   </v-app>
 </template>
 
