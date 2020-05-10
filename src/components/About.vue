@@ -64,7 +64,7 @@ export default {};
 
 <style lang="scss">
 .about {
-  font-family: "BalooPaaji2" !important;
+  margin: 46px 20% 46px 20%;
 
   .about-logo {
     background-image: url("../assets/swissLogo.png");
@@ -117,6 +117,11 @@ export default {};
     b:not(.about-text-ex) {
       color: rgba(0, 0, 0, 0.87);
     }
+  }
+}
+@media only screen and (max-width: 964px) {
+  .about {
+    margin: 46px 0 46px 0;
   }
 }
 </style>

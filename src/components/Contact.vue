@@ -163,6 +163,17 @@ export default {
   margin: 0 20% 0 20%;
   margin-bottom: 60px;
 
+  .v-input__slot {
+    margin-bottom: 4px;
+  }
+  .v-text-field--outlined.v-input--is-focused fieldset {
+    border: 2px solid #319647;
+  }
+
+  .v-text-field--outlined.v-input--is-focused {
+    caret-color: #319647 !important;
+  }
+
   .col {
     padding: 0px;
   }

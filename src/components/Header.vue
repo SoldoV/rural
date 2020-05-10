@@ -41,9 +41,9 @@
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-md-and-down">
         <v-tabs class="header-toolbar-tabs" align-with-title>
-          <v-tab v-for="item in menuItems" :key="item.title">
-            {{ item.title }}</v-tab
-          >
+          <v-tab v-for="item in menuItems" :key="item.title" :to="item.path">
+            {{ item.title }}
+          </v-tab>
         </v-tabs>
       </v-toolbar-items>
       <div class="header-buttons hidden-md-and-down">
@@ -121,7 +121,7 @@ a {
 
   .v-tab--active {
     color: #000 !important;
-    font-weight: 700;
+    font-family: "MontserratBold";
   }
   .header-buttons-sidebar {
     display: flex;
