@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Header from "../components/Header.vue";
 
+
 Vue.use(VueRouter);
 
 const routes = [{
@@ -58,7 +59,7 @@ const routes = [{
     component: () =>
       import(
         /* webpackChunkName: "about" */
-        "../views/About.vue"
+        "../components/About.vue"
       )
   }
 ];

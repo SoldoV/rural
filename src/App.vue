@@ -1,22 +1,63 @@
 <template>
-  <v-app>
-    <router-view />
+  <v-app id="app">
+    <Header v-if="'dashboard'.indexOf($route.fullPath) == -1" />
+    <router-view class="app-page" />
+    <Footer v-if="'dashboard'.indexOf($route.fullPath) == -1" />
   </v-app>
 </template>
 
 <script>
+import Header from "./components/Header.vue";
+import Footer from "./components/Footer.vue";
+
 export default {
   name: "App",
+  components: {
+    Header,
+    Footer
+  },
   data: () => ({
     //
-  })
+  }),
+  updated() {
+    console.log("dashboard".indexOf(this.$route.fullPath) > -1);
+    console.log("dashboard".indexOf(this.$route.fullPath));
+  }
 };
 </script>
 <style lang="scss">
-@import url("https://fonts.googleapis.com/css?family=Montserrat");
-
-* {
+@font-face {
   font-family: "Montserrat";
+  src: url("./assets/fonts/Montserrat-Regular.ttf");
+}
+
+@font-face {
+  font-family: "MontserratBold";
+  src: url("./assets/fonts/Montserrat-Bold.ttf");
+}
+html,
+body {
+  margin: 0 !important;
+  padding: 0 !important;
+  height: 100% !important;
+  width: 100% !important;
+}
+#app {
+  padding: 0 120px 0 120px;
+  font-family: "Montserrat";
+
+  .app-page {
+    min-height: calc(100vh - 256px);
+  }
+}
+
+@media only screen and (max-width: 964px) {
+  #app {
+    padding: 0 2em 0 2em;
+    .app-page {
+      min-height: calc(100vh - 426px);
+    }
+  }
 }
 </style>
 

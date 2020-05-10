@@ -47,6 +47,7 @@ a {
   align-items: center;
 
   .footer-logo {
+    min-width: 103px;
     width: 103px;
     height: 67px;
     background-image: url("../assets/logo.svg");
@@ -114,11 +115,11 @@ a {
     }
   }
 }
-@media only screen and (max-width: 700px) {
+@media only screen and (max-width: 964px) {
   .footer {
     flex-direction: column !important;
-    height: 200px;
-    padding: 1em 0 1em 0;
+    height: 300px;
+    padding: 3em 0 3em 0;
 
     .footer-copyright {
       margin: 0px !important;
