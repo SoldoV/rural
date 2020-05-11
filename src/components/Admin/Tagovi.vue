@@ -151,8 +151,4 @@ export default {
 </script>
 
 <style lang="scss">
-.edit-tags-row {
-  display: flex;
-  flex-direction: column;
-}
 </style>

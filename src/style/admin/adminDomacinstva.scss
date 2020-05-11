@@ -1,0 +1,25 @@
+.domacinstva-wrapper {
+  display: flex;
+  flex-flow: wrap;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.domacinstva {
+  padding: 2em;
+
+  .v-pagination__navigation,
+  .v-pagination__item {
+    box-shadow: none !important;
+  }
+
+  .v-pagination__item {
+    border: 1px solid rgba(151, 151, 151, 0.12);
+    border-radius: 4px;
+  }
+
+  .v-pagination__item--active {
+    background-color: $primary !important;
+    border-color: $primary !important;
+  }
+}

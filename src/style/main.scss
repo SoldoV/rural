@@ -1,0 +1,40 @@
+@import '_variables.scss';
+@import '_fonts.scss';
+@import 'about.scss';
+@import 'cardItem.scss';
+@import 'contact.scss';
+@import 'footer.scss';
+@import 'header.scss';
+@import './admin/adminDashboard.scss';
+@import './admin/adminDomacinstva.scss';
+@import './admin/adminGradovi.scss';
+@import './admin/adminNavigation.scss';
+@import './admin/adminTagItems.scss';
+@import './admin/adminTagovi.scss';
+
+html,
+body {
+  margin: 0 !important;
+  padding: 0 !important;
+  height: 100% !important;
+  width: 100% !important;
+}
+
+#app {
+  padding: 0 120px 0 120px;
+  font-family: "Montserrat";
+
+  .app-page {
+    min-height: calc(100vh - 256px);
+  }
+}
+
+@media only screen and (max-width: 964px) {
+  #app {
+    padding: 0 2em 0 2em;
+
+    .app-page {
+      min-height: calc(100vh - 426px);
+    }
+  }
+}

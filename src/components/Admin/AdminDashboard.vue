@@ -18,9 +18,6 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.admin-dashboard-content {
-  margin: 2em;
-}
+<style lang="scss">
 </style>
 

@@ -63,65 +63,7 @@ export default {};
 </script>
 
 <style lang="scss">
-.about {
-  margin: 46px 20% 46px 20%;
-
-  .about-logo {
-    background-image: url("../assets/swissLogo.png");
-    background-size: 100%;
-    width: 100%;
-    max-width: 294px;
-    height: 154px;
-  }
-
-  .about-header {
-    font-family: "BalooPaaji2Bold" !important;
-    font-size: 34px;
-    font-weight: 400;
-    line-height: 59.87px;
-    text-align: left;
-    margin-bottom: 16px;
-  }
-
-  .about-subheader {
-    color: rgba(0, 0, 0, 0.87);
-    font-size: 20px;
-    line-height: 24px;
-    text-align: left;
-    margin-top: 46px;
-    margin-bottom: 16px;
-    font-family: "MontserratBold";
-  }
-
-  .about-bottom-subheader {
-    margin-top: 50px;
-    font-family: "MontserratBold" !important;
-  }
-
-  .about-text {
-    color: rgba(0, 0, 0, 0.6);
-    font-family: "Montserrat";
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 19.5px;
-    text-align: left;
-
-    .about-subtext {
-      margin-top: 16px;
-    }
-
-    b {
-      font-family: "MontserratBold";
-    }
-
-    b:not(.about-text-ex) {
-      color: rgba(0, 0, 0, 0.87);
-    }
-  }
-}
-@media only screen and (max-width: 964px) {
-  .about {
-    margin: 46px 0 46px 0;
-  }
+a {
+  text-decoration: none;
 }
 </style>

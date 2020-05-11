@@ -1,0 +1,136 @@
+.contact {
+  position: relative;
+  margin: 0 20% 0 20%;
+  margin-bottom: 60px;
+
+  .v-input__slot {
+    margin-bottom: 4px;
+  }
+
+  .v-text-field--outlined.v-input--is-focused fieldset {
+    border: 2px solid $primary;
+  }
+
+  .v-text-field--outlined.v-input--is-focused {
+    caret-color: $primary !important;
+  }
+
+  .col {
+    padding: 0px;
+  }
+
+  .contact-inf-div {
+    margin-top: 146px;
+    margin-bottom: 50px;
+  }
+
+  .footer-social {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 104px !important;
+    position: absolute;
+    right: 0px;
+
+    .footer-social-box {
+      cursor: pointer;
+      margin-left: 16px;
+      border: 1px solid $border;
+      border-radius: 4px;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .v-icon {
+      color: $icon;
+    }
+  }
+
+  .contact-email {
+    word-break: break-all;
+  }
+
+  .contact-header {
+    margin-top: 46px;
+    margin-bottom: 16px;
+    color: $primary-text;
+    font-family: "BalooPaaji2Bold";
+    font-size: 34px;
+    font-weight: 400;
+    line-height: 59.87px;
+    text-align: left;
+  }
+
+  .contact-form-name {
+    padding-right: 12px;
+  }
+
+  .contact-form-surname {
+    padding-left: 12px;
+  }
+
+  .contact-form-btn {
+    position: absolute;
+    right: 0px;
+    background-color: $primary !important;
+    border-radius: 4px;
+    color: white;
+    text-transform: capitalize;
+    font-weight: 600;
+    box-shadow: 0 10px 20px 0 rgba(49, 150, 71, 0.5);
+    width: 116px;
+    height: 36px;
+  }
+
+  .contact-text {
+    color: $secondary-text;
+    font-family: Montserrat;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 19.5px;
+    text-align: left;
+    margin-bottom: 36px;
+  }
+
+  .contact-form-label {
+    margin-bottom: 16px;
+    color: $secondary-text;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 17.07px;
+    text-align: left;
+  }
+
+  .contact-inf-left {
+    color: $secondary-text;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 17.07px;
+    text-align: left;
+  }
+
+  .contact-inf-right {
+    position: relative;
+    color: $primary-text;
+    font-size: 14px;
+    line-height: 17.07px;
+    text-align: right;
+  }
+
+  .contact-inf-wrapper {
+    border-top: 1px solid $border;
+    padding: 23px 0 23px 0;
+    display: flex;
+    flex-direction: row;
+  }
+}
+
+@media only screen and (max-width: 964px) {
+  .contact {
+    margin: 0;
+  }
+}
