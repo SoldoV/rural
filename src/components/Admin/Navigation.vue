@@ -69,10 +69,4 @@ export default {
 };
 </script>
 <style>
-.navigation-profile-button {
-  cursor: pointer;
-}
-a {
-  text-decoration: none !important;
-}
 </style>
