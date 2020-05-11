@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
-import news from "../components/NewsItem.vue";
+import News from "../components/News.vue";
 
 
 Vue.use(VueRouter);
@@ -14,7 +14,7 @@ const routes = [{
   {
     path: "/news",
     name: "news",
-    component: news
+    component: News
   },
   {
     path: "/dashboard",
