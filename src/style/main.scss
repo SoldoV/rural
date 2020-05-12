@@ -1,5 +1,5 @@
-@import '_variables.scss';
-@import '_fonts.scss';
+@import 'variables.scss';
+@import 'fonts.scss';
 @import 'about.scss';
 @import 'cardItem.scss';
 @import 'contact.scss';
@@ -8,12 +8,12 @@
 @import 'newsItem.scss';
 @import 'news.scss';
 @import 'imageHeader.scss';
-@import './admin/adminDashboard.scss';
-@import './admin/adminDomacinstva.scss';
-@import './admin/adminGradovi.scss';
-@import './admin/adminNavigation.scss';
-@import './admin/adminTagItems.scss';
-@import './admin/adminTagovi.scss';
+@import 'adminDashboard.scss';
+@import 'adminDomacinstva.scss';
+@import 'adminGradovi.scss';
+@import 'adminNavigation.scss';
+@import 'adminTagItems.scss';
+@import 'adminTagovi.scss';
 
 html,
 body {

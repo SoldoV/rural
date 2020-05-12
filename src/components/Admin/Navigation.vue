@@ -7,7 +7,7 @@
     >
       <v-list dense>
         <template v-for="item in items">
-          <router-link :key="item.url" :to="'/dashboard' + item.url">
+          <router-link :key="item.url" :to="item.url">
             <v-list-item :key="item.text" link>
               <v-list-item-action>
                 <v-icon>{{ item.icon }}</v-icon>
@@ -61,9 +61,9 @@ export default {
     drawer: null,
     user: "Vinko Soldo",
     items: [
-      { icon: "mdi-home", text: "Domaćinstva", url: "/domacinstva" },
-      { icon: "mdi-tag", text: "Tagovi", url: "/tagovi" },
-      { icon: "mdi-map", text: "Gradovi", url: "/gradovi" }
+      { icon: "mdi-home", text: "Domaćinstva", url: "/dashboard/domacinstva" },
+      { icon: "mdi-tag", text: "Tagovi", url: "/dashboard/tagovi" },
+      { icon: "mdi-map", text: "Gradovi", url: "/dashboard/gradovi" }
     ]
   })
 };

@@ -1,9 +1,15 @@
 <template>
   <div class="tagovi">
-    <v-col class="d-flex" cols="12" sm="6">
-      <v-select :items="categories" outlined label="Kategorija"></v-select>
-    </v-col>
     <v-data-table :headers="headers" :items="tags" class="elevation-1">
+      <template v-slot:item.icon="{ item }">
+        <div class="p-2">
+          <v-img
+            class="tagovi-image"
+            :src="getImgUrl(item.icon)"
+            :alt="item.title"
+          ></v-img>
+        </div>
+      </template>
       <template v-slot:top>
         <v-toolbar flat color="white">
           <v-toolbar-title>Tagovi</v-toolbar-title>
@@ -44,7 +50,7 @@
         </v-icon>
       </template>
       <template v-slot:no-data>
-        <v-btn color="primary" @click="initialize">Reset</v-btn>
+        No data
       </template>
     </v-data-table>
   </div>
@@ -52,28 +58,31 @@
 
 <script>
 import tagItems from "./TagItems.vue";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   components: {
     tagItems
   },
   data: () => ({
-    categories: ["rooms", "benefits", "nearby"],
     dialog: false,
     headers: [
-      { text: "Ime", value: "name" },
-      { text: "Kategorija", value: "category" },
+      { text: "Ime", value: "title" },
+      { text: "Kategorija", value: "category_id", sortable: true },
+      { text: "Ikona", value: "icon" },
       { text: "Akcije", value: "actions", sortable: false }
     ],
     tags: [],
     editedIndex: -1,
     editedItem: {
-      name: "",
-      category: ""
+      title: "",
+      category_id: "",
+      icon: ""
     },
     defaultItem: {
-      name: "",
-      category: ""
+      title: "",
+      category_id: "",
+      icon: ""
     }
   }),
 
@@ -89,33 +98,19 @@ export default {
     }
   },
 
-  created() {
-    this.initialize();
-  },
-
   methods: {
+    ...mapActions(["fetchTags"]),
+    ...mapGetters(["GET_TAGS"]),
+
+    getImgUrl(img) {
+      var images = require.context("../../assets/icons/", false, /\.svg$/);
+      return images("./" + img + ".svg");
+    },
+    initialize(val) {
+      this.tags = val;
+    },
     returnItem() {
       return this.editedIndex === -1 ? 0 : this.editedItem;
-    },
-    initialize() {
-      this.tags = [
-        {
-          name: "Kuhinja",
-          quantity: "2",
-          category: "rooms",
-          icon: "rural-kuhinja"
-        },
-        {
-          name: "Teretana",
-          category: "benefits",
-          icon: "rural-gym"
-        },
-        {
-          name: "Bolnica",
-          category: "nearby",
-          distance: "1.2km"
-        }
-      ];
     },
 
     editItem(item) {
@@ -146,6 +141,11 @@ export default {
       }
       this.close();
     }
+  },
+  created() {
+    this.fetchTags().then(
+      this.initialize(JSON.parse(JSON.stringify(this.GET_TAGS())))
+    );
   }
 };
 </script>

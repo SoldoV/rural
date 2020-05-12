@@ -1,55 +1,19 @@
 <template>
   <div>
-    <v-select
-      v-if="item == 0"
-      :items="categories"
-      v-model="category"
-      outlined
-      label="Kategorija"
-    ></v-select>
     <div>
-      <v-row
-        class="edit-tags-row"
-        v-if="item.category == 'rooms' || category == 'rooms'"
-      >
+      <v-row class="edit-tags-row">
         <v-col cols="24">
-          <v-text-field v-model="item.name" label="Ime"></v-text-field>
+          <v-text-field v-model="item.title" label="Naziv"></v-text-field>
         </v-col>
         <v-col cols="24">
-          <v-text-field
-            type="number"
-            v-model="item.quantity"
-            label="Količina"
-          ></v-text-field>
+          <v-select
+            :items="categories"
+            v-model="item.category_id"
+            label="Kategorija"
+          ></v-select>
         </v-col>
         <v-col cols="12">
           <v-text-field v-model="item.icon" label="Ikona"></v-text-field>
-        </v-col>
-      </v-row>
-      <v-row
-        class="edit-tags-row"
-        v-else-if="item.category == 'benefits' || category == 'benefits'"
-      >
-        <v-col cols="24">
-          <v-text-field v-model="item.name" label="Ime"></v-text-field>
-        </v-col>
-        <v-col cols="12">
-          <v-text-field v-model="item.icon" label="Ikona"></v-text-field>
-        </v-col>
-      </v-row>
-      <v-row
-        class="edit-tags-row"
-        v-else-if="item.category == 'nearby' || category == 'nearby'"
-      >
-        <v-col cols="12">
-          <v-text-field v-model="item.name" label="Ime"></v-text-field>
-        </v-col>
-        <v-col cols="12">
-          <v-text-field
-            type="number"
-            v-model="item.distance"
-            label="Udaljenost"
-          ></v-text-field>
         </v-col>
       </v-row>
     </div>
@@ -64,8 +28,8 @@ export default {
     }
   },
   data: () => ({
-    category: "",
-    categories: ["rooms", "benefits", "nearby"]
+    category: null,
+    categories: [1, 2, 3]
   })
 };
 </script>

@@ -61,7 +61,7 @@ export default {
       appTitle: "Awesome App",
       sidebar: false,
       menuItems: [
-        { title: "Domaćinstva", path: "/home" },
+        { title: "Domaćinstva", path: "/dashboard" },
         { title: "Novosti", path: "/news" },
         { title: "O nama", path: "/about" },
         { title: "Kontakt", path: "/contact" }
