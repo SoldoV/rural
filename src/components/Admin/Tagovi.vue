@@ -25,29 +25,36 @@
               <v-card-title>
                 <span class="headline">{{ formTitle }}</span>
               </v-card-title>
-
               <v-card-text>
                 <v-container>
                   <v-row class="edit-tags-row">
-                    <v-col cols="24">
-                      <v-text-field
-                        v-model="editedItem.title"
-                        label="Naziv"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="24">
-                      <v-select
-                        :items="categories"
-                        v-model="editedItem.category_id"
-                        label="Kategorija"
-                      ></v-select>
-                    </v-col>
-                    <v-col cols="12">
-                      <v-text-field
-                        v-model="editedItem.icon"
-                        label="Ikona"
-                      ></v-text-field>
-                    </v-col>
+                    <v-form ref="form" v-model="valid" lazy-validation>
+                      <v-col cols="24">
+                        <v-text-field
+                          required
+                          :rules="titleRules"
+                          v-model="editedItem.title"
+                          label="Naziv"
+                        ></v-text-field>
+                      </v-col>
+                      <v-col cols="24">
+                        <v-select
+                          required
+                          :rules="titleRules"
+                          :items="categories"
+                          v-model="editedItem.category_id"
+                          label="Kategorija"
+                        ></v-select>
+                      </v-col>
+                      <v-col cols="12">
+                        <v-text-field
+                          required
+                          :rules="titleRules"
+                          v-model="editedItem.icon"
+                          label="Ikona"
+                        ></v-text-field>
+                      </v-col>
+                    </v-form>
                   </v-row>
                 </v-container>
               </v-card-text>
@@ -75,7 +82,7 @@
     </v-data-table>
     <v-snackbar v-model="snackbar" :timeout="3000">
       {{ snackbarText }}
-      <v-btn color="blue" text @click="snackbar = false">
+      <v-btn color="white" text @click="snackbar = false">
         Close
       </v-btn>
     </v-snackbar>
@@ -89,8 +96,9 @@ export default {
   data: () => ({
     dialog: false,
     snackbar: false,
+    titleRules: [v => !!v || "Popuniti polje"],
+    valid: false,
     snackbarText: "",
-    category: 1,
     categories: [1, 2, 3],
     headers: [
       { text: "Ime", value: "title" },
@@ -137,6 +145,10 @@ export default {
     ...mapActions(["editTag"]),
     ...mapGetters(["GET_TAGS"]),
 
+    popSnackbar(text) {
+      this.snackbarText = text;
+      this.snackbar = true;
+    },
     getImgUrl(img) {
       var images = require.context("../../assets/icons/", false, /\.svg$/);
       return images("./" + img + ".svg");
@@ -156,8 +168,7 @@ export default {
     deleteItem(item) {
       confirm("Are you sure you want to delete this item?") &&
         this.deleteTag(item.id);
-      this.snackbarText = "Item successfully deleted";
-      this.snackbar = true;
+      this.popSnackbar("Item successfully deleted");
     },
 
     close() {
@@ -169,25 +180,29 @@ export default {
     },
 
     save() {
-      if (this.editedIndex > -1) {
-        let data = {
-          category_id: this.editedItem.category_id,
-          icon: this.editedItem.icon,
-          title: this.editedItem.title,
-          id: this.editedItem.id,
-          created_at: this.editedItem.created_at,
-          updated_at: this.editedItem.updated_at
-        };
-        this.editTag(data);
-      } else {
-        let data = {
-          category_id: this.editedItem.category_id,
-          icon: this.editedItem.icon,
-          title: this.editedItem.title
-        };
-        this.postTag(data);
+      if (this.$refs.form.validate()) {
+        if (this.editedIndex > -1) {
+          let data = {
+            category_id: this.editedItem.category_id,
+            icon: this.editedItem.icon,
+            title: this.editedItem.title,
+            id: this.editedItem.id,
+            created_at: this.editedItem.created_at,
+            updated_at: this.editedItem.updated_at
+          };
+          this.editTag(data);
+          this.popSnackbar("Item successfully edited");
+        } else {
+          let data = {
+            category_id: this.editedItem.category_id,
+            icon: this.editedItem.icon,
+            title: this.editedItem.title
+          };
+          this.postTag(data);
+          this.popSnackbar("Item successfully added");
+        }
+        this.close();
       }
-      this.close();
     }
   },
   mounted() {
