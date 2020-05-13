@@ -1,5 +1,14 @@
 <template>
   <div class="domacinstva">
+    <div class="domacinstva-btn-wrapper">
+      <v-btn
+        color="primary"
+        dark
+        class="mb-2 domacinstva-btn"
+        @click="newHousehold()"
+        >Dodaj Domacinstvo</v-btn
+      >
+    </div>
     <div class="domacinstva-wrapper">
       <card
         class="domacinstva-item"
@@ -68,7 +77,12 @@ export default {
         price: "29KM"
       }
     ]
-  })
+  }),
+  methods: {
+    newHousehold() {
+      console.log("ddodaj");
+    }
+  }
 };
 </script>
 

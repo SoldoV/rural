@@ -9,12 +9,23 @@
 }
 
 .domacinstva {
-  padding: 2em;
-
   .domacinstva-wrapper {
     display: flex;
     flex-flow: wrap;
     flex-direction: row;
     justify-content: space-evenly;
+  }
+
+  .domacinstva-btn-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1em;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .domacinstva-btn-wrapper {
+    justify-content: center !important;
   }
 }

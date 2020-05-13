@@ -2,7 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import News from "../components/News.vue";
-
+import dom from "../components/Admin/NewHousehold.vue";
 
 Vue.use(VueRouter);
 
@@ -15,6 +15,11 @@ const routes = [{
     path: "/news",
     name: "news",
     component: News
+  },
+  {
+    path: "/dom",
+    name: "dom",
+    component: dom
   },
   {
     path: "/dashboard",
