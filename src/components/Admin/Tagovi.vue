@@ -73,6 +73,12 @@
         No data
       </template>
     </v-data-table>
+    <v-snackbar v-model="snackbar" :timeout="3000">
+      {{ snackbarText }}
+      <v-btn color="blue" text @click="snackbar = false">
+        Close
+      </v-btn>
+    </v-snackbar>
   </div>
 </template>
 
@@ -82,6 +88,8 @@ import { mapActions, mapGetters } from "vuex";
 export default {
   data: () => ({
     dialog: false,
+    snackbar: false,
+    snackbarText: "",
     category: 1,
     categories: [1, 2, 3],
     headers: [
@@ -95,7 +103,10 @@ export default {
     editedItem: {
       title: "",
       category_id: "",
-      icon: ""
+      icon: "",
+      created_at: "",
+      updated_at: "",
+      id: ""
     },
     defaultItem: {
       title: "",
@@ -121,6 +132,9 @@ export default {
 
   methods: {
     ...mapActions(["fetchTags"]),
+    ...mapActions(["postTag"]),
+    ...mapActions(["deleteTag"]),
+    ...mapActions(["editTag"]),
     ...mapGetters(["GET_TAGS"]),
 
     getImgUrl(img) {
@@ -134,15 +148,16 @@ export default {
       this.tags = JSON.parse(JSON.stringify(this.GET_TAGS()));
     },
     editItem(item) {
-      this.editedIndex = this.tags.indexOf(item);
+      this.editedIndex = this.getTags.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
 
     deleteItem(item) {
-      const index = this.tags.indexOf(item);
       confirm("Are you sure you want to delete this item?") &&
-        this.tags.splice(index, 1);
+        this.deleteTag(item.id);
+      this.snackbarText = "Item successfully deleted";
+      this.snackbar = true;
     },
 
     close() {
@@ -155,9 +170,22 @@ export default {
 
     save() {
       if (this.editedIndex > -1) {
-        Object.assign(this.tags[this.editedIndex], this.editedItem);
+        let data = {
+          category_id: this.editedItem.category_id,
+          icon: this.editedItem.icon,
+          title: this.editedItem.title,
+          id: this.editedItem.id,
+          created_at: this.editedItem.created_at,
+          updated_at: this.editedItem.updated_at
+        };
+        this.editTag(data);
       } else {
-        this.tags.push(this.editedItem);
+        let data = {
+          category_id: this.editedItem.category_id,
+          icon: this.editedItem.icon,
+          title: this.editedItem.title
+        };
+        this.postTag(data);
       }
       this.close();
     }

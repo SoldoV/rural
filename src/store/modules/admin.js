@@ -31,6 +31,54 @@ const actions = {
         console.log(error);
       });
   },
+  async postTag({
+    dispatch
+  }, data) {
+    await axios.post(`${rootUrls.URL}/tags`, data, {
+        headers: {
+          "Accept": "aplication/json",
+          "Authorization": "Bearer " + "MmtjUINHnR92JOVM2malJECWfq0eDW88tXrlr8stZvmhc0G3lUm3nffcWwc8oLOa0CqcTigOGwygxw3p"
+        }
+      })
+      .then(() => {
+        dispatch("fetchTags")
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  },
+  async editTag({
+    dispatch
+  }, data) {
+    await axios.put(`${rootUrls.URL}/tags/${data.id}`, data, {
+        headers: {
+          "Accept": "aplication/json",
+          "Authorization": "Bearer " + "MmtjUINHnR92JOVM2malJECWfq0eDW88tXrlr8stZvmhc0G3lUm3nffcWwc8oLOa0CqcTigOGwygxw3p"
+        }
+      })
+      .then(() => {
+        dispatch("fetchTags")
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  },
+  async deleteTag({
+    dispatch
+  }, data) {
+    await axios.delete(`${rootUrls.URL}/tags/${data}`, {
+        headers: {
+          "Accept": "aplication/json",
+          "Authorization": "Bearer " + "MmtjUINHnR92JOVM2malJECWfq0eDW88tXrlr8stZvmhc0G3lUm3nffcWwc8oLOa0CqcTigOGwygxw3p"
+        }
+      })
+      .then(() => {
+        dispatch("fetchTags")
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  },
 }
 
 const mutations = {
