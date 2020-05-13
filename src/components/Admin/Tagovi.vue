@@ -1,6 +1,6 @@
 <template>
   <div class="tagovi">
-    <v-data-table :headers="headers" :items="tags" class="elevation-1">
+    <v-data-table :headers="headers" :items="getTags" class="elevation-1">
       <template v-slot:item.icon="{ item }">
         <div class="p-2">
           <v-img
@@ -28,7 +28,27 @@
 
               <v-card-text>
                 <v-container>
-                  <tagItems :item="returnItem()" />
+                  <v-row class="edit-tags-row">
+                    <v-col cols="24">
+                      <v-text-field
+                        v-model="editedItem.title"
+                        label="Naziv"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="24">
+                      <v-select
+                        :items="categories"
+                        v-model="editedItem.category_id"
+                        label="Kategorija"
+                      ></v-select>
+                    </v-col>
+                    <v-col cols="12">
+                      <v-text-field
+                        v-model="editedItem.icon"
+                        label="Ikona"
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
                 </v-container>
               </v-card-text>
 
@@ -57,15 +77,13 @@
 </template>
 
 <script>
-import tagItems from "./TagItems.vue";
 import { mapActions, mapGetters } from "vuex";
 
 export default {
-  components: {
-    tagItems
-  },
   data: () => ({
     dialog: false,
+    category: 1,
+    categories: [1, 2, 3],
     headers: [
       { text: "Ime", value: "title" },
       { text: "Kategorija", value: "category_id", sortable: true },
@@ -89,6 +107,9 @@ export default {
   computed: {
     formTitle() {
       return this.editedIndex === -1 ? "New Item" : "Edit Item";
+    },
+    getTags() {
+      return JSON.parse(JSON.stringify(this.GET_TAGS()));
     }
   },
 
@@ -106,13 +127,12 @@ export default {
       var images = require.context("../../assets/icons/", false, /\.svg$/);
       return images("./" + img + ".svg");
     },
-    initialize(val) {
-      this.tags = val;
-    },
     returnItem() {
-      return this.editedIndex === -1 ? 0 : this.editedItem;
+      return this.editedItem;
     },
-
+    setTags() {
+      this.tags = JSON.parse(JSON.stringify(this.GET_TAGS()));
+    },
     editItem(item) {
       this.editedIndex = this.tags.indexOf(item);
       this.editedItem = Object.assign({}, item);
@@ -142,13 +162,9 @@ export default {
       this.close();
     }
   },
-  created() {
-    this.fetchTags().then(
-      this.initialize(JSON.parse(JSON.stringify(this.GET_TAGS())))
-    );
+  mounted() {
+    this.fetchTags();
   }
 };
 </script>
 
-<style lang="scss">
-</style>
