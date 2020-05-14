@@ -1,12 +1,17 @@
 <template>
   <div class="tagovi">
     <v-data-table :headers="headers" :items="getTags" class="elevation-1">
+      <template v-slot:item.title="{ item }">
+        <div class="p-2">
+          <div>{{ item.title.en }}</div>
+        </div>
+      </template>
       <template v-slot:item.icon="{ item }">
         <div class="p-2">
           <v-img
             class="tagovi-image"
             :src="getImgUrl(item.icon)"
-            :alt="item.title"
+            :alt="item.title[0]"
           ></v-img>
         </div>
       </template>
@@ -47,12 +52,13 @@
                         ></v-select>
                       </v-col>
                       <v-col cols="12">
-                        <v-text-field
+                        <v-select
                           required
                           :rules="titleRules"
+                          :items="icons"
                           v-model="editedItem.icon"
                           label="Ikona"
-                        ></v-text-field>
+                        ></v-select>
                       </v-col>
                     </v-form>
                   </v-row>
@@ -61,8 +67,20 @@
 
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn depressed color="primary" @click="close">Cancel</v-btn>
-                <v-btn depressed color="primary" @click="save">Save</v-btn>
+                <v-btn
+                  depressed
+                  color="primary"
+                  class="action-button"
+                  @click="close"
+                  >Cancel</v-btn
+                >
+                <v-btn
+                  depressed
+                  color="primary"
+                  class="action-button"
+                  @click="save"
+                  >Save</v-btn
+                >
               </v-card-actions>
             </v-card>
           </v-dialog>
@@ -100,6 +118,18 @@ export default {
     valid: false,
     snackbarText: "",
     categories: [1, 2, 3],
+    icons: [
+      "icon-gym",
+      "icon-ac",
+      "icon-heater",
+      "icon-kitchen",
+      "icon-parking",
+      "icon-pool",
+      "icon-tv",
+      "icon-wifi",
+      "icon-ac",
+      "icon-bath"
+    ],
     headers: [
       { text: "Ime", value: "title" },
       { text: "Kategorija", value: "category_id", sortable: true },

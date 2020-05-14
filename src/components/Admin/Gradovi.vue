@@ -1,11 +1,6 @@
 <template>
-  <div class="gradovi">
-    <v-data-table
-      :headers="headers"
-      :items="citys"
-      sort-by="name"
-      class="elevation-1"
-    >
+  <div class="tagovi">
+    <v-data-table :headers="headers" :items="getCities" class="elevation-1">
       <template v-slot:top>
         <v-toolbar flat color="white">
           <v-toolbar-title>Gradovi</v-toolbar-title>
@@ -13,7 +8,7 @@
           <v-spacer></v-spacer>
           <v-dialog v-model="dialog" max-width="500px">
             <template v-slot:activator="{ on }">
-              <v-btn color="primary" dark class="mb-2" v-on="on"
+              <v-btn color="primary" dark class="mb-2 action-button" v-on="on"
                 >Novi grad</v-btn
               >
             </template>
@@ -21,24 +16,38 @@
               <v-card-title>
                 <span class="headline">{{ formTitle }}</span>
               </v-card-title>
-
               <v-card-text>
                 <v-container>
-                  <v-row>
-                    <v-col cols="12" sm="6" md="4">
-                      <v-text-field
-                        v-model="editedItem.name"
-                        label="Ime grada "
-                      ></v-text-field>
-                    </v-col>
+                  <v-row class="edit-tags-row">
+                    <v-form ref="form" v-model="valid" lazy-validation>
+                      <v-col cols="24">
+                        <v-text-field
+                          required
+                          :rules="titleRules"
+                          v-model="editedItem.title"
+                          label="Naziv"
+                        ></v-text-field>
+                      </v-col>
+                    </v-form>
                   </v-row>
                 </v-container>
               </v-card-text>
-
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-                <v-btn color="blue darken-1" text @click="save">Save</v-btn>
+                <v-btn
+                  depressed
+                  color="primary"
+                  class="action-button"
+                  @click="close"
+                  >Cancel</v-btn
+                >
+                <v-btn
+                  depressed
+                  color="primary"
+                  class="action-button"
+                  @click="save"
+                  >Save</v-btn
+                >
               </v-card-actions>
             </v-card>
           </v-dialog>
@@ -53,38 +62,54 @@
         </v-icon>
       </template>
       <template v-slot:no-data>
-        <v-btn color="primary" @click="initialize">Reset</v-btn>
+        No data
       </template>
     </v-data-table>
+    <v-snackbar v-model="snackbar" :timeout="3000">
+      {{ snackbarText }}
+      <v-btn color="white" text @click="snackbar = false">
+        Close
+      </v-btn>
+    </v-snackbar>
   </div>
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
+
 export default {
   data: () => ({
     dialog: false,
+    snackbar: false,
+    titleRules: [v => !!v || "Popuniti polje"],
+    valid: false,
+    snackbarText: "",
     headers: [
-      {
-        text: "Grad",
-        align: "start",
-        sortable: false,
-        value: "name"
-      },
-      { text: "Actions", value: "actions", sortable: false }
+      { text: "Ime", value: "title" },
+      { text: "Id", value: "id", sortable: true },
+      { text: "Akcije", value: "actions", sortable: false }
     ],
-    citys: [],
     editedIndex: -1,
     editedItem: {
-      name: ""
+      title: "",
+      id: "",
+      created_at: "",
+      updated_at: ""
     },
     defaultItem: {
-      name: ""
+      title: "",
+      id: "",
+      created_at: "",
+      updated_at: ""
     }
   }),
 
   computed: {
     formTitle() {
       return this.editedIndex === -1 ? "New Item" : "Edit Item";
+    },
+    getCities() {
+      return JSON.parse(JSON.stringify(this.GET_CITIES()));
     }
   },
 
@@ -94,56 +119,27 @@ export default {
     }
   },
 
-  created() {
-    this.initialize();
-  },
-
   methods: {
-    initialize() {
-      this.citys = [
-        {
-          name: "Frozen Yogurt"
-        },
-        {
-          name: "Ice cream sandwich"
-        },
-        {
-          name: "Eclair"
-        },
-        {
-          name: "Cupcake"
-        },
-        {
-          name: "Gingerbread"
-        },
-        {
-          name: "Jelly bean"
-        },
-        {
-          name: "Lollipop"
-        },
-        {
-          name: "Honeycomb"
-        },
-        {
-          name: "Donut"
-        },
-        {
-          name: "KitKat"
-        }
-      ];
-    },
+    ...mapActions(["fetchCities"]),
+    ...mapActions(["postCity"]),
+    ...mapActions(["deleteCity"]),
+    ...mapActions(["editCity"]),
+    ...mapGetters(["GET_CITIES"]),
 
+    popSnackbar(text) {
+      this.snackbarText = text;
+      this.snackbar = true;
+    },
     editItem(item) {
-      this.editedIndex = this.citys.indexOf(item);
+      this.editedIndex = this.getCities.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
 
     deleteItem(item) {
-      const index = this.citys.indexOf(item);
       confirm("Are you sure you want to delete this item?") &&
-        this.citys.splice(index, 1);
+        this.deleteCity(item.id);
+      this.popSnackbar("Grad uspješno izbrisan");
     },
 
     close() {
@@ -155,13 +151,30 @@ export default {
     },
 
     save() {
-      if (this.editedIndex > -1) {
-        Object.assign(this.citys[this.editedIndex], this.editedItem);
-      } else {
-        this.citys.push(this.editedItem);
+      if (this.$refs.form.validate()) {
+        if (this.editedIndex > -1) {
+          let data = {
+            id: this.editedItem.id,
+            title: this.editedItem.title,
+            created_at: this.editedItem.created_at,
+            updated_at: this.editedItem.updated_at
+          };
+          this.editCity(data);
+          this.popSnackbar("Grad uspješno uređen");
+        } else {
+          let data = {
+            title: this.editedItem.title
+          };
+          this.postCity(data);
+          this.popSnackbar("Grad uspješno dodan");
+        }
+        this.close();
       }
-      this.close();
     }
+  },
+  mounted() {
+    this.fetchCities();
   }
 };
 </script>
+
