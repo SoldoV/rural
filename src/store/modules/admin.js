@@ -9,6 +9,7 @@ const state = {
   tags: [],
   categories: [],
   cities: [],
+  householdResp: false,
   header: {
     "Accept": "aplication/json",
     "Authorization": "Bearer " + "2|KM3OZHyQetnnC4mONg05qd3rEnfwOUzTYKptPKXaJHos5CmUAvkuf2fYFSQV1Vpyeno7DDaQCvKBdyE2"
@@ -20,6 +21,9 @@ const getters = {
   },
   GET_CITIES: state => {
     return state.cities;
+  },
+  HOUSEHOLD_RESP: state => {
+    return state.householdResp;
   }
 }
 const actions = {
@@ -135,6 +139,20 @@ const actions = {
         console.log(error);
       });
   },
+  async postHousehold({
+    state,
+    commit
+  }, data) {
+    await axios.post(`${rootUrls.URL}/households`, data, {
+        headers: state.header
+      })
+      .then(() => {
+        commit('STORE_HOUSEHOLD_RESP', true);
+      })
+      .catch(() => {
+        commit('STORE_HOUSEHOLD_RESP', false);
+      });
+  },
 }
 
 const mutations = {
@@ -143,6 +161,9 @@ const mutations = {
   },
   STORE_CITIES: (state, data) => {
     state.cities = data;
+  },
+  STORE_HOUSEHOLD_RESP: (state, data) => {
+    state.householdResp = data;
   },
 }
 

@@ -1,25 +1,25 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
-import News from "../components/News.vue";
-import dom from "../components/Admin/NewHousehold.vue";
 
 Vue.use(VueRouter);
 
 const routes = [{
     path: "/",
     name: "Home",
-    component: Home
+    component: () =>
+      import(
+        /* webpackChunkName: "home" */
+        "../views/Home.vue"
+      )
   },
   {
     path: "/news",
     name: "news",
-    component: News
-  },
-  {
-    path: "/dom",
-    name: "dom",
-    component: dom
+    component: () =>
+      import(
+        /* webpackChunkName: "news" */
+        "../components/News.vue"
+      )
   },
   {
     path: "/dashboard",
@@ -30,32 +30,60 @@ const routes = [{
         "../components/Admin/AdminDashboard.vue"
       ),
     children: [{
-        path: "tagovi",
-        name: "Admin tagovi",
+        path: "tags",
+        name: "Admin tags",
         component: () =>
           import(
-            /* webpackChunkName: "about" */
-            "../components/Admin/Tagovi.vue"
+            /* webpackChunkName: "AdminTags" */
+            "../components/Admin/Tags.vue"
           )
       },
       {
-        path: "domacinstva",
-        name: "Admin domacinstva",
+        path: "households",
+        name: "Admin households",
         component: () =>
           import(
-            /* webpackChunkName: "about" */
-            "../components/Admin/Domacinstva.vue"
+            /* webpackChunkName: "AdminHouseholds" */
+            "../components/Admin/Households.vue"
           )
       },
       {
-        path: "gradovi",
-        name: "Admin gradovi",
+        path: "cities",
+        name: "Admin cities",
         component: () =>
           import(
-            /* webpackChunkName: "Admingradovi" */
-            "../components/Admin/Gradovi.vue"
+            /* webpackChunkName: "AdminCities" */
+            "../components/Admin/Cities.vue"
           )
-      }
+      },
+      {
+        path: "newHousehold",
+        name: "Admin new household",
+        component: () =>
+          import(
+            /* webpackChunkName: "AdminNewHousehold" */
+            "../components/Admin/NewHousehold.vue"
+          ),
+        children: [{
+            path: "description",
+            name: "Admin new household description",
+            component: () =>
+              import(
+                /* webpackChunkName: "newHouseholdDescription" */
+                "../components/Admin/NewHouseholdDescription.vue"
+              )
+          },
+          {
+            path: "properties",
+            name: "Admin new household properties",
+            component: () =>
+              import(
+                /* webpackChunkName: "newHouseholProperties" */
+                "../components/Admin/NewHouseholdProperties.vue"
+              )
+          }
+        ]
+      },
     ]
   },
   {

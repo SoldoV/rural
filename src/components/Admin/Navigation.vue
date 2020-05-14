@@ -61,9 +61,9 @@ export default {
     drawer: null,
     user: "Vinko Soldo",
     items: [
-      { icon: "mdi-home", text: "Domaćinstva", url: "/dashboard/domacinstva" },
-      { icon: "mdi-tag", text: "Tagovi", url: "/dashboard/tagovi" },
-      { icon: "mdi-map", text: "Gradovi", url: "/dashboard/gradovi" }
+      { icon: "mdi-home", text: "Domaćinstva", url: "/dashboard/households" },
+      { icon: "mdi-tag", text: "Tagovi", url: "/dashboard/tags" },
+      { icon: "mdi-map", text: "Gradovi", url: "/dashboard/cities" }
     ]
   })
 };

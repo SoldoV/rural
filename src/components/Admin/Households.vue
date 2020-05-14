@@ -5,7 +5,7 @@
         color="primary"
         dark
         class="mb-2 domacinstva-btn"
-        @click="newHousehold()"
+        :to="'/dashboard/newHousehold/description'"
         >Dodaj Domacinstvo</v-btn
       >
     </div>
