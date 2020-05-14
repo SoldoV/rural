@@ -3,17 +3,6 @@
     <v-row class="justify-center mt-10">
       <v-col cols="6">
         <v-form ref="form" v-model="valid" lazy-validation>
-          <!-- <v-file-input
-            counter
-            outlined
-            chips
-            multiple
-            accept="image/png, image/jpeg, image/bmp"
-            placeholder="Izaberite slike"
-            prepend-icon="mdi-camera"
-            label="Slike"
-            @change="img"
-          ></v-file-input> -->
           <v-text-field
             outlined
             :rules="descRules"
@@ -155,10 +144,6 @@ export default {
         };
       });
     },
-    img(val) {
-      console.log(val);
-      this.household.images = val;
-    },
     save() {
       if (this.$refs.form.validate()) {
         let data = {
@@ -171,7 +156,10 @@ export default {
           popular: this.household.popular
         };
         this.postHousehold(data).then(() => {
-          if (this.HOUSEHOLD_RESP()) this.$emit("increaseStepper");
+          if (this.HOUSEHOLD_RESP()) {
+            this.$emit("increaseStepper");
+            this.$router.push("/dashboard/newhousehold/properties");
+          }
         });
       }
     },
@@ -187,13 +175,4 @@ export default {
 </script>
 
 <style lang="scss">
-.new-household-btn-wrapper {
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-
-  .new-household-btn {
-    margin: 0px 0px 2em 20px;
-  }
-}
 </style>

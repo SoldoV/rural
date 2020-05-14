@@ -35,6 +35,16 @@ body {
   }
 }
 
+.new-household-btn-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+
+  .new-household-btn {
+    margin: 0px 0px 2em 20px;
+  }
+}
+
 @media only screen and (max-width: 964px) {
   #app {
     padding: 0 2em 0 2em;
