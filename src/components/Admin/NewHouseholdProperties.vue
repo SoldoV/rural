@@ -170,6 +170,18 @@ export default {
   },
   created() {
     this.householdId = this.GET_HOUSEHOLD_ID();
+  },
+  updated() {
+    let tagsObj = {
+      method: "attach",
+      data: {}
+    };
+    this.tags.forEach((x, i) => {
+      tagsObj.data[this.tags[i].type.id] = {
+        value: this.tags[i].value
+      };
+    });
+    console.log(tagsObj);
   }
 };
 </script>

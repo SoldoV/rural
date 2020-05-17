@@ -6,6 +6,7 @@
 @import 'header.scss';
 @import 'newsItem.scss';
 @import 'news.scss';
+@import 'loginRegister.scss';
 @import 'imageHeader.scss';
 @import 'adminDashboard.scss';
 @import 'adminDomacinstva.scss';
@@ -24,6 +25,26 @@ body {
 
 .action-button {
   font-weight: 700;
+}
+
+.align-column-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.v-input {
+  fieldset {
+    border-color: $border;
+  }
+}
+
+.align-row-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 #app {

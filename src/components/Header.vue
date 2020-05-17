@@ -19,8 +19,12 @@
           </router-link>
         </template>
         <div class="header-buttons header-buttons-sidebar">
-          <v-btn depressed class="header-log-in">Registracija</v-btn>
-          <v-btn depressed outlined class="header-sign-up">Prijavite se</v-btn>
+          <v-btn depressed class="header-log-in" @click="register"
+            >Registracija</v-btn
+          >
+          <v-btn depressed outlined class="header-sign-up" @click="login"
+            >Prijavite se</v-btn
+          >
         </div>
       </v-list>
     </v-navigation-drawer>
@@ -47,17 +51,33 @@
         </v-tabs>
       </v-toolbar-items>
       <div class="header-buttons hidden-md-and-down">
-        <v-btn depressed class="header-log-in">Registracija</v-btn>
-        <v-btn depressed outlined class="header-sign-up">Prijavite se</v-btn>
+        <v-btn depressed class="header-log-in" @click="register"
+          >Registracija</v-btn
+        >
+        <v-btn depressed outlined class="header-sign-up" @click="login"
+          >Prijavite se</v-btn
+        >
       </div>
     </v-toolbar>
+    <login :loginOpen="loginOpen" @login="login" @register="register" />
+    <register
+      :registerOpen="registerOpen"
+      @register="register"
+      @login="login"
+    />
   </div>
 </template>
 
 <script>
 export default {
+  components: {
+    Login: () => import("./Login.vue"),
+    Register: () => import("./Register.vue")
+  },
   data() {
     return {
+      loginOpen: false,
+      registerOpen: false,
       appTitle: "Awesome App",
       sidebar: false,
       menuItems: [
@@ -67,6 +87,14 @@ export default {
         { title: "Kontakt", path: "/contact" }
       ]
     };
+  },
+  methods: {
+    register() {
+      this.registerOpen = !this.registerOpen;
+    },
+    login() {
+      this.loginOpen = !this.loginOpen;
+    }
   }
 };
 </script>

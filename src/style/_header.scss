@@ -23,14 +23,6 @@ a {
     border: 1px solid $border;
   }
 
-  .header-log-in {
-    margin-right: 16px;
-    margin-left: 16px;
-    box-shadow: 0 10px 20px 0 rgba(49, 150, 71, 0.25) !important;
-    background-color: $primary !important;
-    color: white !important;
-  }
-
   .v-toolbar__items {
     height: 48px !important;
   }
@@ -82,4 +74,12 @@ a {
     height: 35px;
     background-image: url("~@/assets/logoHeader.svg");
   }
+}
+
+.header-log-in {
+  margin-right: 16px;
+  margin-left: 16px;
+  box-shadow: 0 10px 20px 0 rgba(49, 150, 71, 0.25) !important;
+  background-color: $primary !important;
+  color: white !important;
 }

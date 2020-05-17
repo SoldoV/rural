@@ -122,7 +122,6 @@ export default {
       });
     },
     save() {
-      console.log(this.tag);
       this.tags.push(this.tag);
       this.close();
     },
