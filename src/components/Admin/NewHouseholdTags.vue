@@ -27,20 +27,25 @@
                 <v-container>
                   <v-row>
                     <v-col cols="24">
-                      <v-select
-                        required
-                        outlined
-                        :items="getTags"
-                        item-text="icon"
-                        return-object
-                        v-model="tag.type"
-                        label="Tag"
-                      ></v-select>
-                      <v-text-field
-                        outlined
-                        v-model="tag.value"
-                        label="Vrijednost"
-                      ></v-text-field>
+                      <v-form v-model="valid" ref="form" lazy-validation>
+                        <v-select
+                          required
+                          outlined
+                          :items="getTags"
+                          item-text="icon"
+                          return-object
+                          :rules="tagRules"
+                          v-model="tag.type"
+                          label="Tag"
+                        ></v-select>
+                        <v-text-field
+                          outlined
+                          :rules="tagRules"
+                          type="number"
+                          v-model="tag.value"
+                          label="Vrijednost"
+                        ></v-text-field>
+                      </v-form>
                     </v-col>
                   </v-row>
                 </v-container>
@@ -89,6 +94,8 @@ import { mapActions, mapGetters } from "vuex";
 export default {
   data: () => ({
     dialog: false,
+    valid: false,
+    tagRules: [v => !!v || "Morate unijeti ovo polje"],
     tag: {
       type: {},
       value: ""
@@ -122,8 +129,10 @@ export default {
       });
     },
     save() {
-      this.tags.push(this.tag);
-      this.close();
+      if (this.$refs.form.validate()) {
+        this.tags.push(this.tag);
+        this.close();
+      }
     },
     deleteItem(item) {
       const index = this.tags.indexOf(item);

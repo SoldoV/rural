@@ -15,6 +15,7 @@ const state = {
   platformResp: false,
   householdId: null,
   householdImage: false,
+  errorMsg: "",
   headerss: {
     "Accept": "application/json",
     "Content-Type": "application/json",
@@ -49,6 +50,9 @@ const getters = {
   },
   HOUSEHOLD_IMAGE_RESP: state => {
     return state.householdImage;
+  },
+  GET_ERROR_MSG: state => {
+    return state.errorMsg;
   },
 }
 const actions = {
@@ -175,8 +179,10 @@ const actions = {
         commit('STORE_HOUSEHOLD_ID', response.data.id);
         commit('STORE_HOUSEHOLD_RESP', true);
       })
-      .catch(() => {
+      .catch((error) => {
+        console.log(error);
         commit('STORE_HOUSEHOLD_RESP', false);
+        commit('STORE_ERROR_MSG', "ERROR: Couldn't post household");
       });
   },
   async postPrice({
@@ -192,6 +198,7 @@ const actions = {
       })
       .catch((error) => {
         console.log(error);
+        commit('STORE_ERROR_MSG', "ERROR: Couldn't post price");
       });
   },
   async postPlatforms({
@@ -207,6 +214,7 @@ const actions = {
       })
       .catch((error) => {
         console.log(error);
+        commit('STORE_ERROR_MSG', "ERROR: Couldn't post platforms");
       });
   },
   async postHouseholdTags({
@@ -224,7 +232,7 @@ const actions = {
       })
       .catch((error) => {
         console.log(error);
-        commit('STORE_HOUSEHOLD_TAG_RESP', false);
+        commit('STORE_ERROR_MSG', "ERROR: Couldn't post tags");
       });
   },
   async postHouseholdImages({
@@ -243,7 +251,7 @@ const actions = {
       })
       .catch((error) => {
         console.log(error);
-        commit('STORE_HOUSEHOLD_IMAGE_RESP', false);
+        commit('STORE_ERROR_MSG', "ERROR: Couldn't post images");
       });
   },
 }
@@ -272,6 +280,9 @@ const mutations = {
   },
   STORE_HOUSEHOLD_IMAGE_RESP: (state, data) => {
     state.householdImage = data;
+  },
+  STORE_ERROR_MSG: (state, data) => {
+    state.errorMsg = data;
   },
 }
 

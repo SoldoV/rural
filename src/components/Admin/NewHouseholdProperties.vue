@@ -64,16 +64,21 @@
         label="Link na booking.com"
       ></v-text-field>
       <div class="new-household-btn-wrapper">
-        <v-btn depressed color="primary" class="new-household-btn"
-          >Odustani</v-btn
-        >
-        <v-btn depressed color="primary" class="new-household-btn" @click="save"
+        <v-btn
+          depressed
+          color="primary"
+          class="new-household-btn"
+          :loading="btnLoad"
+          @click="save"
           >Dalje</v-btn
         >
       </div>
     </v-form>
     <v-alert type="success" class="success-alert" v-if="success">
       Uspješno dodano domaćinstvo
+    </v-alert>
+    <v-alert type="error" class="success-alert" v-if="error">
+      {{ errorValue }}
     </v-alert>
   </div>
 </template>
@@ -89,6 +94,9 @@ export default {
   data: () => ({
     householdId: null,
     valid: false,
+    error: false,
+    btnLoad: false,
+    errorValue: "",
     success: false,
     dates: [],
     tags: [],
@@ -113,13 +121,22 @@ export default {
     images: [],
     imagesBg: []
   }),
+  watch: {
+    success(val) {
+      if (val) setTimeout(() => (this.success = false), 3000);
+    },
+    error(val) {
+      if (val) setTimeout(() => (this.error = false), 5000);
+    }
+  },
   methods: {
     ...mapGetters([
       "GET_HOUSEHOLD_ID",
       "PRICE_RESP",
       "PLATFORM_RESP",
       "HOUSEHOLD_TAG_RESP",
-      "HOUSEHOLD_IMAGE_RESP"
+      "HOUSEHOLD_IMAGE_RESP",
+      "GET_ERROR_MSG"
     ]),
     ...mapActions([
       "postPrice",
@@ -138,17 +155,15 @@ export default {
     upload(val) {
       val.stopImmediatePropagation();
       let file = val.target.files[0];
-      console.log(file);
       this.imagesBg.push(file);
       let reader = new FileReader();
-      console.log(reader);
       reader.readAsDataURL(file);
       reader.onload = e => {
-        console.log(e);
         this.images.push({ image: e.target.result });
       };
     },
     save() {
+      this.btnLoad = true;
       let priceData = {
         household_id: this.householdId,
         price: this.price.price,
@@ -183,18 +198,23 @@ export default {
                   this.postHouseholdImages([imagesObj, this.householdId]).then(
                     () => {
                       if (this.HOUSEHOLD_IMAGE_RESP()) {
-                        console.log("slikaaa");
-                      }
+                        this.success = true;
+                        this.btnLoad = false;
+                      } else this.errorNotif(this.GET_ERROR_MSG());
                     }
                   );
-                }
+                } else this.errorNotif(this.GET_ERROR_MSG());
               });
-            }
+            } else this.errorNotif(this.GET_ERROR_MSG());
           });
           //this.$router.push("/dashboard/newhousehold/properties");
-        }
+        } else this.errorNotif(this.GET_ERROR_MSG());
       });
-      this.success = true;
+    },
+    errorNotif(val) {
+      this.error = true;
+      this.errorValue = val;
+      this.btnLoad = false;
     }
   },
   created() {
