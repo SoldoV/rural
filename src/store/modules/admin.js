@@ -202,11 +202,14 @@ const actions = {
       });
   },
   async postPlatforms({
-    state,
     commit,
   }, data) {
     await axios.post(`${rootUrls.URL}/household_platforms`, data, {
-        headers: state.header
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + "2|KM3OZHyQetnnC4mONg05qd3rEnfwOUzTYKptPKXaJHos5CmUAvkuf2fYFSQV1Vpyeno7DDaQCvKBdyE2"
+        },
       })
       .then(() => {
         console.log("plaforma");
