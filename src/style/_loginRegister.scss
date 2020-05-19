@@ -4,7 +4,7 @@
 
   .login-wrapper {
     width: 100%;
-    height: calc(100vh - 64px);
+    min-height: calc(100vh - 64px);
 
     .login-box {
       border: 1px solid $border;
@@ -12,6 +12,7 @@
       max-width: 384px;
       width: 384px;
       padding: 24px;
+      margin-bottom: 64px;
     }
   }
 

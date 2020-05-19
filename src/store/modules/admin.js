@@ -11,8 +11,15 @@ const state = {
   cities: [],
   householdResp: false,
   priceResp: false,
+  householdTag: false,
   platformResp: false,
   householdId: null,
+  householdImage: false,
+  headerss: {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+    "Authorization": "Bearer " + "2|KM3OZHyQetnnC4mONg05qd3rEnfwOUzTYKptPKXaJHos5CmUAvkuf2fYFSQV1Vpyeno7DDaQCvKBdyE2"
+  },
   header: {
     "Accept": "aplication/json",
     "Authorization": "Bearer " + "2|KM3OZHyQetnnC4mONg05qd3rEnfwOUzTYKptPKXaJHos5CmUAvkuf2fYFSQV1Vpyeno7DDaQCvKBdyE2"
@@ -36,6 +43,12 @@ const getters = {
   },
   PLATFORM_RESP: state => {
     return state.platformResp;
+  },
+  HOUSEHOLD_TAG_RESP: state => {
+    return state.householdTag;
+  },
+  HOUSEHOLD_IMAGE_RESP: state => {
+    return state.householdImage;
   },
 }
 const actions = {
@@ -197,16 +210,40 @@ const actions = {
       });
   },
   async postHouseholdTags({
-    state,
+    commit
   }, data) {
     await axios.post(`${rootUrls.URL}/households/${data[1]}/tags`, data[0], {
-        headers: state.header
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + "2|KM3OZHyQetnnC4mONg05qd3rEnfwOUzTYKptPKXaJHos5CmUAvkuf2fYFSQV1Vpyeno7DDaQCvKBdyE2"
+        },
       })
       .then(() => {
-        console.log(data);
+        commit('STORE_HOUSEHOLD_TAG_RESP', true);
       })
       .catch((error) => {
         console.log(error);
+        commit('STORE_HOUSEHOLD_TAG_RESP', false);
+      });
+  },
+  async postHouseholdImages({
+    commit
+  }, data) {
+    await axios.post(`${rootUrls.URL}/households/${data[1]}/images`, data[0], {
+        headers: {
+          "Accept": "application/json",
+          'Content-Type': 'multipart/form-data',
+          "Authorization": "Bearer " + "2|KM3OZHyQetnnC4mONg05qd3rEnfwOUzTYKptPKXaJHos5CmUAvkuf2fYFSQV1Vpyeno7DDaQCvKBdyE2"
+        },
+      })
+      .then(() => {
+        commit('STORE_HOUSEHOLD_IMAGE_RESP', true);
+        console.log("dada");
+      })
+      .catch((error) => {
+        console.log(error);
+        commit('STORE_HOUSEHOLD_IMAGE_RESP', false);
       });
   },
 }
@@ -229,6 +266,12 @@ const mutations = {
   },
   STORE_PLATFORM_RESP: (state, data) => {
     state.platformResp = data;
+  },
+  STORE_HOUSEHOLD_TAG_RESP: (state, data) => {
+    state.householdTag = data;
+  },
+  STORE_HOUSEHOLD_IMAGE_RESP: (state, data) => {
+    state.householdImage = data;
   },
 }
 

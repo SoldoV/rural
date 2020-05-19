@@ -57,7 +57,7 @@
                   depressed
                   @click="register"
                   class="header-log-in login-btn"
-                  >Prijavite se</v-btn
+                  >Registrirajte se</v-btn
                 >
               </v-form>
               <div class="login-registracija" @click="login">

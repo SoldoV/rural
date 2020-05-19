@@ -110,11 +110,23 @@ export default {
       { text: "Slika", value: "image" },
       { text: "Actions", value: "actions", sortable: false }
     ],
-    images: []
+    images: [],
+    imagesBg: []
   }),
   methods: {
-    ...mapGetters(["GET_HOUSEHOLD_ID", "HOUSEHOLD_RESP", "PLATFORM_RESP"]),
-    ...mapActions(["postPrice", "postPlatforms", "postHouseholdTags"]),
+    ...mapGetters([
+      "GET_HOUSEHOLD_ID",
+      "PRICE_RESP",
+      "PLATFORM_RESP",
+      "HOUSEHOLD_TAG_RESP",
+      "HOUSEHOLD_IMAGE_RESP"
+    ]),
+    ...mapActions([
+      "postPrice",
+      "postPlatforms",
+      "postHouseholdTags",
+      "postHouseholdImages"
+    ]),
     setTags(val) {
       this.tags = val;
     },
@@ -126,9 +138,13 @@ export default {
     upload(val) {
       val.stopImmediatePropagation();
       let file = val.target.files[0];
+      console.log(file);
+      this.imagesBg.push(file);
       let reader = new FileReader();
+      console.log(reader);
       reader.readAsDataURL(file);
       reader.onload = e => {
+        console.log(e);
         this.images.push({ image: e.target.result });
       };
     },
@@ -140,8 +156,7 @@ export default {
         date_from: this.dates[0]
       };
       this.postPrice(priceData).then(() => {
-        if (this.HOUSEHOLD_RESP()) {
-          console.log("uspjesno");
+        if (this.PRICE_RESP()) {
           let platforms = {
             household_id: this.householdId,
             platform_id: 1,
@@ -153,12 +168,26 @@ export default {
                 method: "attach",
                 data: {}
               };
-              tagsObj.data[this.tags[0].type.id] = {
-                value: this.tags[0].value
-              };
-              console.log(tagsObj);
+              this.tags.forEach((x, i) => {
+                tagsObj.data[this.tags[i].type.id] = {
+                  value: this.tags[i].value
+                };
+              });
               this.postHouseholdTags([tagsObj, this.householdId]).then(() => {
-                console.log("tags");
+                if (this.HOUSEHOLD_TAG_RESP()) {
+                  var imagesObj = new FormData();
+                  imagesObj.append("method", "createMany");
+                  this.imagesBg.forEach((a, i) => {
+                    imagesObj.append(`data[${i}][image]`, a);
+                  });
+                  this.postHouseholdImages([imagesObj, this.householdId]).then(
+                    () => {
+                      if (this.HOUSEHOLD_IMAGE_RESP()) {
+                        console.log("slikaaa");
+                      }
+                    }
+                  );
+                }
               });
             }
           });
@@ -170,18 +199,6 @@ export default {
   },
   created() {
     this.householdId = this.GET_HOUSEHOLD_ID();
-  },
-  updated() {
-    let tagsObj = {
-      method: "attach",
-      data: {}
-    };
-    this.tags.forEach((x, i) => {
-      tagsObj.data[this.tags[i].type.id] = {
-        value: this.tags[i].value
-      };
-    });
-    console.log(tagsObj);
   }
 };
 </script>
