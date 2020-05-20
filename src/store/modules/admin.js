@@ -16,10 +16,11 @@ const state = {
   householdId: null,
   householdImage: false,
   errorMsg: "",
-  headerss: {
-    "Accept": "application/json",
+  headerJson: {
     "Content-Type": "application/json",
-    "Authorization": "Bearer " + "2|KM3OZHyQetnnC4mONg05qd3rEnfwOUzTYKptPKXaJHos5CmUAvkuf2fYFSQV1Vpyeno7DDaQCvKBdyE2"
+  },
+  headerForm: {
+    'Content-Type': 'multipart/form-data',
   },
   header: {
     "Accept": "aplication/json",
@@ -193,7 +194,6 @@ const actions = {
         headers: state.header
       })
       .then(() => {
-        console.log("cijena");
         commit('STORE_PRICE_RESP', true);
       })
       .catch((error) => {
@@ -203,16 +203,15 @@ const actions = {
   },
   async postPlatforms({
     commit,
+    state
   }, data) {
-    await axios.post(`${rootUrls.URL}/household_platforms`, data, {
+    await axios.post(`${rootUrls.URL}/households/${data[1]}/platforms`, data[0], {
         headers: {
-          "Accept": "application/json",
-          "Content-Type": "application/json",
-          "Authorization": "Bearer " + "2|KM3OZHyQetnnC4mONg05qd3rEnfwOUzTYKptPKXaJHos5CmUAvkuf2fYFSQV1Vpyeno7DDaQCvKBdyE2"
-        },
+          ...state.header,
+          ...state.headerJson
+        }
       })
       .then(() => {
-        console.log("plaforma");
         commit('STORE_PLATFORM_RESP', true);
       })
       .catch((error) => {
@@ -225,10 +224,9 @@ const actions = {
   }, data) {
     await axios.post(`${rootUrls.URL}/households/${data[1]}/tags`, data[0], {
         headers: {
-          "Accept": "application/json",
-          "Content-Type": "application/json",
-          "Authorization": "Bearer " + "2|KM3OZHyQetnnC4mONg05qd3rEnfwOUzTYKptPKXaJHos5CmUAvkuf2fYFSQV1Vpyeno7DDaQCvKBdyE2"
-        },
+          ...state.header,
+          ...state.headerJson
+        }
       })
       .then(() => {
         commit('STORE_HOUSEHOLD_TAG_RESP', true);
@@ -243,14 +241,12 @@ const actions = {
   }, data) {
     await axios.post(`${rootUrls.URL}/households/${data[1]}/images`, data[0], {
         headers: {
-          "Accept": "application/json",
-          'Content-Type': 'multipart/form-data',
-          "Authorization": "Bearer " + "2|KM3OZHyQetnnC4mONg05qd3rEnfwOUzTYKptPKXaJHos5CmUAvkuf2fYFSQV1Vpyeno7DDaQCvKBdyE2"
-        },
+          ...state.header,
+          ...state.headerForm
+        }
       })
       .then(() => {
         commit('STORE_HOUSEHOLD_IMAGE_RESP', true);
-        console.log("dada");
       })
       .catch((error) => {
         console.log(error);

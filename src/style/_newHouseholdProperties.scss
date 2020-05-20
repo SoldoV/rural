@@ -1,0 +1,39 @@
+.new-household-properties {
+  margin-top: 4em;
+}
+
+.success-alert {
+  position: sticky;
+  bottom: 30px;
+}
+
+.file-input-btn {
+  position: relative;
+
+  .file-input {
+    cursor: pointer !important;
+    opacity: 0;
+    position: absolute;
+    height: 36px;
+    width: 147px;
+
+    input {
+      cursor: pointer !important;
+      width: 100px;
+    }
+  }
+}
+
+.new-household-image {
+  max-width: 400px;
+  height: 100%;
+  max-height: 400px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+}
+
+.new-household-table {
+  margin: 4em 0 4em 0;
+  border: 1px solid $border;
+}

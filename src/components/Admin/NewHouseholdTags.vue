@@ -5,7 +5,7 @@
       :items="tags"
       hide-default-footer
       sort-by="calories"
-      class="elevation-1 new-household-table mt-10"
+      class="new-household-table mt-10"
     >
       <template v-slot:top>
         <v-toolbar flat color="white">
@@ -143,21 +143,9 @@ export default {
       var images = require.context("../../assets/icons/", false, /\.svg$/);
       return images("./" + img + ".svg");
     }
-    // upload(val) {
-    //   val.stopImmediatePropagation();
-    //   let file = val.target.files[0];
-    //   let reader = new FileReader();
-    //   reader.readAsDataURL(file);
-    //   reader.onload = e => {
-    //     this.images.push({ image: e.target.result });
-    //   };
-    // }
   },
   mounted() {
     this.fetchTags();
   }
 };
 </script>
-
-<style>
-</style>

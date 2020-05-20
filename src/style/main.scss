@@ -8,6 +8,7 @@
 @import 'news.scss';
 @import 'loginRegister.scss';
 @import 'imageHeader.scss';
+@import 'newHouseholdProperties.scss';
 @import 'adminDashboard.scss';
 @import 'adminDomacinstva.scss';
 @import 'adminGradovi.scss';
@@ -21,6 +22,11 @@ body {
   padding: 0 !important;
   height: 100% !important;
   width: 100% !important;
+}
+
+.v-stepper {
+  box-shadow: none !important;
+  border: 1px solid $border;
 }
 
 .action-button {

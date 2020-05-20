@@ -38,7 +38,7 @@
         <template v-slot:activator="{ on }">
           <div class="navigation-profile-button" v-on="on">
             {{ user }}
-            <v-icon left>mdi-account-circle</v-icon>
+            <v-icon class="ml-2" left>mdi-account-circle</v-icon>
           </div>
         </template>
         <v-list>

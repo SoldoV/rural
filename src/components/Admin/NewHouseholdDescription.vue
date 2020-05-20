@@ -1,7 +1,7 @@
 <template>
   <div class="new-household">
     <v-row class="justify-center mt-10">
-      <v-col cols="6">
+      <v-col cols="12" lg="6" sm="10">
         <v-form ref="form" v-model="valid" lazy-validation>
           <v-text-field
             outlined
@@ -156,6 +156,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss">
-</style>

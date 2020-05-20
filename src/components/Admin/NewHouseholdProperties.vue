@@ -1,13 +1,13 @@
 <template>
   <div class="new-household-properties">
-    <v-form v-model="valid" ref="form">
+    <v-form v-model="valid" ref="form" lazy-validation>
       <tags @setTags="setTags" />
       <v-data-table
         :headers="headers"
         :items="images"
         hide-default-footer
         sort-by="calories"
-        class="elevation-1 new-household-table"
+        class="new-household-table"
       >
         <template v-slot:top>
           <v-toolbar flat color="white">
@@ -43,8 +43,10 @@
       </v-data-table>
       <v-text-field
         required
+        :rules="inputRules"
         type="number"
         outlined
+        onkeydown="return event.keyCode !== 69"
         v-model="price.price"
         label="Cijena"
       ></v-text-field>
@@ -52,16 +54,18 @@
       <v-date-picker v-model="dates" range></v-date-picker>
       <v-text-field
         required
+        :rules="inputRules"
         outlined
         v-model="links.airBnb"
-        label="Link na airbnb.com"
+        label="Airbnb uid"
         class="mt-10"
       ></v-text-field>
       <v-text-field
+        :rules="inputRules"
         required
         outlined
         v-model="links.booking"
-        label="Link na booking.com"
+        label="Booking uid"
       ></v-text-field>
       <div class="new-household-btn-wrapper">
         <v-btn
@@ -92,6 +96,7 @@ export default {
     tags
   },
   data: () => ({
+    inputRules: [v => !!v || "Popuniti polje"],
     householdId: null,
     valid: false,
     error: false,
@@ -123,7 +128,7 @@ export default {
   }),
   watch: {
     success(val) {
-      if (val) setTimeout(() => (this.success = false), 3000);
+      if (val) setTimeout(() => (this.success = false), 2000);
     },
     error(val) {
       if (val) setTimeout(() => (this.error = false), 5000);
@@ -162,54 +167,72 @@ export default {
         this.images.push({ image: e.target.result });
       };
     },
+    isValid() {
+      return (
+        this.$refs.form.validate() &&
+        this.tags.length &&
+        this.images.length &&
+        this.dates.length === 2
+      );
+    },
     save() {
-      this.btnLoad = true;
-      let priceData = {
-        household_id: this.householdId,
-        price: this.price.price,
-        date_to: this.dates[1],
-        date_from: this.dates[0]
-      };
-      this.postPrice(priceData).then(() => {
-        if (this.PRICE_RESP()) {
+      if (this.isValid()) {
+        this.btnLoad = true;
+        let priceData = {
+          household_id: this.householdId,
+          price: this.price.price,
+          date_to: this.dates[1],
+          date_from: this.dates[0]
+        };
+        this.postPrice(priceData).then(() => {
+          if (!this.PRICE_RESP()) return this.errorNotif(this.GET_ERROR_MSG());
           let platforms = {
-            household_id: this.householdId,
-            platform_id: 1,
-            uid: this.links.airBnb
+            method: "attach",
+            data: {
+              1: {
+                uid: this.links.airBnb
+              },
+              2: {
+                uid: this.links.booking
+              }
+            }
           };
-          this.postPlatforms(platforms).then(() => {
-            if (this.PLATFORM_RESP()) {
-              let tagsObj = {
-                method: "attach",
-                data: {}
+          this.postPlatforms([platforms, this.householdId]).then(() => {
+            if (!this.PLATFORM_RESP())
+              return this.errorNotif(this.GET_ERROR_MSG());
+            let tagsObj = {
+              method: "attach",
+              data: {}
+            };
+            this.tags.forEach((x, i) => {
+              tagsObj.data[this.tags[i].type.id] = {
+                value: this.tags[i].value
               };
-              this.tags.forEach((x, i) => {
-                tagsObj.data[this.tags[i].type.id] = {
-                  value: this.tags[i].value
-                };
+            });
+            this.postHouseholdTags([tagsObj, this.householdId]).then(() => {
+              if (!this.HOUSEHOLD_TAG_RESP())
+                return this.errorNotif(this.GET_ERROR_MSG());
+              var imagesObj = new FormData();
+              imagesObj.append("method", "createMany");
+              this.imagesBg.forEach((a, i) => {
+                imagesObj.append(`data[${i}][image]`, a);
               });
-              this.postHouseholdTags([tagsObj, this.householdId]).then(() => {
-                if (this.HOUSEHOLD_TAG_RESP()) {
-                  var imagesObj = new FormData();
-                  imagesObj.append("method", "createMany");
-                  this.imagesBg.forEach((a, i) => {
-                    imagesObj.append(`data[${i}][image]`, a);
-                  });
-                  this.postHouseholdImages([imagesObj, this.householdId]).then(
-                    () => {
-                      if (this.HOUSEHOLD_IMAGE_RESP()) {
-                        this.success = true;
-                        this.btnLoad = false;
-                      } else this.errorNotif(this.GET_ERROR_MSG());
-                    }
+              this.postHouseholdImages([imagesObj, this.householdId]).then(
+                () => {
+                  if (!this.HOUSEHOLD_IMAGE_RESP())
+                    return this.errorNotif(this.GET_ERROR_MSG());
+                  this.success = true;
+                  this.btnLoad = false;
+                  setTimeout(
+                    () => this.$router.push("/dashboard/households"),
+                    2000
                   );
-                } else this.errorNotif(this.GET_ERROR_MSG());
-              });
-            } else this.errorNotif(this.GET_ERROR_MSG());
+                }
+              );
+            });
           });
-          //this.$router.push("/dashboard/newhousehold/properties");
-        } else this.errorNotif(this.GET_ERROR_MSG());
-      });
+        });
+      }
     },
     errorNotif(val) {
       this.error = true;
@@ -222,40 +245,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss">
-.new-household-properties {
-  margin-top: 4em;
-}
-.success-alert {
-  position: sticky;
-  bottom: 30px;
-}
-.file-input-btn {
-  position: relative;
-  .file-input {
-    cursor: pointer !important;
-    opacity: 0;
-    position: absolute;
-    height: 36px;
-    width: 147px;
-    input {
-      cursor: pointer !important;
-      width: 100px;
-    }
-  }
-}
-.new-household-image {
-  width: 100%;
-  max-width: 400px;
-  height: 100%;
-  max-height: 400px;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: 50% 50%;
-}
-.new-household-table {
-  margin: 4em 0 4em 0;
-  border: 1px solid $border;
-}
-</style>

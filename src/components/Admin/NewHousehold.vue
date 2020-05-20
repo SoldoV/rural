@@ -19,15 +19,7 @@ export default {
   methods: {
     increaseStepper() {
       this.stepper = 2;
-      console.log("ddad");
     }
   }
 };
 </script>
-
-<style lang="scss">
-.v-stepper {
-  box-shadow: none !important;
-  border: 1px solid $border;
-}
-</style>
