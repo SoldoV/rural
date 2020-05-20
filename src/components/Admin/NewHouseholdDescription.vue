@@ -34,25 +34,15 @@
             v-model="household.city_id"
             label="Grad"
           ></v-select>
-          <div>
-            <h2>Search and add a pin</h2>
-            <label>
-              <gmap-autocomplete @place_changed="setPlace"> </gmap-autocomplete>
-              <button @click="addMarker">Add</button>
-            </label>
-            <br />
-          </div>
-          <br />
           <gmap-map
             :center="center"
             :zoom="12"
+            @click="addMarker"
             style="width:100%;  height: 400px;"
           >
             <gmap-marker
-              :key="index"
-              v-for="(m, index) in markers"
-              :position="m.position"
-              @click="center = m.position"
+              :position="markers.position"
+              @click="center = markers.position"
             ></gmap-marker>
           </gmap-map>
           <v-checkbox
@@ -87,9 +77,7 @@ import { mapActions, mapGetters } from "vuex";
 export default {
   data: () => ({
     center: { lat: 45.508, lng: -73.587 },
-    markers: [],
-    places: [],
-    currentPlace: null,
+    markers: {},
     valid: false,
     descRules: [v => !!v || "Popuniti polje"],
     latRules: [
@@ -120,21 +108,13 @@ export default {
     ...mapActions(["fetchCities"]),
     ...mapActions(["postHousehold"]),
 
-    // receives a place object via the autocomplete component
-    setPlace(place) {
-      this.currentPlace = place;
-    },
-    addMarker() {
-      if (this.currentPlace) {
-        const marker = {
-          lat: this.currentPlace.geometry.location.lat(),
-          lng: this.currentPlace.geometry.location.lng()
-        };
-        this.markers.push({ position: marker });
-        this.places.push(this.currentPlace);
-        this.center = marker;
-        this.currentPlace = null;
-      }
+    addMarker(e) {
+      this.markers = {
+        position: {
+          lat: e.latLng.lat(),
+          lng: e.latLng.lng()
+        }
+      };
     },
     geolocate: function() {
       navigator.geolocation.getCurrentPosition(position => {
@@ -145,14 +125,17 @@ export default {
       });
     },
     save() {
-      if (this.$refs.form.validate()) {
+      if (
+        this.$refs.form.validate() &&
+        typeof this.markers.position !== "undefined"
+      ) {
         let data = {
           title: this.household.title,
           description: this.household.description,
           address: this.household.address,
           city_id: this.household.city_id.id,
-          latitude: "50",
-          longitude: "40",
+          latitude: this.markers.position.lat.toFixed(8),
+          longitude: this.markers.position.lng.toFixed(8),
           popular: this.household.popular
         };
         this.postHousehold(data).then(() => {
