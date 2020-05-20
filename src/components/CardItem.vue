@@ -1,16 +1,20 @@
 <template>
-  <div class="card-item-wrapper">
-    <div class="card-item-image"></div>
-    <div class="card-item-location">
-      <v-icon>mdi-map-marker</v-icon>
-      <div class="card-item-location-text">{{ cardItem.location }}</div>
-    </div>
-    <div class="card-item-name">
-      {{ cardItem.name }}
-    </div>
-    <div class="card-item-price">
-      cijena <b>{{ cardItem.price }}</b
-      >/noć
+  <div>
+    <div class="card-item-wrapper">
+      <img class="card-item-image" :src="getImageSrc()" />
+      <div class="card-item-location">
+        <v-icon>mdi-map-marker</v-icon>
+        <div class="card-item-location-text">
+          {{ cityName }}
+        </div>
+      </div>
+      <div class="card-item-name">
+        {{ cardItem.title.en }}
+      </div>
+      <div class="card-item-price">
+        cijena <b>{{ price }}</b
+        >/noć
+      </div>
     </div>
   </div>
 </template>
@@ -21,9 +25,33 @@ export default {
     cardItem: {
       required: true,
       type: Object
+    },
+    cities: {
+      required: true,
+      type: Array
     }
   },
-  data: () => ({})
+  data: () => ({
+    cityName: "",
+    price: ""
+  }),
+  watch: {
+    cities() {
+      this.cities.forEach(e => {
+        if (e.id == this.cardItem.city_id) this.cityName = e.title;
+      });
+    }
+  },
+  methods: {
+    getImageSrc() {
+      return `http://18.156.183.119/api/storage/household_images/${
+        this.cardItem.images[0].file_path
+      }`;
+    }
+  },
+  created() {
+    this.price = this.cardItem.prices.price || "";
+  }
 };
 </script>
 

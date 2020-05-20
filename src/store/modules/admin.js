@@ -9,6 +9,7 @@ const state = {
   tags: [],
   categories: [],
   cities: [],
+  households: [],
   householdResp: false,
   priceResp: false,
   householdTag: false,
@@ -33,6 +34,9 @@ const getters = {
   },
   GET_CITIES: state => {
     return state.cities;
+  },
+  GET_HOUSEHOLDS: state => {
+    return state.households;
   },
   HOUSEHOLD_RESP: state => {
     return state.householdResp;
@@ -66,6 +70,20 @@ const actions = {
       })
       .then(response => {
         commit('STORE_TAGS', response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  },
+  async fetchHouseholds({
+    state,
+    commit,
+  }, data) {
+    await axios.get(`${rootUrls.URL}/households/?with[]=prices&with[]=images&with[]=platforms&with[]=tags&perPage=9&page=${data}`, {
+        headers: state.header
+      })
+      .then(response => {
+        commit('STORE_HOUSEHOLDS', response.data.data);
       })
       .catch(error => {
         console.log(error);
@@ -282,6 +300,9 @@ const mutations = {
   },
   STORE_ERROR_MSG: (state, data) => {
     state.errorMsg = data;
+  },
+  STORE_HOUSEHOLDS: (state, data) => {
+    state.households = data;
   },
 }
 

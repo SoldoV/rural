@@ -57,28 +57,28 @@ const routes = [{
           )
       },
       {
-        path: "newHousehold",
-        name: "Admin new household",
+        path: "household/:id?",
+        name: "Admin household",
         component: () =>
           import(
-            /* webpackChunkName: "AdminNewHousehold" */
+            /* webpackChunkName: "AdminHousehold" */
             "../components/Admin/NewHousehold.vue"
           ),
         children: [{
             path: "description",
-            name: "Admin new household description",
+            name: "Admin household description",
             component: () =>
               import(
-                /* webpackChunkName: "newHouseholdDescription" */
+                /* webpackChunkName: "householdDescription" */
                 "../components/Admin/NewHouseholdDescription.vue"
               )
           },
           {
             path: "properties",
-            name: "Admin new household properties",
+            name: "Admin household properties",
             component: () =>
               import(
-                /* webpackChunkName: "newHouseholProperties" */
+                /* webpackChunkName: "householdProperties" */
                 "../components/Admin/NewHouseholdProperties.vue"
               )
           }

@@ -141,7 +141,7 @@ export default {
         this.postHousehold(data).then(() => {
           if (this.HOUSEHOLD_RESP()) {
             this.$emit("increaseStepper");
-            this.$router.push("/dashboard/newhousehold/properties");
+            this.$router.push("/dashboard/household/properties");
           }
         });
       }

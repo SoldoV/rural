@@ -5,16 +5,17 @@
         color="primary"
         dark
         class="mb-2 domacinstva-btn"
-        :to="'/dashboard/newHousehold/description'"
+        :to="'/dashboard/household/description'"
         >Dodaj Domacinstvo</v-btn
       >
     </div>
     <div class="domacinstva-wrapper">
       <card
         class="domacinstva-item"
-        v-for="item in cards"
-        :key="item.name"
+        v-for="item in households"
+        :key="item.id"
         :cardItem="item"
+        :cities="cities"
       ></card>
     </div>
     <v-pagination
@@ -28,6 +29,7 @@
 
 <script>
 import card from "../CardItem.vue";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   components: {
@@ -35,53 +37,24 @@ export default {
   },
   data: () => ({
     page: 1,
-    cards: [
-      {
-        location: "Istočni Stari grad",
-        name: 'Domaćinstvo "Ivana"',
-        price: "15KM"
-      },
-      {
-        location: "Mostar",
-        name: "Seosko dsadas",
-        price: "34KM"
-      },
-      {
-        location: "Stari grad",
-        name: 'dsadas domaćinstvo "ddd2fds"',
-        price: "22KM"
-      },
-      {
-        location: "Sarajevo",
-        name: 'Seosko dsad "Ivana"',
-        price: "10KM"
-      },
-      {
-        location: "New York",
-        name: "Seosko Marija",
-        price: "32KM"
-      },
-      {
-        location: "Tromedja",
-        name: "Livada tromedja",
-        price: "29KM"
-      },
-      {
-        location: "Ogradjenik",
-        name: "dsmakdma",
-        price: "30KM"
-      },
-      {
-        location: "Ggfmj asmgeo",
-        name: "fsdgfdhfd",
-        price: "29KM"
-      }
-    ]
+    cities: [],
+    households: []
   }),
   methods: {
+    ...mapActions(["fetchHouseholds", "fetchCities"]),
+    ...mapGetters(["GET_HOUSEHOLDS", "GET_CITIES"]),
+
     newHousehold() {
       console.log("ddodaj");
     }
+  },
+  created() {
+    this.fetchHouseholds(1).then(() => {
+      this.households = this.GET_HOUSEHOLDS();
+      this.fetchCities().then(() => {
+        this.cities = this.GET_CITIES();
+      });
+    });
   }
 };
 </script>
