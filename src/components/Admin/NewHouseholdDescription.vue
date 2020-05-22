@@ -29,13 +29,14 @@
             outlined
             :rules="descRules"
             :items="getCities"
+            item-value="id"
             item-text="title"
             return-object
             v-model="household.city_id"
             label="Grad"
           ></v-select>
           <gmap-map
-            :center="center"
+            :center="markers.position || center"
             :zoom="12"
             @click="addMarker"
             style="width:100%;  height: 400px;"
@@ -76,8 +77,12 @@ import { mapActions, mapGetters } from "vuex";
 
 export default {
   data: () => ({
-    center: { lat: 45.508, lng: -73.587 },
-    markers: {},
+    markers: {
+      position: {
+        lat: 45.508,
+        lng: -73.587
+      }
+    },
     valid: false,
     descRules: [v => !!v || "Popuniti polje"],
     latRules: [
@@ -90,7 +95,7 @@ export default {
       title: "",
       description: "",
       address: "",
-      city_id: null,
+      city_id: 1,
       latitude: null,
       longitude: null,
       popular: false
@@ -103,10 +108,14 @@ export default {
   },
 
   methods: {
-    ...mapGetters(["GET_CITIES"]),
-    ...mapGetters(["HOUSEHOLD_RESP"]),
-    ...mapActions(["fetchCities"]),
-    ...mapActions(["postHousehold"]),
+    ...mapGetters([
+      "HOUSEHOLD_RESP",
+      "GET_CITIES_RESP",
+      "GET_CITIES",
+      "GET_SINGLE_HOUSEHOLD",
+      "GET_EDIT_HOUSEHOLD_RESP"
+    ]),
+    ...mapActions(["fetchCities", "editHousehold", "postHousehold"]),
 
     addMarker(e) {
       this.markers = {
@@ -118,7 +127,7 @@ export default {
     },
     geolocate: function() {
       navigator.geolocation.getCurrentPosition(position => {
-        this.center = {
+        this.markers.position = {
           lat: position.coords.latitude,
           lng: position.coords.longitude
         };
@@ -133,26 +142,59 @@ export default {
           title: this.household.title,
           description: this.household.description,
           address: this.household.address,
-          city_id: this.household.city_id.id,
+          city_id: this.household.city_id,
           latitude: this.markers.position.lat.toFixed(8),
           longitude: this.markers.position.lng.toFixed(8),
           popular: this.household.popular
         };
-        this.postHousehold(data).then(() => {
-          if (this.HOUSEHOLD_RESP()) {
-            this.$emit("increaseStepper");
-            this.$router.push("/dashboard/household/properties");
-          }
-        });
+        let householdId = this.$route.params.id;
+        if (householdId) {
+          this.editHousehold([data, householdId]).then(() => {
+            if (this.GET_EDIT_HOUSEHOLD_RESP()) {
+              this.navigateNext(
+                `/dashboard/household/${householdId}/properties`
+              );
+            }
+          });
+        } else {
+          this.postHousehold(data).then(() => {
+            if (this.HOUSEHOLD_RESP()) {
+              this.navigateNext("/dashboard/household/properties");
+            }
+          });
+        }
       }
+    },
+    navigateNext(url) {
+      this.$emit("increaseStepper");
+      this.$router.push(url);
     },
     close() {
       this.$router.push("/dashboard/households");
+    },
+    storeHousehold() {
+      let data = this.GET_SINGLE_HOUSEHOLD();
+      this.household = {
+        title: data.title.en,
+        description: data.description.en,
+        address: data.address,
+        city_id: data.city_id,
+        latitude: data.latitude,
+        longitude: data.longitude,
+        popular: data.popular
+      };
+      this.markers = {
+        position: {
+          lat: parseFloat(data.latitude),
+          lng: parseFloat(data.longitude)
+        }
+      };
     }
   },
   mounted() {
     this.geolocate();
     this.fetchCities();
+    if (this.$route.params.id) this.storeHousehold();
   }
 };
 </script>

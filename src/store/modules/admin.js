@@ -9,9 +9,12 @@ const state = {
   tags: [],
   categories: [],
   cities: [],
+  singleHousehold: {},
   households: {},
   householdResp: false,
+  editHouseholdResp: false,
   priceResp: false,
+  householdIdResp: false,
   householdTag: false,
   platformResp: false,
   householdId: null,
@@ -41,8 +44,14 @@ const getters = {
   HOUSEHOLD_RESP: state => {
     return state.householdResp;
   },
+  GET_HOUSEHOLDID_RESP: state => {
+    return state.householdIdResp;
+  },
   GET_HOUSEHOLD_ID: state => {
     return state.householdId;
+  },
+  GET_EDIT_HOUSEHOLD_RESP: state => {
+    return state.householdIdResp;
   },
   PRICE_RESP: state => {
     return state.householdResp;
@@ -58,6 +67,9 @@ const getters = {
   },
   GET_ERROR_MSG: state => {
     return state.errorMsg;
+  },
+  GET_SINGLE_HOUSEHOLD: state => {
+    return state.singleHousehold;
   },
 }
 const actions = {
@@ -83,9 +95,23 @@ const actions = {
         headers: state.header
       })
       .then(response => {
-        console.log(response.data)
         commit('STORE_HOUSEHOLDS', response.data);
         commit('STORE_HOUSEHOLD_RESP', true);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  },
+  async getHouseholdById({
+    state,
+    commit,
+  }, data) {
+    await axios.get(`${rootUrls.URL}/households/${data}`, {
+        headers: state.header
+      })
+      .then(response => {
+        commit('STORE_HOUSEHOLD_BY_ID', response.data);
+        commit('STORE_HOUSEHOLDID_RESP', true);
       })
       .catch(error => {
         console.log(error);
@@ -206,6 +232,20 @@ const actions = {
         commit('STORE_ERROR_MSG', "ERROR: Couldn't post household");
       });
   },
+  async editHousehold({
+    state,
+    commit
+  }, data) {
+    await axios.put(`${rootUrls.URL}/households/${data[1]}`, data[0], {
+        headers: state.header
+      })
+      .then(() => {
+        commit('STORE_EDIT_HOUSEHOLD_RESP', true);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
   async postPrice({
     state,
     commit,
@@ -285,6 +325,9 @@ const mutations = {
   STORE_HOUSEHOLD_RESP: (state, data) => {
     state.householdResp = data;
   },
+  STORE_HOUSEHOLDID_RESP: (state, data) => {
+    state.householdIdResp = data;
+  },
   STORE_HOUSEHOLD_ID: (state, data) => {
     state.householdId = data;
   },
@@ -305,6 +348,12 @@ const mutations = {
   },
   STORE_HOUSEHOLDS: (state, data) => {
     state.households = data;
+  },
+  STORE_HOUSEHOLD_BY_ID: (state, data) => {
+    state.singleHousehold = data;
+  },
+  STORE_EDIT_HOUSEHOLD_RESP: (state, data) => {
+    state.editHouseholdResp = data;
   },
 }
 

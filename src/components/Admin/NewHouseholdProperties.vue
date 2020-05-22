@@ -241,7 +241,7 @@ export default {
     }
   },
   created() {
-    this.householdId = this.GET_HOUSEHOLD_ID();
+    this.householdId = this.$route.params.id || this.GET_HOUSEHOLD_ID();
   }
 };
 </script>

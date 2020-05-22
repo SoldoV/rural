@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="card-item-wrapper" @click="getHousehold()">
+    <div class="card-item-wrapper" @click="getHousehold(cardItem.id)">
       <img class="card-item-image" :src="getImageSrc()" />
       <div class="card-item-location">
         <v-icon>mdi-map-marker</v-icon>
@@ -44,8 +44,8 @@ export default {
     getImageSrc() {
       return `http://18.156.183.119/${this.cardItem.images[0].file_path}`;
     },
-    getHousehold() {
-      this.$emit("getHousehold");
+    getHousehold(id) {
+      this.$emit("getHousehold", id);
     }
   }
 };

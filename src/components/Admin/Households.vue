@@ -17,7 +17,6 @@
         :key="item.id"
         :cardItem="item"
         :cities="cities"
-        @click="getHousehold()"
       ></card>
     </div>
     <v-pagination
@@ -45,11 +44,23 @@ export default {
     households: []
   }),
   methods: {
-    ...mapActions(["fetchHouseholds", "fetchCities"]),
-    ...mapGetters(["GET_HOUSEHOLDS", "GET_CITIES", "HOUSEHOLD_RESP"]),
+    ...mapActions(["fetchHouseholds", "fetchCities", "getHouseholdById"]),
+    ...mapGetters([
+      "GET_HOUSEHOLDS",
+      "GET_CITIES",
+      "HOUSEHOLD_RESP",
+      "GET_HOUSEHOLDID_RESP",
+      "GET_SINGLE_HOUSEHOLD"
+    ]),
 
-    getHousehold(e) {
-      console.log(e);
+    getHousehold(id) {
+      this.getHouseholdById(id).then(() => {
+        if (this.GET_HOUSEHOLDID_RESP()) {
+          this.$router.push(
+            `/dashboard/household/${this.GET_SINGLE_HOUSEHOLD().id}/description`
+          );
+        }
+      });
     },
     getHouseholds(i) {
       this.fetchHouseholds(i).then(() => {
