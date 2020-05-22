@@ -9,7 +9,7 @@ const state = {
   tags: [],
   categories: [],
   cities: [],
-  households: [],
+  households: {},
   householdResp: false,
   priceResp: false,
   householdTag: false,
@@ -79,11 +79,13 @@ const actions = {
     state,
     commit,
   }, data) {
-    await axios.get(`${rootUrls.URL}/households/?with[]=prices&with[]=images&with[]=platforms&with[]=tags&perPage=9&page=${data}`, {
+    await axios.get(`${rootUrls.URL}/households/?with[]=prices&with[]=images&with[]=platforms&with[]=tags&perPage=8&page=${data}`, {
         headers: state.header
       })
       .then(response => {
-        commit('STORE_HOUSEHOLDS', response.data.data);
+        console.log(response.data)
+        commit('STORE_HOUSEHOLDS', response.data);
+        commit('STORE_HOUSEHOLD_RESP', true);
       })
       .catch(error => {
         console.log(error);

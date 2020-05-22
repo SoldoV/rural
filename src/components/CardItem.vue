@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="card-item-wrapper">
+    <div class="card-item-wrapper" @click="getHousehold()">
       <img class="card-item-image" :src="getImageSrc()" />
       <div class="card-item-location">
         <v-icon>mdi-map-marker</v-icon>
@@ -12,8 +12,7 @@
         {{ cardItem.title.en }}
       </div>
       <div class="card-item-price">
-        cijena <b>{{ price }}</b
-        >/noć
+        cijena <b>{{ cardItem.prices[0].price }} KM</b>/noć
       </div>
     </div>
   </div>
@@ -32,8 +31,7 @@ export default {
     }
   },
   data: () => ({
-    cityName: "",
-    price: ""
+    cityName: ""
   }),
   watch: {
     cities() {
@@ -44,13 +42,11 @@ export default {
   },
   methods: {
     getImageSrc() {
-      return `http://18.156.183.119/api/storage/household_images/${
-        this.cardItem.images[0].file_path
-      }`;
+      return `http://18.156.183.119/${this.cardItem.images[0].file_path}`;
+    },
+    getHousehold() {
+      this.$emit("getHousehold");
     }
-  },
-  created() {
-    this.price = this.cardItem.prices.price || "";
   }
 };
 </script>
