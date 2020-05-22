@@ -95,7 +95,7 @@ export default {
       title: "",
       description: "",
       address: "",
-      city_id: 1,
+      city_id: null,
       latitude: null,
       longitude: null,
       popular: false
@@ -142,13 +142,14 @@ export default {
           title: this.household.title,
           description: this.household.description,
           address: this.household.address,
-          city_id: this.household.city_id,
+          city_id: this.household.city_id.id,
           latitude: this.markers.position.lat.toFixed(8),
           longitude: this.markers.position.lng.toFixed(8),
           popular: this.household.popular
         };
         let householdId = this.$route.params.id;
         if (householdId) {
+          data.city_id = this.household.city_id;
           this.editHousehold([data, householdId]).then(() => {
             if (this.GET_EDIT_HOUSEHOLD_RESP()) {
               this.navigateNext(

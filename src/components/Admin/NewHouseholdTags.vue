@@ -92,10 +92,16 @@
 import { mapActions, mapGetters } from "vuex";
 
 export default {
+  props: {
+    tags: {
+      required: true
+    }
+  },
   data: () => ({
     dialog: false,
     valid: false,
     tagRules: [v => !!v || "Morate unijeti ovo polje"],
+    newTags: [],
     tag: {
       type: {},
       value: ""
@@ -108,11 +114,10 @@ export default {
       { text: "Slika", value: "image", sortable: false },
       { text: "Vrijednost", value: "value" },
       { text: "Actions", value: "actions", sortable: false }
-    ],
-    tags: []
+    ]
   }),
   updated() {
-    this.$emit("setTags", this.tags);
+    this.$emit("setTags", this.newTags);
   },
   computed: {
     getTags() {
@@ -131,6 +136,7 @@ export default {
     save() {
       if (this.$refs.form.validate()) {
         this.tags.push(this.tag);
+        this.newTags.push(this.tag);
         this.close();
       }
     },

@@ -106,7 +106,7 @@ const actions = {
     state,
     commit,
   }, data) {
-    await axios.get(`${rootUrls.URL}/households/${data}`, {
+    await axios.get(`${rootUrls.URL}/households/${data}?with[]=prices&with[]=images&with[]=tags&with[]=platforms`, {
         headers: state.header
       })
       .then(response => {

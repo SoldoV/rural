@@ -1,7 +1,7 @@
 <template>
   <div class="new-household-properties">
     <v-form v-model="valid" ref="form" lazy-validation>
-      <tags @setTags="setTags" />
+      <tags @setTags="setTags" :tags="tags" />
       <v-data-table
         :headers="headers"
         :items="images"
@@ -29,7 +29,7 @@
         </template>
         <template v-slot:item.image="{ item }">
           <div class="p-2">
-            <img class="new-household-image" :src="item.image" />
+            <img class="new-household-image" :src="imageSrc(item.image)" />
           </div>
         </template>
         <template v-slot:item.actions="{ item }">
@@ -105,12 +105,11 @@ export default {
     success: false,
     dates: [],
     tags: [],
+    newTags: [],
     image: {
-      household_id: null,
       image: ""
     },
     price: {
-      household_id: null,
       price: "",
       date_to: "",
       date_from: ""
@@ -141,7 +140,8 @@ export default {
       "PLATFORM_RESP",
       "HOUSEHOLD_TAG_RESP",
       "HOUSEHOLD_IMAGE_RESP",
-      "GET_ERROR_MSG"
+      "GET_ERROR_MSG",
+      "GET_SINGLE_HOUSEHOLD"
     ]),
     ...mapActions([
       "postPrice",
@@ -149,8 +149,13 @@ export default {
       "postHouseholdTags",
       "postHouseholdImages"
     ]),
+    imageSrc(src) {
+      return !src.startsWith("data:image")
+        ? "http://18.156.183.119/" + src
+        : src;
+    },
     setTags(val) {
-      this.tags = val;
+      this.newTags = val;
     },
     deleteItem(item) {
       const index = this.images.indexOf(item);
@@ -204,9 +209,9 @@ export default {
               method: "attach",
               data: {}
             };
-            this.tags.forEach((x, i) => {
-              tagsObj.data[this.tags[i].type.id] = {
-                value: this.tags[i].value
+            this.newTags.forEach(x => {
+              tagsObj.data[x.type.id] = {
+                value: x.value
               };
             });
             this.postHouseholdTags([tagsObj, this.householdId]).then(() => {
@@ -238,10 +243,43 @@ export default {
       this.error = true;
       this.errorValue = val;
       this.btnLoad = false;
+    },
+    setEditedHouseholdItems() {
+      this.householdId = this.$route.params.id;
+      let data = this.GET_SINGLE_HOUSEHOLD();
+      data.tags.forEach(a => {
+        this.tags.push({
+          type: {
+            category_id: a.category_id,
+            created_at: a.created_at,
+            icon: a.icon,
+            id: a.id,
+            title: {
+              en: a.title.en
+            },
+            updated_at: a.updated_at
+          },
+          value: a.pivot.value
+        });
+      });
+      data.images.forEach(a => {
+        this.images.push({ image: a.file_path });
+      });
+      this.price = {
+        price: data.prices[0].price,
+        date_to: data.prices[0].date_to,
+        date_from: data.prices[0].date_from
+      };
+      this.links = {
+        airBnb: data.platforms[0].pivot.uid,
+        booking: data.platforms[1].pivot.uid
+      };
+      this.dates = [data.prices[0].date_from, data.prices[0].date_to];
     }
   },
   created() {
-    this.householdId = this.$route.params.id || this.GET_HOUSEHOLD_ID();
+    if (this.$route.params.id) this.setEditedHouseholdItems();
+    else this.householdId = this.GET_HOUSEHOLD_ID();
   }
 };
 </script>
