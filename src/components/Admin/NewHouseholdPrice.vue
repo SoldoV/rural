@@ -2,7 +2,7 @@
   <div>
     <v-data-table
       :headers="headers"
-      :items="tablePrices"
+      :items="prices"
       hide-default-footer
       sort-by="calories"
       class="new-household-table mt-10"
@@ -89,14 +89,15 @@ export default {
   props: {
     prices: {
       required: true
+    },
+    householdId: {
+      required: true
     }
   },
   data: () => ({
     dialog: false,
     valid: false,
     priceRules: [v => !!v || "Morate unijeti ovo polje"],
-    newPrices: [],
-    tablePrices: [],
     price: {
       price: "",
       date: []
@@ -111,23 +112,18 @@ export default {
       { text: "Actions", value: "actions", sortable: false }
     ]
   }),
-  watch: {
-    prices(val) {
-      this.tablePrices = val;
-    }
-  },
   methods: {
-    ...mapActions(["postPrice"]),
-    ...mapGetters(["PRICE_RESP"]),
+    ...mapActions(["postPrice", "deletePrice"]),
+    ...mapGetters(["PRICE_RESP", "GET_ERROR_MSG"]),
     close() {
       this.dialog = false;
       this.$nextTick(() => {
         this.price = Object.assign({}, this.defaultPrice);
       });
     },
-    post(id) {
+    post() {
       let priceData = {
-        household_id: id,
+        household_id: this.householdId,
         price: this.price.price,
         date_to: this.price.date[1],
         date_from: this.price.date[0]
@@ -135,19 +131,23 @@ export default {
       this.postPrice(priceData).then(() => {
         if (!this.PRICE_RESP())
           return this.$emit("errorNotif", this.GET_ERROR_MSG());
+        this.prices.push(this.price);
+        this.close();
       });
     },
     save() {
       if (this.$refs.form.validate() && this.price.date.length > 0) {
-        this.tablePrices.push(this.price);
-        this.newPrices.push(this.price);
-        this.close();
+        this.post();
       }
     },
     deleteItem(item) {
-      const index = this.tablePrices.indexOf(item);
+      const index = this.prices.indexOf(item);
       confirm("Are you sure you want to delete this item?") &&
-        this.tablePrices.splice(index, 1);
+        this.deletePrice([
+          this.householdId,
+          { method: "detach", data: [item.id] }
+        ]) &&
+        this.prices.splice(index, 1);
     }
   }
 };

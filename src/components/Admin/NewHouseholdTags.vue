@@ -95,6 +95,9 @@ export default {
   props: {
     tags: {
       required: true
+    },
+    householdId: {
+      required: true
     }
   },
   data: () => ({
@@ -122,47 +125,55 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["fetchTags", "postHouseholdTags"]),
-    ...mapGetters(["GET_TAGS", "HOUSEHOLD_TAG_RESP", "GET_ERROR_MSG"]),
+    ...mapActions(["fetchTags", "postHouseholdTags", "deleteHouseholdTag"]),
+    ...mapGetters([
+      "GET_TAGS",
+      "HOUSEHOLD_TAG_RESP",
+      "GET_ERROR_MSG",
+      "GET_HOUSEHOLD_ID"
+    ]),
     close() {
       this.dialog = false;
       this.$nextTick(() => {
         this.tag = Object.assign({}, this.defaultTag);
       });
     },
-    post(id) {
+    post() {
       let tagsObj = {
         method: "attach",
         data: {}
       };
-      this.newTags.forEach(x => {
-        tagsObj.data[x.type.id] = {
-          value: x.value
-        };
-      });
-      this.postHouseholdTags([tagsObj, id]).then(() => {
+      tagsObj.data[this.tag.type.id] = {
+        value: this.tag.value
+      };
+      this.postHouseholdTags([tagsObj, this.householdId]).then(() => {
         if (!this.HOUSEHOLD_TAG_RESP())
           return this.$emit("errorNotif", this.GET_ERROR_MSG());
-      });
-    },
-    save() {
-      if (this.$refs.form.validate()) {
         this.tags.push(this.tag);
         this.newTags.push(this.tag);
         this.close();
+      });
+    },
+    save() {
+      if ((this.$refs.form.validate(), this.tag.type.id)) {
+        this.post();
       }
     },
     deleteItem(item) {
       const index = this.tags.indexOf(item);
       confirm("Are you sure you want to delete this item?") &&
-        this.tags.splice(index, 1);
+        this.deleteHouseholdTag([
+          this.householdId,
+          { method: "detach", data: [item.type.id] }
+        ]);
+      this.tags.splice(index, 1);
     },
     getImgUrl(img) {
       var images = require.context("../../assets/icons/", false, /\.svg$/);
       return images("./" + img + ".svg");
     }
   },
-  mounted() {
+  created() {
     this.fetchTags();
   }
 };

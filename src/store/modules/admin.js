@@ -54,7 +54,7 @@ const getters = {
     return state.householdIdResp;
   },
   PRICE_RESP: state => {
-    return state.householdResp;
+    return state.priceResp;
   },
   PLATFORM_RESP: state => {
     return state.platformResp;
@@ -100,6 +100,7 @@ const actions = {
       })
       .catch(error => {
         console.log(error);
+        commit('STORE_HOUSEHOLD_RESP', false);
       });
   },
   async getHouseholdById({
@@ -115,6 +116,7 @@ const actions = {
       })
       .catch(error => {
         console.log(error);
+        commit('STORE_HOUSEHOLDID_RESP', false);
       });
   },
   async postTag({
@@ -155,6 +157,45 @@ const actions = {
       .then(() => {
         dispatch("fetchTags")
       })
+      .catch(error => {
+        console.log(error);
+      });
+  },
+  async deleteHouseholdTag({
+    state
+  }, data) {
+    await axios.post(`${rootUrls.URL}/households/${data[0]}/tags`, data[1], {
+        headers: {
+          ...state.header,
+          ...state.headerJson
+        }
+      })
+      .then(() => {})
+      .catch(error => {
+        console.log(error);
+      });
+  },
+  async deletePrice({
+    state
+  }, data) {
+    await axios.post(`${rootUrls.URL}/households/${data[0]}/prices`, data[1], {
+        headers: {
+          ...state.header,
+          ...state.headerJson
+        }
+      })
+      .then(() => {})
+      .catch(error => {
+        console.log(error);
+      });
+  },
+  async deleteImage({
+    state
+  }, data) {
+    await axios.delete(`${rootUrls.URL}/images/${data}`, {
+        headers: state.header
+      })
+      .then(() => {})
       .catch(error => {
         console.log(error);
       });
@@ -244,6 +285,7 @@ const actions = {
       })
       .catch((error) => {
         console.log(error);
+        commit('STORE_EDIT_HOUSEHOLD_RESP', false);
       });
   },
   async postPrice({
@@ -258,6 +300,7 @@ const actions = {
       })
       .catch((error) => {
         console.log(error);
+        commit('STORE_PRICE_RESP', false);
         commit('STORE_ERROR_MSG', "ERROR: Couldn't post price");
       });
   },
@@ -276,6 +319,7 @@ const actions = {
       })
       .catch((error) => {
         console.log(error);
+        commit('STORE_PLATFORM_RESP', false);
         commit('STORE_ERROR_MSG', "ERROR: Couldn't post platforms");
       });
   },
@@ -293,6 +337,7 @@ const actions = {
       })
       .catch((error) => {
         console.log(error);
+        commit('STORE_HOUSEHOLD_TAG_RESP', false);
         commit('STORE_ERROR_MSG', "ERROR: Couldn't post tags");
       });
   },
@@ -310,6 +355,7 @@ const actions = {
       })
       .catch((error) => {
         console.log(error);
+        commit('STORE_HOUSEHOLD_IMAGE_RESP', false);
         commit('STORE_ERROR_MSG', "ERROR: Couldn't post images");
       });
   },
