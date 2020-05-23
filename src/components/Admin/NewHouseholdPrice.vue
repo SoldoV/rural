@@ -2,25 +2,25 @@
   <div>
     <v-data-table
       :headers="headers"
-      :items="tags"
+      :items="tablePrices"
       hide-default-footer
       sort-by="calories"
       class="new-household-table mt-10"
     >
       <template v-slot:top>
         <v-toolbar flat color="white">
-          <v-toolbar-title>Tagovi</v-toolbar-title>
+          <v-toolbar-title>Cijene</v-toolbar-title>
           <v-divider class="mx-4" inset vertical></v-divider>
           <v-spacer></v-spacer>
           <v-dialog v-model="dialog" max-width="500px">
             <template v-slot:activator="{ on }">
               <v-btn depressed color="primary" class="action-button" v-on="on"
-                >New tag</v-btn
+                >Nova cijena</v-btn
               >
             </template>
             <v-card>
               <v-card-title>
-                <span class="headline">Novi tag</span>
+                <span class="headline">Nova cijena</span>
               </v-card-title>
 
               <v-card-text>
@@ -28,23 +28,22 @@
                   <v-row>
                     <v-col cols="24">
                       <v-form v-model="valid" ref="form" lazy-validation>
-                        <v-select
-                          required
-                          outlined
-                          :items="getTags"
-                          item-text="icon"
-                          return-object
-                          :rules="tagRules"
-                          v-model="tag.type"
-                          label="Tag"
-                        ></v-select>
                         <v-text-field
-                          outlined
-                          :rules="tagRules"
+                          required
+                          :rules="priceRules"
                           type="number"
-                          v-model="tag.value"
-                          label="Vrijednost"
+                          outlined
+                          onkeydown="return event.keyCode !== 69"
+                          v-model="price.price"
+                          label="Cijena"
                         ></v-text-field>
+                        <div class="new-household-properties-price">
+                          Datum od do:
+                        </div>
+                        <v-date-picker
+                          v-model="price.date"
+                          range
+                        ></v-date-picker>
                       </v-form>
                     </v-col>
                   </v-row>
@@ -71,18 +70,13 @@
           </v-dialog>
         </v-toolbar>
       </template>
-      <template v-slot:item.image="{ item }">
-        <div class="p-2">
-          <img class="tagovi-image" :src="getImgUrl(item.type.icon)" />
-        </div>
-      </template>
       <template v-slot:item.actions="{ item }">
         <v-icon small @click="deleteItem(item)">
           mdi-delete
         </v-icon>
       </template>
       <template v-slot:no-data>
-        No Tags
+        No Prices
       </template>
     </v-data-table>
   </div>
@@ -93,77 +87,68 @@ import { mapActions, mapGetters } from "vuex";
 
 export default {
   props: {
-    tags: {
+    prices: {
       required: true
     }
   },
   data: () => ({
     dialog: false,
     valid: false,
-    tagRules: [v => !!v || "Morate unijeti ovo polje"],
-    newTags: [],
-    tag: {
-      type: {},
-      value: ""
+    priceRules: [v => !!v || "Morate unijeti ovo polje"],
+    newPrices: [],
+    tablePrices: [],
+    price: {
+      price: "",
+      date: []
     },
-    defaultTag: {
-      type: {},
-      value: ""
+    defaultPrice: {
+      price: "",
+      date: []
     },
     headers: [
-      { text: "Slika", value: "image", sortable: false },
-      { text: "Vrijednost", value: "value" },
+      { text: "Cijena", value: "price", sortable: false },
+      { text: "Datum", value: "date" },
       { text: "Actions", value: "actions", sortable: false }
     ]
   }),
-  computed: {
-    getTags() {
-      return JSON.parse(JSON.stringify(this.GET_TAGS()));
+  watch: {
+    prices(val) {
+      this.tablePrices = val;
     }
   },
   methods: {
-    ...mapActions(["fetchTags", "postHouseholdTags"]),
-    ...mapGetters(["GET_TAGS", "HOUSEHOLD_TAG_RESP", "GET_ERROR_MSG"]),
+    ...mapActions(["postPrice"]),
+    ...mapGetters(["PRICE_RESP"]),
     close() {
       this.dialog = false;
       this.$nextTick(() => {
-        this.tag = Object.assign({}, this.defaultTag);
+        this.price = Object.assign({}, this.defaultPrice);
       });
     },
     post(id) {
-      let tagsObj = {
-        method: "attach",
-        data: {}
+      let priceData = {
+        household_id: id,
+        price: this.price.price,
+        date_to: this.price.date[1],
+        date_from: this.price.date[0]
       };
-      this.newTags.forEach(x => {
-        tagsObj.data[x.type.id] = {
-          value: x.value
-        };
-      });
-      this.postHouseholdTags([tagsObj, id]).then(() => {
-        if (!this.HOUSEHOLD_TAG_RESP())
+      this.postPrice(priceData).then(() => {
+        if (!this.PRICE_RESP())
           return this.$emit("errorNotif", this.GET_ERROR_MSG());
       });
     },
     save() {
-      if (this.$refs.form.validate()) {
-        this.tags.push(this.tag);
-        this.newTags.push(this.tag);
+      if (this.$refs.form.validate() && this.price.date.length > 0) {
+        this.tablePrices.push(this.price);
+        this.newPrices.push(this.price);
         this.close();
       }
     },
     deleteItem(item) {
-      const index = this.tags.indexOf(item);
+      const index = this.tablePrices.indexOf(item);
       confirm("Are you sure you want to delete this item?") &&
-        this.tags.splice(index, 1);
-    },
-    getImgUrl(img) {
-      var images = require.context("../../assets/icons/", false, /\.svg$/);
-      return images("./" + img + ".svg");
+        this.tablePrices.splice(index, 1);
     }
-  },
-  mounted() {
-    this.fetchTags();
   }
 };
 </script>

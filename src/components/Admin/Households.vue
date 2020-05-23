@@ -66,9 +66,10 @@ export default {
       this.fetchHouseholds(i).then(() => {
         this.fetchCities().then(() => {
           if (this.HOUSEHOLD_RESP()) {
-            this.households = this.GET_HOUSEHOLDS().data;
-            this.lastPage = this.GET_HOUSEHOLDS().last_page;
-            this.currentPage = this.GET_HOUSEHOLDS().current_page;
+            let household = this.GET_HOUSEHOLDS();
+            this.households = household.data;
+            this.lastPage = household.last_page;
+            this.currentPage = household.current_page;
             this.cities = this.GET_CITIES();
           }
         });

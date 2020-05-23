@@ -1,7 +1,7 @@
 <template>
   <div class="new-household-properties">
     <v-form v-model="valid" ref="form" lazy-validation>
-      <tags @setTags="setTags" :tags="tags" />
+      <tags ref="tagsComp" @errorNotif="errorNotif" :tags="tags" />
       <v-data-table
         :headers="headers"
         :items="images"
@@ -41,17 +41,7 @@
           No images
         </template>
       </v-data-table>
-      <v-text-field
-        required
-        :rules="inputRules"
-        type="number"
-        outlined
-        onkeydown="return event.keyCode !== 69"
-        v-model="price.price"
-        label="Cijena"
-      ></v-text-field>
-      <div class="new-household-properties-price">Datum od do:</div>
-      <v-date-picker v-model="dates" range></v-date-picker>
+      <priceComp @errorNotif="errorNotif" ref="pricesComp" :prices="prices" />
       <v-text-field
         required
         :rules="inputRules"
@@ -89,11 +79,14 @@
 
 <script>
 import tags from "./NewHouseholdTags.vue";
+import priceComp from "./NewHouseholdPrice.vue";
+
 import { mapGetters, mapActions } from "vuex";
 
 export default {
   components: {
-    tags
+    tags,
+    priceComp
   },
   data: () => ({
     inputRules: [v => !!v || "Popuniti polje"],
@@ -103,16 +96,11 @@ export default {
     btnLoad: false,
     errorValue: "",
     success: false,
-    dates: [],
+    prices: [],
     tags: [],
     newTags: [],
     image: {
       image: ""
-    },
-    price: {
-      price: "",
-      date_to: "",
-      date_from: ""
     },
     links: {
       airBnb: "",
@@ -136,15 +124,12 @@ export default {
   methods: {
     ...mapGetters([
       "GET_HOUSEHOLD_ID",
-      "PRICE_RESP",
       "PLATFORM_RESP",
-      "HOUSEHOLD_TAG_RESP",
       "HOUSEHOLD_IMAGE_RESP",
       "GET_ERROR_MSG",
       "GET_SINGLE_HOUSEHOLD"
     ]),
     ...mapActions([
-      "postPrice",
       "postPlatforms",
       "postHouseholdTags",
       "postHouseholdImages"
@@ -153,9 +138,6 @@ export default {
       return !src.startsWith("data:image")
         ? "http://18.156.183.119/" + src
         : src;
-    },
-    setTags(val) {
-      this.newTags = val;
     },
     deleteItem(item) {
       const index = this.images.indexOf(item);
@@ -174,67 +156,41 @@ export default {
     },
     isValid() {
       return (
-        this.$refs.form.validate() &&
-        this.tags.length &&
-        this.images.length &&
-        this.dates.length === 2
+        this.$refs.form.validate() && this.tags.length && this.images.length
       );
     },
     save() {
       if (this.isValid()) {
         this.btnLoad = true;
-        let priceData = {
-          household_id: this.householdId,
-          price: this.price.price,
-          date_to: this.dates[1],
-          date_from: this.dates[0]
-        };
-        this.postPrice(priceData).then(() => {
-          if (!this.PRICE_RESP()) return this.errorNotif(this.GET_ERROR_MSG());
-          let platforms = {
-            method: "attach",
-            data: {
-              1: {
-                uid: this.links.airBnb
-              },
-              2: {
-                uid: this.links.booking
-              }
+        this.$refs.pricesComp.post(this.householdId);
+        let platforms = {
+          method: "attach",
+          data: {
+            1: {
+              uid: this.links.airBnb
+            },
+            2: {
+              uid: this.links.booking
             }
-          };
-          this.postPlatforms([platforms, this.householdId]).then(() => {
-            if (!this.PLATFORM_RESP())
+          }
+        };
+        this.postPlatforms([platforms, this.householdId]).then(() => {
+          if (!this.PLATFORM_RESP())
+            return this.errorNotif(this.GET_ERROR_MSG());
+
+          this.$refs.tagsComp.post(this.householdId);
+
+          var imagesObj = new FormData();
+          imagesObj.append("method", "createMany");
+          this.imagesBg.forEach((a, i) => {
+            imagesObj.append(`data[${i}][image]`, a);
+          });
+          this.postHouseholdImages([imagesObj, this.householdId]).then(() => {
+            if (!this.HOUSEHOLD_IMAGE_RESP())
               return this.errorNotif(this.GET_ERROR_MSG());
-            let tagsObj = {
-              method: "attach",
-              data: {}
-            };
-            this.newTags.forEach(x => {
-              tagsObj.data[x.type.id] = {
-                value: x.value
-              };
-            });
-            this.postHouseholdTags([tagsObj, this.householdId]).then(() => {
-              if (!this.HOUSEHOLD_TAG_RESP())
-                return this.errorNotif(this.GET_ERROR_MSG());
-              var imagesObj = new FormData();
-              imagesObj.append("method", "createMany");
-              this.imagesBg.forEach((a, i) => {
-                imagesObj.append(`data[${i}][image]`, a);
-              });
-              this.postHouseholdImages([imagesObj, this.householdId]).then(
-                () => {
-                  if (!this.HOUSEHOLD_IMAGE_RESP())
-                    return this.errorNotif(this.GET_ERROR_MSG());
-                  this.success = true;
-                  this.btnLoad = false;
-                  setTimeout(
-                    () => this.$router.push("/dashboard/households"),
-                    2000
-                  );
-                }
-              );
-            });
+            this.success = true;
+            this.btnLoad = false;
+            setTimeout(() => this.$router.push("/dashboard/households"), 2000);
           });
         });
       }
@@ -265,11 +221,12 @@ export default {
       data.images.forEach(a => {
         this.images.push({ image: a.file_path });
       });
-      this.price = {
-        price: data.prices[0].price,
-        date_to: data.prices[0].date_to,
-        date_from: data.prices[0].date_from
-      };
+      data.prices.forEach(a => {
+        this.prices.push({
+          price: a.price,
+          date: [a.date_from, a.date_to]
+        });
+      });
       this.links = {
         airBnb: data.platforms[0].pivot.uid,
         booking: data.platforms[1].pivot.uid
