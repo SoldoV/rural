@@ -1,0 +1,75 @@
+html,
+body {
+  margin: 0 !important;
+  padding: 0 !important;
+  height: 100% !important;
+  width: 100% !important;
+}
+
+.v-stepper {
+  box-shadow: none !important;
+  border: 1px solid $border;
+}
+
+.action-button {
+  font-weight: 700;
+}
+
+.align-column-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.v-input {
+  fieldset {
+    border-color: $border;
+  }
+}
+
+.align-row-center {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+#app {
+  padding: 0 120px 0 120px;
+  font-family: "Montserrat";
+
+  .app-page {
+    min-height: calc(100vh - 256px);
+  }
+}
+
+.new-household-btn-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+
+  .new-household-btn {
+    margin: 0px 0px 2em 20px;
+  }
+}
+
+.v-select.v-input--dense .v-select__selection--comma {
+  margin: 5px 4px 5px 0 !important;
+}
+
+.v-select__selections {
+  .v-input__append-inner {
+    margin-top: 6px !important;
+  }
+}
+
+@media only screen and (max-width: 964px) {
+  #app {
+    padding: 0 2em 0 2em;
+
+    .app-page {
+      min-height: calc(100vh - 426px);
+    }
+  }
+}
