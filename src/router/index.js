@@ -1,5 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import store from "../store/index.js"
 
 Vue.use(VueRouter);
 
@@ -24,6 +25,9 @@ const routes = [{
   {
     path: "/dashboard",
     name: "Admin Dashboard",
+    meta: {
+      requiresAuth: true
+    },
     component: () =>
       import(
         /* webpackChunkName: "AdminDashboard" */
@@ -32,6 +36,9 @@ const routes = [{
     children: [{
         path: "tags",
         name: "Admin tags",
+        meta: {
+          requiresAuth: true
+        },
         component: () =>
           import(
             /* webpackChunkName: "AdminTags" */
@@ -41,6 +48,9 @@ const routes = [{
       {
         path: "households",
         name: "Admin households",
+        meta: {
+          requiresAuth: true
+        },
         component: () =>
           import(
             /* webpackChunkName: "AdminHouseholds" */
@@ -50,6 +60,9 @@ const routes = [{
       {
         path: "cities",
         name: "Admin cities",
+        meta: {
+          requiresAuth: true
+        },
         component: () =>
           import(
             /* webpackChunkName: "AdminCities" */
@@ -59,6 +72,9 @@ const routes = [{
       {
         path: "household/:id?",
         name: "Admin household",
+        meta: {
+          requiresAuth: true
+        },
         component: () =>
           import(
             /* webpackChunkName: "AdminHousehold" */
@@ -67,6 +83,9 @@ const routes = [{
         children: [{
             path: "description",
             name: "Admin household description",
+            meta: {
+              requiresAuth: true
+            },
             component: () =>
               import(
                 /* webpackChunkName: "householdDescription" */
@@ -75,6 +94,9 @@ const routes = [{
           },
           {
             path: "properties",
+            meta: {
+              requiresAuth: true
+            },
             name: "Admin household properties",
             component: () =>
               import(
@@ -111,5 +133,17 @@ const router = new VueRouter({
   mode: "history",
   routes
 });
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (store.getters.IS_LOGGED_IN) {
+      next()
+      return
+    }
+    next({
+      name: "Home"
+    })
+  } else next()
+})
 
 export default router;

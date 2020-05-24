@@ -169,10 +169,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(["fetchTags"]),
-    ...mapActions(["postTag"]),
-    ...mapActions(["deleteTag"]),
-    ...mapActions(["editTag"]),
+    ...mapActions(["fetchTags", "editTag", "postTag", "deleteTag"]),
     ...mapGetters(["GET_TAGS"]),
 
     popSnackbar(text) {

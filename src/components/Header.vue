@@ -18,14 +18,34 @@
             </v-list-item>
           </router-link>
         </template>
-        <div class="header-buttons header-buttons-sidebar">
-          <v-btn depressed class="header-log-in" @click="register"
-            >Registracija</v-btn
-          >
-          <v-btn depressed outlined class="header-sign-up" @click="login"
+        <div
+          v-if="!IS_LOGGED_IN()"
+          class="header-buttons header-buttons-sidebar"
+        >
+          <v-btn depressed class="header-log-in" @click="login"
             >Prijavite se</v-btn
           >
         </div>
+        <v-menu v-else offset-y>
+          <template v-slot:activator="{ on }">
+            <v-btn depressed class="navigation-profile-button mt-5" v-on="on">
+              Admin
+              <v-icon class="ml-2" left>mdi-account-circle</v-icon>
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item>
+              <v-list-item-title class="logout" @click="logout"
+                >Logout</v-list-item-title
+              >
+            </v-list-item>
+            <v-list-item>
+              <v-list-item-title class="logout" @click="dashboard()"
+                >Dashboard</v-list-item-title
+              >
+            </v-list-item>
+          </v-list>
+        </v-menu>
       </v-list>
     </v-navigation-drawer>
 
@@ -50,34 +70,50 @@
           </v-tab>
         </v-tabs>
       </v-toolbar-items>
-      <div class="header-buttons hidden-md-and-down">
-        <v-btn depressed class="header-log-in" @click="register"
-          >Registracija</v-btn
-        >
-        <v-btn depressed outlined class="header-sign-up" @click="login"
+      <div v-if="!IS_LOGGED_IN()" class="header-buttons hidden-md-and-down">
+        <v-btn depressed class="header-log-in" @click="login"
           >Prijavite se</v-btn
         >
       </div>
+      <v-menu v-else class="hidden-md-and-down" offset-y>
+        <template v-slot:activator="{ on }">
+          <v-btn
+            depressed
+            class="navigation-profile-button hidden-md-and-down"
+            v-on="on"
+          >
+            Admin
+            <v-icon class="ml-2" left>mdi-account-circle</v-icon>
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item>
+            <v-list-item-title class="logout" @click="logout"
+              >Logout</v-list-item-title
+            >
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-title class="logout" @click="dashboard()"
+              >Dashboard</v-list-item-title
+            >
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </v-toolbar>
-    <login :loginOpen="loginOpen" @login="login" @register="register" />
-    <register
-      :registerOpen="registerOpen"
-      @register="register"
-      @login="login"
-    />
+    <login :loginOpen="loginOpen" @login="login" />
   </div>
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
+
 export default {
   components: {
-    Login: () => import("./Login.vue"),
-    Register: () => import("./Register.vue")
+    Login: () => import("./Login.vue")
   },
   data() {
     return {
       loginOpen: false,
-      registerOpen: false,
       appTitle: "Awesome App",
       sidebar: false,
       menuItems: [
@@ -89,12 +125,33 @@ export default {
     };
   },
   methods: {
-    register() {
-      this.registerOpen = !this.registerOpen;
-    },
+    ...mapActions(["userLogout"]),
+    ...mapGetters(["IS_LOGGED_IN"]),
+
     login() {
       this.loginOpen = !this.loginOpen;
+    },
+    logout() {
+      this.userLogout().then(() => this.$router.push("/"));
+    },
+    dashboard() {
+      this.$router.push("/dashboard");
     }
   }
 };
 </script>
+
+<style lang="scss">
+.header {
+  .navigation-profile-button {
+    width: initial;
+    margin-left: 1em;
+    .v-btn {
+      width: 100%;
+    }
+  }
+}
+.logout {
+  cursor: pointer;
+}
+</style>

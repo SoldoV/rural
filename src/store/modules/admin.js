@@ -11,6 +11,7 @@ const state = {
   cities: [],
   singleHousehold: {},
   households: {},
+  loginToken: localStorage.getItem('access_token') || null,
   householdResp: false,
   editHouseholdResp: false,
   priceResp: false,
@@ -28,7 +29,7 @@ const state = {
   },
   header: {
     "Accept": "aplication/json",
-    "Authorization": "Bearer " + "2|KM3OZHyQetnnC4mONg05qd3rEnfwOUzTYKptPKXaJHos5CmUAvkuf2fYFSQV1Vpyeno7DDaQCvKBdyE2"
+    //"Authorization": "Bearer " + "2|KM3OZHyQetnnC4mONg05qd3rEnfwOUzTYKptPKXaJHos5CmUAvkuf2fYFSQV1Vpyeno7DDaQCvKBdyE2"
   },
 }
 const getters = {
@@ -71,6 +72,12 @@ const getters = {
   GET_SINGLE_HOUSEHOLD: state => {
     return state.singleHousehold;
   },
+  GET_LOGIN_TOKEN: state => {
+    return state.loginToken;
+  },
+  IS_LOGGED_IN: state => {
+    return state.loginToken !== null;
+  },
 }
 const actions = {
   async fetchTags({
@@ -78,7 +85,10 @@ const actions = {
     state
   }) {
     await axios.get(`${rootUrls.URL}/tags`, {
-        headers: state.header
+        headers: {
+          ...state.header,
+          "Authorization": "Bearer " + state.loginToken
+        }
       })
       .then(response => {
         commit('STORE_TAGS', response.data);
@@ -92,7 +102,10 @@ const actions = {
     commit,
   }, data) {
     await axios.get(`${rootUrls.URL}/households/?with[]=prices&with[]=images&with[]=platforms&with[]=tags&perPage=8&page=${data}`, {
-        headers: state.header
+        headers: {
+          ...state.header,
+          "Authorization": "Bearer " + state.loginToken
+        }
       })
       .then(response => {
         commit('STORE_HOUSEHOLDS', response.data);
@@ -108,7 +121,10 @@ const actions = {
     commit,
   }, data) {
     await axios.get(`${rootUrls.URL}/households/${data}?with[]=prices&with[]=images&with[]=tags&with[]=platforms`, {
-        headers: state.header
+        headers: {
+          ...state.header,
+          "Authorization": "Bearer " + state.loginToken
+        }
       })
       .then(response => {
         commit('STORE_HOUSEHOLD_BY_ID', response.data);
@@ -124,7 +140,10 @@ const actions = {
     state
   }, data) {
     await axios.post(`${rootUrls.URL}/tags`, data, {
-        headers: state.header
+        headers: {
+          ...state.header,
+          "Authorization": "Bearer " + state.loginToken
+        }
       })
       .then(() => {
         dispatch("fetchTags")
@@ -138,7 +157,10 @@ const actions = {
     state
   }, data) {
     await axios.put(`${rootUrls.URL}/tags/${data.id}`, data, {
-        headers: state.header
+        headers: {
+          ...state.header,
+          "Authorization": "Bearer " + state.loginToken
+        }
       })
       .then(() => {
         dispatch("fetchTags")
@@ -152,7 +174,10 @@ const actions = {
     state
   }, data) {
     await axios.delete(`${rootUrls.URL}/tags/${data}`, {
-        headers: state.header
+        headers: {
+          ...state.header,
+          "Authorization": "Bearer " + state.loginToken
+        }
       })
       .then(() => {
         dispatch("fetchTags")
@@ -167,7 +192,8 @@ const actions = {
     await axios.post(`${rootUrls.URL}/households/${data[0]}/tags`, data[1], {
         headers: {
           ...state.header,
-          ...state.headerJson
+          ...state.headerJson,
+          "Authorization": "Bearer " + state.loginToken
         }
       })
       .then(() => {})
@@ -181,7 +207,8 @@ const actions = {
     await axios.delete(`${rootUrls.URL}/prices/${data}`, {
         headers: {
           ...state.header,
-          ...state.headerJson
+          ...state.headerJson,
+          "Authorization": "Bearer " + state.loginToken
         }
       })
       .then(() => {})
@@ -193,7 +220,10 @@ const actions = {
     state
   }, data) {
     await axios.delete(`${rootUrls.URL}/images/${data}`, {
-        headers: state.header
+        headers: {
+          ...state.header,
+          "Authorization": "Bearer " + state.loginToken
+        }
       })
       .then(() => {})
       .catch(error => {
@@ -205,7 +235,10 @@ const actions = {
     state
   }) {
     await axios.get(`${rootUrls.URL}/cities`, {
-        headers: state.header
+        headers: {
+          ...state.header,
+          "Authorization": "Bearer " + state.loginToken
+        }
       })
       .then(response => {
         commit('STORE_CITIES', response.data);
@@ -219,7 +252,10 @@ const actions = {
     state
   }, data) {
     await axios.post(`${rootUrls.URL}/cities`, data, {
-        headers: state.header
+        headers: {
+          ...state.header,
+          "Authorization": "Bearer " + state.loginToken
+        }
       })
       .then(() => {
         dispatch("fetchCities")
@@ -233,7 +269,10 @@ const actions = {
     state
   }, data) {
     await axios.put(`${rootUrls.URL}/cities/${data.id}`, data, {
-        headers: state.header
+        headers: {
+          ...state.header,
+          "Authorization": "Bearer " + state.loginToken
+        }
       })
       .then(() => {
         dispatch("fetchCities")
@@ -247,7 +286,10 @@ const actions = {
     state
   }, data) {
     await axios.delete(`${rootUrls.URL}/cities/${data}`, {
-        headers: state.header
+        headers: {
+          ...state.header,
+          "Authorization": "Bearer " + state.loginToken
+        }
       })
       .then(() => {
         dispatch("fetchCities")
@@ -261,7 +303,10 @@ const actions = {
     commit
   }, data) {
     await axios.post(`${rootUrls.URL}/households`, data, {
-        headers: state.header
+        headers: {
+          ...state.header,
+          "Authorization": "Bearer " + state.loginToken
+        }
       })
       .then((response) => {
         commit('STORE_HOUSEHOLD_ID', response.data.id);
@@ -278,7 +323,10 @@ const actions = {
     commit
   }, data) {
     await axios.put(`${rootUrls.URL}/households/${data[1]}`, data[0], {
-        headers: state.header
+        headers: {
+          ...state.header,
+          "Authorization": "Bearer " + state.loginToken
+        }
       })
       .then(() => {
         commit('STORE_EDIT_HOUSEHOLD_RESP', true);
@@ -293,7 +341,10 @@ const actions = {
     commit,
   }, data) {
     await axios.post(`${rootUrls.URL}/prices`, data, {
-        headers: state.header
+        headers: {
+          ...state.header,
+          "Authorization": "Bearer " + state.loginToken
+        }
       })
       .then(() => {
         commit('STORE_PRICE_RESP', true);
@@ -311,7 +362,8 @@ const actions = {
     await axios.post(`${rootUrls.URL}/households/${data[1]}/platforms`, data[0], {
         headers: {
           ...state.header,
-          ...state.headerJson
+          ...state.headerJson,
+          "Authorization": "Bearer " + state.loginToken
         }
       })
       .then(() => {
@@ -329,7 +381,8 @@ const actions = {
     await axios.post(`${rootUrls.URL}/households/${data[1]}/tags`, data[0], {
         headers: {
           ...state.header,
-          ...state.headerJson
+          ...state.headerJson,
+          "Authorization": "Bearer " + state.loginToken
         }
       })
       .then(() => {
@@ -344,10 +397,11 @@ const actions = {
   async postHouseholdImages({
     commit
   }, data) {
-    await axios.post(`${rootUrls.URL}/households/${data[1]}/images`, data[0], {
+    await axios.post(`${rootUrls.URL}/households/${data[1]}/images`, {
         headers: {
           ...state.header,
-          ...state.headerForm
+          ...state.headerForm,
+          "Authorization": "Bearer " + state.loginToken
         }
       })
       .then(() => {
@@ -359,6 +413,34 @@ const actions = {
         commit('STORE_ERROR_MSG', "ERROR: Couldn't post images");
       });
   },
+  async userLogin({
+    commit
+  }, data) {
+    await axios.post(`${rootUrls.URL}/auth/login`, data, {
+        headers: {
+          ...state.header,
+          ...state.headerJson,
+          "Authorization": "Bearer " + state.loginToken
+        }
+      })
+      .then((res) => {
+        localStorage.setItem('access_token', res.data)
+        commit('STORE_LOGIN_TOKEN', res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+        commit('STORE_ERROR_MSG', "ERROR: Couldn't log in");
+      });
+  },
+  userLogout({
+    getters,
+    commit
+  }) {
+    if (getters.IS_LOGGED_IN) {
+      localStorage.removeItem("access_token")
+      commit("DESTROY_TOKEN")
+    }
+  }
 }
 
 const mutations = {
@@ -400,6 +482,15 @@ const mutations = {
   },
   STORE_EDIT_HOUSEHOLD_RESP: (state, data) => {
     state.editHouseholdResp = data;
+  },
+  STORE_LOGIN_TOKEN: (state, data) => {
+    state.loginToken = data;
+  },
+  STORE_LOGIN_RESP: (state, data) => {
+    state.loginResp = data;
+  },
+  DESTROY_TOKEN: (state) => {
+    state.loginToken = null;
   },
 }
 

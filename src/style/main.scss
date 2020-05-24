@@ -72,6 +72,16 @@ body {
   }
 }
 
+.v-select.v-input--dense .v-select__selection--comma {
+  margin: 5px 4px 5px 0 !important;
+}
+
+.v-select__selections {
+  .v-input__append-inner {
+    margin-top: 6px !important;
+  }
+}
+
 @media only screen and (max-width: 964px) {
   #app {
     padding: 0 2em 0 2em;

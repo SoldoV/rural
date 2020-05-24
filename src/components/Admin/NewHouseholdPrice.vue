@@ -140,7 +140,6 @@ export default {
       }
     },
     deleteItem(item) {
-      console.log(item);
       const index = this.prices.indexOf(item);
       confirm("Are you sure you want to delete this item?") &&
         this.deletePrice(item.id) &&

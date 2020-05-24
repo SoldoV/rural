@@ -43,7 +43,14 @@
         </template>
         <v-list>
           <v-list-item>
-            <v-list-item-title>Logout</v-list-item-title>
+            <v-list-item-title class="logout" @click="logout"
+              >Logout</v-list-item-title
+            >
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-title class="logout" @click="home()"
+              >Home Page</v-list-item-title
+            >
           </v-list-item>
         </v-list>
       </v-menu>
@@ -52,6 +59,8 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   props: {
     source: String
@@ -59,12 +68,23 @@ export default {
   data: () => ({
     dialog: false,
     drawer: null,
-    user: "Vinko Soldo",
+    user: "Admin",
     items: [
       { icon: "mdi-home", text: "Domaćinstva", url: "/dashboard/households" },
       { icon: "mdi-tag", text: "Tagovi", url: "/dashboard/tags" },
       { icon: "mdi-map", text: "Gradovi", url: "/dashboard/cities" }
     ]
-  })
+  }),
+  methods: {
+    ...mapActions(["userLogout"]),
+    logout() {
+      this.userLogout().then(() => {
+        this.$router.push("/");
+      });
+    },
+    home() {
+      this.$router.push("/");
+    }
+  }
 };
 </script>
