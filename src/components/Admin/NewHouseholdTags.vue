@@ -3,7 +3,6 @@
     <v-data-table
       :headers="headers"
       :items="tags"
-      hide-default-footer
       sort-by="calories"
       class="new-household-table mt-10"
     >

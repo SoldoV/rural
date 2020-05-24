@@ -3,7 +3,6 @@
     <v-data-table
       :headers="headers"
       :items="prices"
-      hide-default-footer
       sort-by="calories"
       class="new-household-table mt-10"
     >
@@ -141,12 +140,10 @@ export default {
       }
     },
     deleteItem(item) {
+      console.log(item);
       const index = this.prices.indexOf(item);
       confirm("Are you sure you want to delete this item?") &&
-        this.deletePrice([
-          this.householdId,
-          { method: "detach", data: [item.id] }
-        ]) &&
+        this.deletePrice(item.id) &&
         this.prices.splice(index, 1);
     }
   }

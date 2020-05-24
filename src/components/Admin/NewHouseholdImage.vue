@@ -2,7 +2,6 @@
   <v-data-table
     :headers="headers"
     :items="images"
-    hide-default-footer
     sort-by="calories"
     class="new-household-table"
   >

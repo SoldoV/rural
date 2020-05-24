@@ -178,7 +178,7 @@ const actions = {
   async deletePrice({
     state
   }, data) {
-    await axios.post(`${rootUrls.URL}/households/${data[0]}/prices`, data[1], {
+    await axios.delete(`${rootUrls.URL}/prices/${data}`, {
         headers: {
           ...state.header,
           ...state.headerJson
