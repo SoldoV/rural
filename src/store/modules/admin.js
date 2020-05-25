@@ -101,7 +101,7 @@ const actions = {
     state,
     commit,
   }, data) {
-    await axios.get(`${rootUrls.URL}/households/?with[]=prices&with[]=images&with[]=platforms&with[]=tags&perPage=8&page=${data}`, {
+    await axios.get(`${rootUrls.URL}/households/?with[]=prices&with[]=images&with[]=platforms&with[]=tags&perPage=${data[1]}&page=${data[0]}`, {
         headers: {
           ...state.header,
           "Authorization": "Bearer " + state.loginToken
@@ -397,7 +397,7 @@ const actions = {
   async postHouseholdImages({
     commit
   }, data) {
-    await axios.post(`${rootUrls.URL}/households/${data[1]}/images`, {
+    await axios.post(`${rootUrls.URL}/households/${data[1]}/images`, data[0], {
         headers: {
           ...state.header,
           ...state.headerForm,

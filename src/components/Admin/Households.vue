@@ -2,11 +2,10 @@
   <div class="domacinstva">
     <div class="domacinstva-btn-wrapper">
       <v-btn
-        color="primary"
-        dark
-        class="mb-2 domacinstva-btn"
+        depressed
         :to="'/dashboard/household/description'"
-        >Dodaj Domacinstvo</v-btn
+        class="header-log-in domacinstva-btn"
+        ><v-icon>mdi-plus</v-icon>Dodaj domacinstvo</v-btn
       >
     </div>
     <div class="domacinstva-wrapper">
@@ -63,7 +62,7 @@ export default {
       });
     },
     getHouseholds(i) {
-      this.fetchHouseholds(i).then(() => {
+      this.fetchHouseholds([i, 12]).then(() => {
         this.fetchCities().then(() => {
           if (this.HOUSEHOLD_RESP()) {
             let household = this.GET_HOUSEHOLDS();

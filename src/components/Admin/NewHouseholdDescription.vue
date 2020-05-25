@@ -53,16 +53,12 @@
           <div class="new-household-btn-wrapper">
             <v-btn
               depressed
-              color="primary"
-              class="new-household-btn"
+              outlined
+              class="new-household-btn common-btn-outlined"
               @click="close"
               >Odustani</v-btn
             >
-            <v-btn
-              depressed
-              color="primary"
-              class="new-household-btn"
-              @click="save"
+            <v-btn depressed color="primary" class="common-btn" @click="save"
               >Dalje</v-btn
             >
           </div>
@@ -175,8 +171,8 @@ export default {
     storeHousehold() {
       let data = this.GET_SINGLE_HOUSEHOLD();
       this.household = {
-        title: data.title.en,
-        description: data.description.en,
+        title: data.title,
+        description: data.description,
         address: data.address,
         city_id: data.city_id,
         latitude: data.latitude,

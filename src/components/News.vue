@@ -1,6 +1,10 @@
 <template>
   <div class="news">
-    <image-header class="image-header-parent" :headerText="text" />
+    <image-header
+      class="image-header-parent"
+      :imgSrc="'image.jpg'"
+      :headerText="text"
+    />
     <news-item
       v-for="item in newsItems"
       :key="item.header"

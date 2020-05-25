@@ -139,7 +139,7 @@ export default {
 
 <style lang="scss">
 .categories-sidebar {
-  width: 258px;
+  min-width: 258px;
   .categories-sidebar-title {
     color: $primary-text;
     font-family: "BalooPaaji2";

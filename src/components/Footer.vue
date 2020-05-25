@@ -18,7 +18,7 @@
         v-model="selected"
         :menu-props="{ top: true, offsetY: true }"
         outlined
-        hiede-details
+        hide-details
       ></v-select>
     </div>
   </div>

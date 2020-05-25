@@ -13,13 +13,13 @@
         <v-btn
           depressed
           color="primary"
-          class="action-button file-input-btn"
+          class="common-btn file-input-btn"
           @change="upload"
         >
           <label class="file-input">
             <input type="file" @change="upload" />
           </label>
-          New image
+          Nova slika
         </v-btn>
       </v-toolbar>
     </template>

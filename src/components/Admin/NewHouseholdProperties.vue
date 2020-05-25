@@ -31,7 +31,7 @@
         <v-btn
           depressed
           color="primary"
-          class="new-household-btn"
+          class="common-btn"
           :loading="btnLoad"
           @click="save"
           >Dalje</v-btn
@@ -136,9 +136,7 @@ export default {
             created_at: a.created_at,
             icon: a.icon,
             id: a.id,
-            title: {
-              en: a.title.en
-            },
+            title: a.title,
             updated_at: a.updated_at
           },
           value: a.pivot.value,

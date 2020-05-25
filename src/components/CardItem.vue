@@ -9,7 +9,7 @@
         </div>
       </div>
       <div class="card-item-name">
-        {{ cardItem.title.en }}
+        {{ cardItem.title }}
       </div>
       <div class="card-item-price">
         cijena <b>{{ cardItem.prices[0].price }} KM</b>/noć
@@ -33,13 +33,6 @@ export default {
   data: () => ({
     cityName: ""
   }),
-  watch: {
-    cities() {
-      this.cities.forEach(e => {
-        if (e.id == this.cardItem.city_id) this.cityName = e.title;
-      });
-    }
-  },
   methods: {
     getImageSrc() {
       return `http://18.156.183.119/${this.cardItem.images[0].file_path}`;
@@ -47,6 +40,11 @@ export default {
     getHousehold(id) {
       this.$emit("getHousehold", id);
     }
+  },
+  created() {
+    this.cities.forEach(e => {
+      if (e.id == this.cardItem.city_id) this.cityName = e.title;
+    });
   }
 };
 </script>

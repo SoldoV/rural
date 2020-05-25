@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div class="image-header">
+    <div
+      class="image-header"
+      :style="{ backgroundImage: `url(${require('@/assets/' + imgSrc)})` }"
+    >
       <div class="image-header-text">{{ headerText }}</div>
       <div class="image-header-searchbar">
         <v-text-field
@@ -21,6 +24,9 @@
 export default {
   props: {
     headerText: {
+      required: true
+    },
+    imgSrc: {
       required: true
     }
   },

@@ -85,32 +85,32 @@ export default {};
 
 .upperLarge {
   grid-area: upperLarge;
-  background-image: url("../assets/a.jpeg");
+  background-image: url("../assets/image.jpg");
 }
 
 .upperSmallLeft {
   grid-area: upperSmallLeft;
-  background-image: url("../assets/a.jpeg");
+  background-image: url("../assets/image.jpg");
 }
 
 .upperSmallRight {
   grid-area: upperSmallRight;
-  background-image: url("../assets/a.jpeg");
+  background-image: url("../assets/image.jpg");
 }
 
 .lowerLarge {
   grid-area: lowerLarge;
-  background-image: url("../assets/a.jpeg");
+  background-image: url("../assets/image.jpg");
 }
 
 .lowerSmallLeft {
   grid-area: lowerSmallLeft;
-  background-image: url("../assets/a.jpeg");
+  background-image: url("../assets/image.jpg");
 }
 
 .lowerSmallRight {
   grid-area: lowerSmallRight;
-  background-image: url("../assets/a.jpeg");
+  background-image: url("../assets/image.jpg");
 }
 .destination-img {
   position: relative;

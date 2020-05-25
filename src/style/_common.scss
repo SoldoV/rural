@@ -58,9 +58,56 @@ body {
   margin: 5px 4px 5px 0 !important;
 }
 
-.v-select__selections {
-  .v-input__append-inner {
-    margin-top: 6px !important;
+.v-text-field--enclosed.v-input--dense:not(.v-text-field--solo).v-text-field--outlined .v-input__append-inner {
+  margin-top: 6px !important;
+}
+
+.common-btn {
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: none !important;
+  line-height: 17.07px;
+  text-align: left;
+  box-shadow: 0 10px 20px 0 rgba(49, 150, 71, 0.25) !important;
+  background-color: $primary !important;
+  color: white !important;
+}
+
+.common-btn-outlined {
+  border: 1px solid $border;
+  color: $primary-text !important;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: none !important;
+  margin-right: 1em !important;
+}
+
+.footer-lang {
+  border-radius: 4px;
+  width: 120px;
+  margin-left: 8px;
+  max-width: 120px;
+  font-size: 14px;
+
+  fieldset {
+    height: 41px;
+  }
+
+  .v-input__slot {
+    min-height: 36px !important;
+    height: 36px;
+    margin-bottom: 0px;
+  }
+
+  .v-input__control {
+    min-height: 36px;
+    height: 36px;
+    margin-bottom: 0px;
+  }
+
+  .v-select__selections {
+    max-width: 100px !important;
+    width: 100px;
   }
 }
 

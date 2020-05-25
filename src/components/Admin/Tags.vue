@@ -3,7 +3,7 @@
     <v-data-table :headers="headers" :items="getTags" class="elevation-1">
       <template v-slot:item.title="{ item }">
         <div class="p-2">
-          <div>{{ item.title.en }}</div>
+          <div>{{ item.title }}</div>
         </div>
       </template>
       <template v-slot:item.icon="{ item }">
@@ -22,7 +22,7 @@
           <v-spacer></v-spacer>
           <v-dialog v-model="dialog" max-width="500px">
             <template v-slot:activator="{ on }">
-              <v-btn color="primary" dark class="mb-2 action-button" v-on="on"
+              <v-btn color="primary" dark class="mb-2 common-btn" v-on="on"
                 >Novi tag</v-btn
               >
             </template>
@@ -69,15 +69,15 @@
                 <v-spacer></v-spacer>
                 <v-btn
                   depressed
-                  color="primary"
-                  class="action-button"
+                  outlined
+                  class="common-btn-outlined"
                   @click="close"
                   >Cancel</v-btn
                 >
                 <v-btn
                   depressed
                   color="primary"
-                  class="action-button"
+                  class="common-btn"
                   @click="save"
                   >Save</v-btn
                 >
