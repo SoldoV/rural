@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" max-width="500">
+  <v-dialog v-model="dialog" persistent max-width="500">
     <v-card>
       <div class="additional-filters">
         <div class="filter-header align-row-center">
@@ -61,8 +61,12 @@
           </div>
         </div>
         <div class="filter-footer">
-          <v-btn depressed outlined class="fiter-btn">Odustani</v-btn>
-          <v-btn depressed class="header-log-in fiter-btn">Potvrda</v-btn>
+          <v-btn depressed outlined class="fiter-btn" @click="close"
+            >Odustani</v-btn
+          >
+          <v-btn depressed class="header-log-in fiter-btn" @click="close"
+            >Potvrda</v-btn
+          >
         </div>
       </div>
     </v-card>
@@ -71,8 +75,12 @@
 
 <script>
 export default {
+  props: {
+    dialog: {
+      required: true
+    }
+  },
   data: () => ({
-    dialog: true,
     beds: 0,
     bedrooms: 0,
     toilets: 0,
@@ -115,6 +123,9 @@ export default {
     isDisabled(val) {
       if (val > 0) return false;
       return true;
+    },
+    close() {
+      this.$emit("toggleAdditionalFilters");
     }
   }
 };

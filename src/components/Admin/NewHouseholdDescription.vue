@@ -110,7 +110,6 @@ export default {
   methods: {
     ...mapGetters([
       "HOUSEHOLD_RESP",
-      "GET_CITIES_RESP",
       "GET_CITIES",
       "GET_SINGLE_HOUSEHOLD",
       "GET_EDIT_HOUSEHOLD_RESP"
