@@ -58,6 +58,18 @@ const routes = [{
           )
       },
       {
+        path: "articles",
+        name: "Admin articles",
+        meta: {
+          requiresAuth: true
+        },
+        component: () =>
+          import(
+            /* webpackChunkName: "AdminArticles" */
+            "../components/Admin/Articles.vue"
+          )
+      },
+      {
         path: "cities",
         name: "Admin cities",
         meta: {

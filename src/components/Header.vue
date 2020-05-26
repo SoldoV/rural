@@ -34,15 +34,11 @@
             </v-btn>
           </template>
           <v-list>
-            <v-list-item>
-              <v-list-item-title class="logout" @click="logout"
-                >Logout</v-list-item-title
-              >
+            <v-list-item @click="logout">
+              <v-list-item-title class="logout">Logout</v-list-item-title>
             </v-list-item>
-            <v-list-item>
-              <v-list-item-title class="logout" @click="dashboard()"
-                >Dashboard</v-list-item-title
-              >
+            <v-list-item @click="dashboard()">
+              <v-list-item-title class="logout">Dashboard</v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
@@ -87,15 +83,11 @@
           </v-btn>
         </template>
         <v-list>
-          <v-list-item>
-            <v-list-item-title class="logout" @click="logout"
-              >Logout</v-list-item-title
-            >
+          <v-list-item @click="logout">
+            <v-list-item-title class="logout">Logout</v-list-item-title>
           </v-list-item>
-          <v-list-item>
-            <v-list-item-title class="logout" @click="dashboard()"
-              >Dashboard</v-list-item-title
-            >
+          <v-list-item @click="dashboard()">
+            <v-list-item-title class="logout">Dashboard</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>

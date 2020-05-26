@@ -13,6 +13,7 @@
     "core-js": "^3.6.4",
     "node-sass": "^4.14.1",
     "register-service-worker": "^1.7.1",
+    "tiptap-vuetify": "^2.20.0",
     "vue": "^2.6.11",
     "vue-router": "^3.1.6",
     "vue2-google-maps": "^0.10.7",
