@@ -9,6 +9,7 @@ const state = {
   tags: [],
   categories: [],
   cities: [],
+  articles: [],
   singleHousehold: {},
   households: {},
   loginToken: localStorage.getItem('access_token') || null,
@@ -41,6 +42,9 @@ const getters = {
   },
   GET_HOUSEHOLDS: state => {
     return state.households;
+  },
+  GET_ARTICLES: state => {
+    return state.articles;
   },
   HOUSEHOLD_RESP: state => {
     return state.householdResp;
@@ -92,6 +96,23 @@ const actions = {
       })
       .then(response => {
         commit('STORE_TAGS', response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  },
+  async fetchArticles({
+    commit,
+    state
+  }) {
+    await axios.get(`${rootUrls.URL}/news_articles`, {
+        headers: {
+          ...state.header,
+          "Authorization": "Bearer " + state.loginToken
+        }
+      })
+      .then(response => {
+        commit('STORE_ARTICLES', response.data);
       })
       .catch(error => {
         console.log(error);
@@ -164,6 +185,24 @@ const actions = {
       })
       .then(() => {
         dispatch("fetchTags")
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  },
+  async editArticle({
+    dispatch,
+    state
+  }, data) {
+    await axios.put(`${rootUrls.URL}/news_articles/${data.id}`, data, {
+        headers: {
+          ...state.header,
+          ...state.headerForm,
+          "Authorization": "Bearer " + state.loginToken
+        }
+      })
+      .then(() => {
+        dispatch("fetchArticles")
       })
       .catch(error => {
         console.log(error);
@@ -424,6 +463,7 @@ const actions = {
         }
       })
       .then((res) => {
+        console.log(res.data)
         localStorage.setItem('access_token', res.data)
         commit('STORE_LOGIN_TOKEN', res.data);
       })
@@ -488,6 +528,9 @@ const mutations = {
   },
   STORE_LOGIN_RESP: (state, data) => {
     state.loginResp = data;
+  },
+  STORE_ARTICLES: (state, data) => {
+    state.articles = data;
   },
   DESTROY_TOKEN: (state) => {
     state.loginToken = null;

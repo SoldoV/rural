@@ -25,11 +25,11 @@
 }
 
 .new-household-image {
-  max-width: 400px;
-  max-height: 400px;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: 50% 50%;
+  max-height: 200px;
+  max-width: 200px;
+  border-radius: 8px;
+  object-fit: cover;
+  margin: 10px 0 10px 0;
 }
 
 .new-household-table {

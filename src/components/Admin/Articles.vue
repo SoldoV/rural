@@ -1,20 +1,6 @@
 <template>
   <div class="tagovi">
     <v-data-table :headers="headers" :items="getArticles" class="elevation-1">
-      <template v-slot:item.title="{ item }">
-        <div class="p-2">
-          <div>{{ item.title }}</div>
-        </div>
-      </template>
-      <template v-slot:item.icon="{ item }">
-        <div class="p-2">
-          <v-img
-            class="tagovi-image"
-            :src="getImgUrl(item.icon)"
-            :alt="item.title[0]"
-          ></v-img>
-        </div>
-      </template>
       <template v-slot:top>
         <v-toolbar flat color="white">
           <v-toolbar-title>Članci</v-toolbar-title>
@@ -42,13 +28,24 @@
                           label="Naziv"
                         ></v-text-field>
                       </v-col>
-                      <v-col cols="24">
-                        <v-text-field
-                          required
-                          :rules="titleRules"
-                          v-model="editedItem.text"
-                          label="Tekst"
-                        ></v-text-field>
+                      <v-col cols="12">
+                        <v-btn
+                          depressed
+                          color="primary"
+                          class="common-btn file-input-btn"
+                          @change="upload"
+                        >
+                          <label class="file-input">
+                            <input type="file" @change="upload" />
+                          </label>
+                          Nova slika
+                        </v-btn>
+                        <div class="p-2">
+                          <img
+                            class="new-household-image"
+                            :src="imageSrc(editedItem.image_path)"
+                          />
+                        </div>
                       </v-col>
                       <v-col cols="12">
                         <v-checkbox
@@ -59,7 +56,7 @@
                       </v-col>
                       <v-col cols="12">
                         <tiptap-vuetify
-                          v-model="content"
+                          v-model="editedItem.text"
                           :extensions="extensions"
                         />
                       </v-col>
@@ -67,7 +64,6 @@
                   </v-row>
                 </v-container>
               </v-card-text>
-
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn
@@ -88,6 +84,14 @@
             </v-card>
           </v-dialog>
         </v-toolbar>
+      </template>
+      <template v-slot:item.image_path="{ item }">
+        <div class="p-2">
+          <img class="new-household-image" :src="imageSrc(item.image_path)" />
+        </div>
+      </template>
+      <template v-slot:item.active="{ item }">
+        <v-checkbox hide-details readonly v-model="item.active"></v-checkbox>
       </template>
       <template v-slot:item.actions="{ item }">
         <v-icon small class="mr-2" @click="editItem(item)">
@@ -158,7 +162,6 @@ export default {
       Paragraph,
       HardBreak
     ],
-    content: ``,
     dialog: false,
     snackbar: false,
     titleRules: [v => !!v || "Popuniti polje"],
@@ -166,42 +169,40 @@ export default {
     snackbarText: "",
     headers: [
       { text: "Ime", value: "title" },
-      { text: "Slika", value: "image", sortable: true },
+      { text: "Slika", value: "image_path", sortable: true },
       { text: "Aktivan", value: "active" },
       { text: "Akcije", value: "actions", sortable: false }
     ],
     articles: [],
     editedIndex: -1,
+    image: "",
     editedItem: {
       title: "",
-      image: "",
+      image_path: "",
       active: false,
-      text: "",
+      text: ``,
       id: ""
     },
     defaultItem: {
       title: "",
-      image: "",
+      image_path: "",
+      text: ``,
       active: false
     }
   }),
-
   computed: {
     formTitle() {
       return this.editedIndex === -1 ? "New Item" : "Edit Item";
     },
     getArticles() {
-      return [];
-      //return JSON.parse(JSON.stringify(this.GET_TAGS()));
+      return JSON.parse(JSON.stringify(this.GET_ARTICLES()));
     }
   },
-
   watch: {
     dialog(val) {
       val || this.close();
     }
   },
-
   methods: {
     ...mapActions([
       "fetchArticles",
@@ -210,30 +211,38 @@ export default {
       "deleteArticle"
     ]),
     ...mapGetters(["GET_ARTICLES"]),
-
+    upload(val) {
+      val.stopImmediatePropagation();
+      let file = val.target.files[0];
+      this.editedItem.image_path = file;
+      let reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = e => {
+        this.image = e.target.result;
+      };
+    },
     popSnackbar(text) {
       this.snackbarText = text;
       this.snackbar = true;
     },
-    getImgUrl(img) {
-      var images = require.context("../../assets/icons/", false, /\.svg$/);
-      return images("./" + img + ".svg");
-    },
-    returnItem() {
-      return this.editedItem;
+    imageSrc(src) {
+      if (this.editedItem.image_path instanceof File) {
+        return this.image;
+      } else
+        return !src.startsWith("data:image")
+          ? "http://18.156.183.119/storage/news_images/" + src
+          : src;
     },
     editItem(item) {
       this.editedIndex = this.getArticles.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
-
     deleteItem(item) {
       confirm("Are you sure you want to delete this item?") &&
         this.deleteArticle(item.id);
       this.popSnackbar("Item successfully deleted");
     },
-
     close() {
       this.dialog = false;
       this.$nextTick(() => {
@@ -241,25 +250,27 @@ export default {
         this.editedIndex = -1;
       });
     },
-
     save() {
       if (this.$refs.form.validate()) {
         if (this.editedIndex > -1) {
           let data = {
             title: this.editedItem.title,
             text: this.editedItem.text,
-            image: this.editedItem.image,
+            image: this.editedItem.image_path,
             id: this.editedItem.id,
-            active: this.editedItem.active
+            active: this.editedItem.active ? 1 : 0
           };
+          // if (this.editedItem.image_path instanceof File) {
+          //   data.image
+          // }
           this.editArticle(data);
           this.popSnackbar("Item successfully edited");
         } else {
           let data = {
             title: this.editedItem.title,
             text: this.editedItem.text,
-            image: this.editedItem.image,
-            active: this.editedItem.active
+            image: this.editedItem.image_path,
+            active: this.editedItem.active ? 1 : 0
           };
           this.postArticle(data);
           this.popSnackbar("Item successfully added");
@@ -273,4 +284,3 @@ export default {
   }
 };
 </script>
-
