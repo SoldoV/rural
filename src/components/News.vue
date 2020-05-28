@@ -7,9 +7,11 @@
       :single="false"
     />
     <news-item
+      :selected="false"
       v-for="item in articles"
-      :key="item.title"
-      :dateText="item.created_at"
+      :key="item.id"
+      :id="item.id"
+      :dateText="item.created_at.slice(0, 10)"
       :header="item.title"
       :text="item.text"
       :image="'http://18.156.183.119/storage/news_images/' + item.image_path"

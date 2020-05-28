@@ -24,7 +24,7 @@ const routes = [{
   },
   {
     path: "/news/article/:id?",
-    name: "Admin single articles",
+    name: "AdminSingleArticle",
     component: () =>
       import(
         /* webpackChunkName: "SingleArticle" */
