@@ -17,7 +17,7 @@
                 <span class="headline">{{ formTitle }}</span>
               </v-card-title>
               <v-card-text>
-                <v-container>
+                <v-container class="container-height">
                   <v-row class="edit-tags-row">
                     <v-form ref="form" v-model="valid" lazy-validation>
                       <v-col cols="24">
@@ -40,7 +40,7 @@
                           </label>
                           Nova slika
                         </v-btn>
-                        <div class="p-2">
+                        <div class="p-2" v-if="editedItem.image_path">
                           <img
                             class="new-household-image"
                             :src="imageSrc(editedItem.image_path)"
@@ -210,7 +210,7 @@ export default {
       "postArticle",
       "deleteArticle"
     ]),
-    ...mapGetters(["GET_ARTICLES"]),
+    ...mapGetters(["GET_ARTICLES", "GET_ARTICLE_RESP"]),
     upload(val) {
       val.stopImmediatePropagation();
       let file = val.target.files[0];
@@ -240,42 +240,44 @@ export default {
     },
     deleteItem(item) {
       confirm("Are you sure you want to delete this item?") &&
-        this.deleteArticle(item.id);
-      this.popSnackbar("Item successfully deleted");
+        this.deleteArticle(item.id).then(() =>
+          this.popSnackbar("Item successfully deleted")
+        );
     },
     close() {
       this.dialog = false;
       this.$nextTick(() => {
         this.editedItem = Object.assign({}, this.defaultItem);
+        this.image = null;
         this.editedIndex = -1;
       });
     },
+    isValid() {
+      return (
+        this.editedItem.image_path &&
+        this.editedItem.text &&
+        this.editedItem.title
+      );
+    },
     save() {
-      if (this.$refs.form.validate()) {
+      if (this.isValid()) {
+        var articlesObj = new FormData();
+        articlesObj.append("title", this.editedItem.title);
+        articlesObj.append("text", this.editedItem.text);
+        articlesObj.append("active", this.editedItem.active ? 1 : 0);
         if (this.editedIndex > -1) {
-          let data = {
-            title: this.editedItem.title,
-            text: this.editedItem.text,
-            image: this.editedItem.image_path,
-            id: this.editedItem.id,
-            active: this.editedItem.active ? 1 : 0
-          };
-          // if (this.editedItem.image_path instanceof File) {
-          //   data.image
-          // }
-          this.editArticle(data);
+          if (this.image) articlesObj.append("image", this.image);
+          this.editArticle(articlesObj);
           this.popSnackbar("Item successfully edited");
         } else {
-          let data = {
-            title: this.editedItem.title,
-            text: this.editedItem.text,
-            image: this.editedItem.image_path,
-            active: this.editedItem.active ? 1 : 0
-          };
-          this.postArticle(data);
-          this.popSnackbar("Item successfully added");
+          articlesObj.append("image", this.editedItem.image_path);
+          this.postArticle(articlesObj).then(() => {
+            if (this.GET_ARTICLE_RESP())
+              this.popSnackbar("Item successfully added");
+            else this.popSnackbar("Couldn't add article");
+            this.close();
+          });
         }
-        this.close();
       }
     }
   },
@@ -284,3 +286,9 @@ export default {
   }
 };
 </script>
+<style lang="scss">
+.container-height {
+  height: calc(100% - 0vh) !important;
+  max-height: calc(100% - 0vh) !important;
+}
+</style>

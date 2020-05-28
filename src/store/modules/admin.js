@@ -14,6 +14,7 @@ const state = {
   households: {},
   loginToken: localStorage.getItem('access_token') || null,
   householdResp: false,
+  articleResp: false,
   editHouseholdResp: false,
   priceResp: false,
   householdIdResp: false,
@@ -45,6 +46,9 @@ const getters = {
   },
   GET_ARTICLES: state => {
     return state.articles;
+  },
+  GET_ARTICLE_RESP: state => {
+    return state.articleResp;
   },
   HOUSEHOLD_RESP: state => {
     return state.householdResp;
@@ -173,6 +177,27 @@ const actions = {
         console.log(error);
       });
   },
+  async postArticle({
+    dispatch,
+    commit,
+    state
+  }, data) {
+    await axios.post(`${rootUrls.URL}/news_articles`, data, {
+        headers: {
+          ...state.header,
+          ...state.headerForm,
+          "Authorization": "Bearer " + state.loginToken
+        }
+      })
+      .then(() => {
+        commit('STORE_ARTICLE_RESP', true);
+        dispatch("fetchArticles")
+      })
+      .catch(error => {
+        commit('STORE_ARTICLE_RESP', false);
+        console.log(error);
+      });
+  },
   async editTag({
     dispatch,
     state
@@ -220,6 +245,23 @@ const actions = {
       })
       .then(() => {
         dispatch("fetchTags")
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  },
+  async deleteArticle({
+    dispatch,
+    state
+  }, data) {
+    await axios.delete(`${rootUrls.URL}/news_articles/${data}`, {
+        headers: {
+          ...state.header,
+          "Authorization": "Bearer " + state.loginToken
+        }
+      })
+      .then(() => {
+        dispatch("fetchArticles")
       })
       .catch(error => {
         console.log(error);
@@ -534,6 +576,9 @@ const mutations = {
   },
   DESTROY_TOKEN: (state) => {
     state.loginToken = null;
+  },
+  STORE_ARTICLE_RESP: (state, data) => {
+    state.articleResp = data;
   },
 }
 
