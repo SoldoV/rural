@@ -3,6 +3,7 @@
     <image-header
       class="image-header-parent households-header"
       :headerText="text"
+      :single="false"
       :imgSrc="'bg.jpg'"
     />
     <div class="housholds-body">

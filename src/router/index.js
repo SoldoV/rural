@@ -20,7 +20,16 @@ const routes = [{
       import(
         /* webpackChunkName: "news" */
         "../components/News.vue"
-      )
+      ),
+  },
+  {
+    path: "/news/article/:id?",
+    name: "Admin single articles",
+    component: () =>
+      import(
+        /* webpackChunkName: "SingleArticle" */
+        "../components/SingleArticle.vue"
+      ),
   },
   {
     path: "/dashboard",
@@ -67,7 +76,7 @@ const routes = [{
           import(
             /* webpackChunkName: "AdminArticles" */
             "../components/Admin/Articles.vue"
-          )
+          ),
       },
       {
         path: "cities",

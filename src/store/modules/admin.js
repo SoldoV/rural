@@ -12,6 +12,7 @@ const state = {
   articles: [],
   singleHousehold: {},
   households: {},
+  singleArticle: {},
   loginToken: localStorage.getItem('access_token') || null,
   householdResp: false,
   articleResp: false,
@@ -58,6 +59,9 @@ const getters = {
   },
   GET_HOUSEHOLD_ID: state => {
     return state.householdId;
+  },
+  GET_SINGLE_ARTICLE: state => {
+    return state.singleArticle;
   },
   GET_EDIT_HOUSEHOLD_RESP: state => {
     return state.householdIdResp;
@@ -107,9 +111,9 @@ const actions = {
   },
   async fetchArticles({
     commit,
-    state
-  }) {
-    await axios.get(`${rootUrls.URL}/news_articles`, {
+    state,
+  }, data) {
+    await axios.get(`${rootUrls.URL}/news_articles${data || ""}`, {
         headers: {
           ...state.header,
           "Authorization": "Bearer " + state.loginToken
@@ -117,6 +121,23 @@ const actions = {
       })
       .then(response => {
         commit('STORE_ARTICLES', response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  },
+  async fetchSingleArticle({
+    commit,
+    state,
+  }, data) {
+    await axios.get(`${rootUrls.URL}/news_articles/${data}`, {
+        headers: {
+          ...state.header,
+          "Authorization": "Bearer " + state.loginToken
+        }
+      })
+      .then(response => {
+        commit('STORE_SINGLE_ARTICLE', response.data);
       })
       .catch(error => {
         console.log(error);
@@ -579,6 +600,9 @@ const mutations = {
   },
   STORE_ARTICLE_RESP: (state, data) => {
     state.articleResp = data;
+  },
+  STORE_SINGLE_ARTICLE: (state, data) => {
+    state.singleArticle = data;
   },
 }
 

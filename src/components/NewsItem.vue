@@ -1,6 +1,6 @@
 <template>
   <div class="news-item">
-    <div class="news-item-image"></div>
+    <img class="news-item-image" :src="image" />
     <div class="news-items-wrapper">
       <div class="news-item-date">
         <v-icon>mdi-calendar</v-icon>
@@ -13,7 +13,7 @@
         {{ text }}
       </div>
       <div class="news-item-read-more">
-        {{ readMore }}
+        Procitajte više
         <v-icon>mdi-arrow-right</v-icon>
       </div>
     </div>
@@ -32,7 +32,7 @@ export default {
     text: {
       required: true
     },
-    readMore: {
+    image: {
       required: true
     }
   }

@@ -2,10 +2,10 @@
   <div>
     <div
       class="image-header"
-      :style="{ backgroundImage: `url(${require('@/assets/' + imgSrc)})` }"
+      :style="{ backgroundImage: `url(${getUrl(imgSrc)})` }"
     >
       <div class="image-header-text">{{ headerText }}</div>
-      <div class="image-header-searchbar">
+      <div class="image-header-searchbar" v-if="!single">
         <v-text-field
           placeholder="Pretražite novosti..."
           background-color="white"
@@ -28,6 +28,9 @@ export default {
     },
     imgSrc: {
       required: true
+    },
+    single: {
+      required: true
     }
   },
   data: () => ({
@@ -36,6 +39,9 @@ export default {
   methods: {
     search(val) {
       this.$emit("search", val);
+    },
+    getUrl(val) {
+      return this.single ? val : require("@/assets/" + val);
     }
   }
 };

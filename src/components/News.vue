@@ -4,20 +4,22 @@
       class="image-header-parent"
       :imgSrc="'image.jpg'"
       :headerText="text"
+      :single="false"
     />
     <news-item
-      v-for="item in newsItems"
-      :key="item.header"
-      :dateText="item.dateText"
-      :header="item.header"
+      v-for="item in articles"
+      :key="item.title"
+      :dateText="item.created_at"
+      :header="item.title"
       :text="item.text"
-      :readMore="item.readMore"
+      :image="'http://18.156.183.119/storage/news_images/' + item.image_path"
       class="news-item-parent"
     />
     <v-pagination
-      v-model="page"
-      :length="10"
-      :page="page"
+      @input="getArticles"
+      v-model="currentPage"
+      :length="lastPage"
+      :page="currentPage"
       :total-visible="4"
     ></v-pagination>
   </div>
@@ -26,6 +28,7 @@
 <script>
 import imageHeader from "./ImageHeader.vue";
 import newsItem from "./NewsItem.vue";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   components: {
@@ -33,45 +36,26 @@ export default {
     newsItem
   },
   data: () => ({
-    page: 1,
-    text: "Lorem Ipsum is simply dummy text",
-    newsItems: [
-      {
-        dateText: "08 Feb 2020",
-        header: "Enlightenment Is Not Juste State",
-        text:
-          "Lorem Ipsum is simply text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type …",
-        readMore: "Pročitajte više"
-      },
-      {
-        dateText: "08 Feb 2020",
-        header: "Enlightenment Is NoJust One State",
-        text:
-          "Lorem Ipsum is simply text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type …",
-        readMore: "Pročitajte više"
-      },
-      {
-        dateText: "08 Feb 2020",
-        header: "Enlightenment Is Not t One State",
-        text:
-          "Lorem Ipsum is simply text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type …",
-        readMore: "Pročitajte više"
-      },
-      {
-        dateText: "08 Feb 2020",
-        header: "Enlighment Is Not Just One State",
-        text:
-          "Lorem Ipsum is simply text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type …",
-        readMore: "Pročitajte više"
-      },
-      {
-        dateText: "08 Feb 2020",
-        header: "Enlightment Is Not Just One State",
-        text:
-          "Lorem Ipsum is simply text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type …",
-        readMore: "Pročitajte više"
-      }
-    ]
-  })
+    currentPage: 1,
+    lastPage: 1,
+    articles: null,
+    text: "Lorem Ipsum is simply dummy text"
+  }),
+  methods: {
+    ...mapActions(["fetchArticles"]),
+    ...mapGetters(["GET_ARTICLES"]),
+    getArticles(i) {
+      let pages = `?perPage=5&page=${i}`;
+      this.fetchArticles(pages).then(() => {
+        let article = this.GET_ARTICLES();
+        this.articles = article.data;
+        this.lastPage = article.last_page;
+        this.currentPage = article.current_page;
+      });
+    }
+  },
+  mounted() {
+    this.getArticles(1);
+  }
 };
 </script>

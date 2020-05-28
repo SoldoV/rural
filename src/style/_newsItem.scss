@@ -6,11 +6,10 @@
 
   .news-item-image {
     margin-right: 24px;
-    background-image: url("~@/assets/image.jpg");
-    background-size: cover;
+    object-fit: cover;
     border-radius: 8px;
-    min-width: 384px;
-    min-height: 216px;
+    width: 384px;
+    height: 216px;
   }
 
   .news-item-header {
