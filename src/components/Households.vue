@@ -30,6 +30,7 @@
         </div>
         <div class="households-body-content">
           <card
+            @getHousehold="getHousehold"
             class="domacinstva-item"
             v-for="item in households"
             :key="item.id"
@@ -71,9 +72,21 @@ export default {
     sort: ["Po preporuci", "Cijena silazno", "Cijena uzlazno", "Udaljenost"]
   }),
   methods: {
-    ...mapActions(["fetchCities", "fetchHouseholds"]),
-    ...mapGetters(["GET_HOUSEHOLDS", "HOUSEHOLD_RESP", "GET_CITIES"]),
-
+    ...mapActions(["fetchCities", "fetchHouseholds", "getHouseholdById"]),
+    ...mapGetters([
+      "GET_HOUSEHOLDS",
+      "HOUSEHOLD_RESP",
+      "GET_CITIES",
+      "GET_HOUSEHOLDID_RESP",
+      "GET_SINGLE_HOUSEHOLD"
+    ]),
+    getHousehold(id) {
+      this.getHouseholdById(id).then(() => {
+        if (this.GET_HOUSEHOLDID_RESP()) {
+          this.$router.push(`/households/${this.GET_SINGLE_HOUSEHOLD().id}`);
+        }
+      });
+    },
     getHouseholds(i) {
       this.fetchHouseholds([i, 12]).then(() => {
         this.fetchCities().then(() => {

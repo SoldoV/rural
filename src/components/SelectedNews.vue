@@ -1,6 +1,6 @@
 <template>
   <div class="selected-news">
-    <div class="align-row-center mb-8">
+    <div class="align-row-center mb-8 selected-news-header">
       <div class="selected-news-title">Izdvojene novosti</div>
       <v-spacer />
       <v-btn outlined @click="$router.push('/news')" class="selected-news-btn"

@@ -75,12 +75,22 @@ export default {
   font-family: "MontserratBold";
   margin-bottom: 32px;
   font-size: 34px;
-  line-height: 41.45px;
-  width: 792px;
-  text-align: left;
 }
 
 .article-item-text {
   padding-bottom: 80px;
+}
+@media only screen and (max-width: 640px) {
+  .news-item-wrapper {
+    padding: 0px !important;
+  }
+
+  .selected-news-header {
+    display: flex;
+    flex-flow: column-reverse;
+  }
+  .selected-news-title {
+    margin-top: 20px;
+  }
 }
 </style>
