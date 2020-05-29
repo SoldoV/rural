@@ -26,7 +26,28 @@
         <div class="single-household-description">
           {{ household.description }}
         </div>
+        <div class="single-household-tags-wrapper">
+          <div v-if="tagsCatOne.length > 0">
+            <div class="single-household-tags-one-wrapper">
+              <div
+                class="single-household-tags-one"
+                v-for="tag in tagsCatOne"
+                :key="tag.id"
+              >
+                <v-img
+                  class="single-household-tag"
+                  :src="getImgUrl(tag.icon)"
+                ></v-img>
+                <div class="single-household-tag-text">
+                  <b>{{ tag.pivot.value }}</b
+                  >x{{ tag.title }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+
       <div class="single-household-airbnb-wrapper">
         <div class="single-household-airbnb-text">
           Rezervirajte smještaj na:
@@ -50,23 +71,26 @@ export default {
         lng: -73.587
       }
     },
+    tagsCatOne: [],
+    tagsCatTwo: [],
+    tagsCatThree: [],
     cities: [],
     household: {
       id: null,
       title: "",
       description: "",
       address: "",
-      prices: [],
+      prices: [{ price: null }],
       city_id: null,
       latitude: null,
       longitude: null,
       popular: false,
+      tags: [],
       images: []
     }
   }),
   computed: {
     cityName() {
-      console.log(this.cities);
       return this.cities
         .map(e => {
           if (e.id === this.household.city_id) return e.title;
@@ -77,9 +101,8 @@ export default {
   methods: {
     ...mapGetters(["GET_SINGLE_HOUSEHOLD", "GET_CITIES"]),
     ...mapActions(["fetchCities"]),
-    getSrc(val) {
-      console.log(this.household);
-      console.log("http://18.156.183.119/" + val);
+    getImgUrl(img) {
+      return require("../assets/icons/" + img + ".svg");
     },
     storeHousehold() {
       let data = this.GET_SINGLE_HOUSEHOLD();
@@ -93,8 +116,14 @@ export default {
         longitude: data.longitude,
         popular: data.popular,
         images: data.images,
+        tags: data.tags,
         id: data.id
       };
+      this.household.tags.map(e => {
+        if (e.category_id == 1) this.tagsCatOne.push(e);
+        else if (e.category_id == 2) this.tagsCatTwo.push(e);
+        else this.tagsCatThree.push(e);
+      });
       console.log(this.household);
       this.markers = {
         position: {
@@ -119,6 +148,14 @@ export default {
   .v-carousel__item {
     border-radius: 8px !important;
   }
+}
+
+.single-household-tag {
+  height: 46px;
+  width: 46px;
+  max-height: 46px;
+  max-width: 46px;
+  margin-right: 20px;
 }
 .single-household-title {
   color: $primary-text;
@@ -152,7 +189,24 @@ export default {
 
 .single-household-body {
   display: flex;
-  flex-direction: row;
+  flex-direction: row !important;
   justify-content: space-between;
+}
+
+.single-household-tags-one {
+  display: flex;
+  margin-right: 50px;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  border: 1px solid $border;
+  border-radius: 8px;
+  padding: 6px 25px 6px 25px;
+}
+.single-household-tags-one-wrapper {
+  display: flex;
+  border-bottom: 1px solid $border;
+  padding: 32px 0 32px 0;
+  flex-direction: row wrap;
 }
 </style>

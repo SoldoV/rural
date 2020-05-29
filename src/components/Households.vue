@@ -134,7 +134,7 @@ export default {
       margin-right: 16px;
     }
     .households-sort {
-      min-width: 170px !important;
+      max-width: 170px !important;
       font-weight: 500;
       font-size: 14px;
       color: $primary-text;

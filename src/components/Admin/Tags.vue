@@ -177,8 +177,7 @@ export default {
       this.snackbar = true;
     },
     getImgUrl(img) {
-      var images = require.context("../../assets/icons/", false, /\.svg$/);
-      return images("./" + img + ".svg");
+      return require("../../assets/icons/" + img + ".svg");
     },
     returnItem() {
       return this.editedItem;
