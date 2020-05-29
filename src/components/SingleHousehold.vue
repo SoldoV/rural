@@ -26,35 +26,82 @@
         <div class="single-household-description">
           {{ household.description }}
         </div>
-        <div class="single-household-tags-wrapper">
-          <div v-if="tagsCatOne.length > 0">
-            <div class="single-household-tags-one-wrapper">
-              <div
-                class="single-household-tags-one"
-                v-for="tag in tagsCatOne"
-                :key="tag.id"
-              >
-                <v-img
-                  class="single-household-tag"
-                  :src="getImgUrl(tag.icon)"
-                ></v-img>
-                <div class="single-household-tag-text">
-                  <b>{{ tag.pivot.value }}</b
-                  >x{{ tag.title }}
-                </div>
+        <div v-if="tagsCatOne.length > 0">
+          <div class="single-household-tags-one-wrapper">
+            <div
+              class="single-household-tags-one"
+              v-for="(tag, i) in tagsCatOne"
+              :key="i"
+            >
+              <v-img
+                class="single-household-tag"
+                :src="getImgUrl(tag.icon)"
+              ></v-img>
+              <div class="single-household-tag-text-one">
+                <b class="mr-1">{{ tag.pivot.value }}</b
+                >x
+                <div class="ml-1">{{ tag.title }}</div>
               </div>
+            </div>
+          </div>
+        </div>
+        <div v-if="tagsCatTwo.length > 0">
+          <div class="single-household-tags-two-wrapper">
+            <div
+              class="single-household-tags-two"
+              v-for="(tag, i) in tagsCatTwo"
+              :key="i"
+            >
+              <v-img
+                class="single-household-tag"
+                :src="getImgUrl(tag.icon)"
+              ></v-img>
+              <div class="single-household-tag-text">{{ tag.title }}</div>
+            </div>
+          </div>
+        </div>
+        <div class="single-household-location">
+          <div class="single-household-location-text">Lokacija</div>
+          <gmap-map
+            :center="markers.position || center"
+            :zoom="12"
+            style="width:100%;  height: 400px;"
+          >
+            <gmap-marker
+              icon="http://maps.google.com/mapfiles/ms/icons/green-dot.png"
+              :position="markers.position"
+            ></gmap-marker>
+          </gmap-map>
+        </div>
+        <div
+          v-if="tagsCatThree.length > 0"
+          class="single-household-tags-three-wrapper"
+        >
+          <div class="single-household-tags-three-header">U blizini:</div>
+          <div class="single-household-tags-three-badge">
+            <div
+              class="single-household-tags-three"
+              v-for="(tag, i) in tagsCatThree"
+              :key="i"
+            >
+              <b>{{ tag.pivot.value }}km</b>{{ tag.title }}
             </div>
           </div>
         </div>
       </div>
 
-      <div class="single-household-airbnb-wrapper">
+      <div class="single-household-airbnb-wrapper align-column-center">
         <div class="single-household-airbnb-text">
           Rezervirajte smještaj na:
         </div>
-        <v-btn class="single-household-airbnb-btn">
-          <img src="../assets/airbnb.svg" />
-        </v-btn>
+        <a
+          :href="'http://airbnb.com/' + household.platforms[0].pivot.uid"
+          target="_blank"
+        >
+          <v-btn class="single-household-airbnb-btn">
+            <img src="../assets/airbnb.svg" />
+          </v-btn>
+        </a>
       </div>
     </div>
   </div>
@@ -67,8 +114,8 @@ export default {
   data: () => ({
     markers: {
       position: {
-        lat: 45.508,
-        lng: -73.587
+        lat: 0,
+        lng: 0
       }
     },
     tagsCatOne: [],
@@ -86,7 +133,8 @@ export default {
       longitude: null,
       popular: false,
       tags: [],
-      images: []
+      images: [],
+      platforms: [{ pivot: { uid: "" } }]
     }
   }),
   computed: {
@@ -117,14 +165,14 @@ export default {
         popular: data.popular,
         images: data.images,
         tags: data.tags,
-        id: data.id
+        id: data.id,
+        platforms: data.platforms
       };
       this.household.tags.map(e => {
         if (e.category_id == 1) this.tagsCatOne.push(e);
         else if (e.category_id == 2) this.tagsCatTwo.push(e);
         else this.tagsCatThree.push(e);
       });
-      console.log(this.household);
       this.markers = {
         position: {
           lat: parseFloat(data.latitude),
@@ -141,72 +189,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss">
-.household-carousel {
-  margin-bottom: 32px;
-  .v-carousel__item {
-    border-radius: 8px !important;
-  }
-}
-
-.single-household-tag {
-  height: 46px;
-  width: 46px;
-  max-height: 46px;
-  max-width: 46px;
-  margin-right: 20px;
-}
-.single-household-title {
-  color: $primary-text;
-  font-family: "MontserratBold";
-  font-size: 34px;
-}
-.single-household-description {
-  color: $secondary-text;
-  font-size: 16px;
-  font-weight: 400;
-  margin-top: 32px;
-}
-.single-household-airbnb-btn {
-  background-color: #ff5a5f !important;
-  border-radius: 4px;
-  box-shadow: 0 10px 20px 0 rgba(255, 90, 95, 0.5);
-  width: 312px;
-  height: 36px;
-}
-.single-household-airbnb-wrapper {
-  padding: 24px;
-  border: 1px solid $border;
-  height: 100%;
-  border-radius: 8px;
-}
-.single-household-airbnb-text {
-  margin-bottom: 24px;
-  color: $primary-text;
-  font-size: 16px;
-}
-
-.single-household-body {
-  display: flex;
-  flex-direction: row !important;
-  justify-content: space-between;
-}
-
-.single-household-tags-one {
-  display: flex;
-  margin-right: 50px;
-  flex-direction: row;
-  justify-content: start;
-  align-items: center;
-  border: 1px solid $border;
-  border-radius: 8px;
-  padding: 6px 25px 6px 25px;
-}
-.single-household-tags-one-wrapper {
-  display: flex;
-  border-bottom: 1px solid $border;
-  padding: 32px 0 32px 0;
-  flex-direction: row wrap;
-}
-</style>
