@@ -6,13 +6,14 @@ import {
 
 const state = {
   platformResp: false,
-
 }
+
 const getters = {
   PLATFORM_RESP: state => {
     return state.platformResp;
   },
 }
+
 const actions = {
   async postPlatforms({
     commit,

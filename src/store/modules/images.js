@@ -6,13 +6,14 @@ import {
 
 const state = {
   householdImage: false,
-
 }
+
 const getters = {
   HOUSEHOLD_IMAGE_RESP: state => {
     return state.householdImage;
   },
 }
+
 const actions = {
   async deleteImage({
     rootState

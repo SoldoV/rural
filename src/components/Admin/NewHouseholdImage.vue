@@ -67,7 +67,7 @@ export default {
 
     imageSrc(src) {
       return !src.startsWith("data:image")
-        ? "http://18.156.183.119/" + src
+        ? "http://test-api.rural.ba/" + src
         : src;
     },
     deleteItem(item) {

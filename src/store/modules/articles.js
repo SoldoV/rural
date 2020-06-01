@@ -16,12 +16,11 @@ const getters = {
   GET_ARTICLE_RESP: state => {
     return state.articleResp;
   },
-
-
   GET_SINGLE_ARTICLE: state => {
     return state.singleArticle;
   },
 }
+
 const actions = {
   async fetchArticles({
     commit,
@@ -78,7 +77,6 @@ const actions = {
         console.log(error);
       });
   },
-
   async editArticle({
     dispatch,
     rootState
@@ -97,7 +95,6 @@ const actions = {
         console.log(error);
       });
   },
-
   async deleteArticle({
     dispatch,
     rootState

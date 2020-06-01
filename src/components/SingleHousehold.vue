@@ -4,7 +4,7 @@
       <v-carousel-item
         v-for="item in household.images"
         :key="item.file_path"
-        :src="'http://18.156.183.119/' + item.file_path"
+        :src="'http://test-api.rural.ba/' + item.file_path"
         reverse-transition="fade-transition"
         transition="fade-transition"
       ></v-carousel-item>

@@ -15,8 +15,10 @@ const state = {
   },
   header: {
     "Accept": "aplication/json",
+    "Access-Control-Allow-Origin": '*'
   },
 }
+
 const getters = {
   GET_ERROR_MSG: state => {
     return state.errorMsg;
@@ -28,6 +30,7 @@ const getters = {
     return state.loginToken !== null;
   },
 }
+
 const actions = {
   async userLogin({
     commit
@@ -40,7 +43,6 @@ const actions = {
         }
       })
       .then((res) => {
-        console.log(res.data)
         localStorage.setItem('access_token', res.data)
         commit('STORE_LOGIN_TOKEN', res.data);
       })

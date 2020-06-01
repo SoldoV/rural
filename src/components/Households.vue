@@ -11,7 +11,7 @@
         <v-expansion-panel>
           <v-expansion-panel-header>Filteri</v-expansion-panel-header>
           <v-expansion-panel-content>
-            <categoriesSidebar />
+            <categoriesSidebar @storeFilters="storeFilters" />
           </v-expansion-panel-content>
         </v-expansion-panel>
       </v-expansion-panels>
@@ -67,6 +67,7 @@ export default {
     lastPage: 1,
     households: [],
     cities: [],
+    filters: "",
     sortSelected: "Po preporuci",
     text: "Lorem Ipsum is simply dummy text",
     sort: ["Po preporuci", "Cijena silazno", "Cijena uzlazno", "Udaljenost"]
@@ -77,8 +78,15 @@ export default {
     getHouseholdPage(id) {
       this.$router.push(`/households/${id}`);
     },
+    storeFilters(val) {
+      console.log("dsads");
+      this.filters = val;
+      this.getHouseholds(1);
+    },
     getHouseholds(i) {
-      this.fetchHouseholds([i, 12]).then(() => {
+      console.log("dsadasdasdasdas");
+      console.log(this.filters);
+      this.fetchHouseholds([i, 12, this.filters || ""]).then(() => {
         this.fetchCities().then(() => {
           if (this.HOUSEHOLD_RESP()) {
             let household = this.GET_HOUSEHOLDS();

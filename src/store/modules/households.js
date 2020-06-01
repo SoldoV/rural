@@ -11,8 +11,8 @@ const state = {
   editHouseholdResp: false,
   householdIdResp: false,
   householdId: null,
-
 }
+
 const getters = {
   GET_HOUSEHOLDS: state => {
     return state.households;
@@ -33,18 +33,20 @@ const getters = {
     return state.singleHousehold;
   },
 }
+
 const actions = {
   async fetchHouseholds({
     rootState,
     commit,
   }, data) {
-    await axios.get(`${rootUrls.URL}/households/?with[]=prices&with[]=images&with[]=platforms&with[]=tags&perPage=${data[1]}&page=${data[0]}`, {
+    await axios.get(`${rootUrls.URL}/households/?${data[2]}with[]=prices&with[]=images&with[]=platforms&with[]=tags&perPage=${data[1]}&page=${data[0]}`, {
         headers: {
           ...rootState.common.header,
           "Authorization": "Bearer " + rootState.common.loginToken
         }
       })
       .then(response => {
+        console.log(response.data)
         commit('STORE_HOUSEHOLDS', response.data);
         commit('STORE_HOUSEHOLD_RESP', true);
       })

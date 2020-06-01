@@ -96,9 +96,14 @@ export default {
       return JSON.parse(JSON.stringify(this.GET_CITIES()));
     }
   },
+  watch: {
+    checkboxes() {
+      console.log("val");
+    }
+  },
   methods: {
-    ...mapGetters(["GET_CITIES", "GET_FILTERS"]),
-    ...mapActions(["fetchCities", "fetchFilters"]),
+    ...mapGetters(["GET_CITIES", "GET_FILTERS", "HOUSEHOLD_RESP"]),
+    ...mapActions(["fetchCities", "fetchFilters", "applyFilters"]),
     toggleAdditionalFilters() {
       this.dialog = !this.dialog;
     }
@@ -110,8 +115,22 @@ export default {
       this.checkboxes = this.filters.map(e => {
         return { ...e, value: false };
       });
-      console.log(this.checkboxes);
     });
+  },
+  updated() {
+    //console.log(this.checkboxes);
+    let tags = [];
+    this.checkboxes.forEach(e => {
+      if (e.value) tags.push(e.id);
+    });
+    if (tags.length) {
+      let query = "?";
+      tags.forEach(e => {
+        query += `filterRelation[tags][id]=${e}&`;
+      });
+      query += `with[]=tags`;
+      this.$emit("storeFilters", query);
+    }
   }
 };
 </script>

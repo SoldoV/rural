@@ -6,13 +6,14 @@ import {
 
 const state = {
   priceResp: false,
-
 }
+
 const getters = {
   PRICE_RESP: state => {
     return state.priceResp;
   },
 }
+
 const actions = {
   async deletePrice({
     rootState
@@ -29,9 +30,6 @@ const actions = {
         console.log(error);
       });
   },
-
-
-
   async postPrice({
     rootState,
     commit,

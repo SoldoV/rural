@@ -230,7 +230,7 @@ export default {
         return this.image;
       } else
         return !src.startsWith("data:image")
-          ? "http://18.156.183.119/storage/news_images/" + src
+          ? "http://test-api.rural.ba/storage/news_images/" + src
           : src;
     },
     editItem(item) {

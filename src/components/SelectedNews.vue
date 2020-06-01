@@ -19,7 +19,7 @@
             :header="item.title"
             :text="item.text"
             :image="
-              'http://18.156.183.119/storage/news_images/' + item.image_path
+              'http://test-api.rural.ba/storage/news_images/' + item.image_path
             "
             :selected="true"
         /></swiper-slide>

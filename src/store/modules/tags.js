@@ -21,6 +21,7 @@ const getters = {
     return state.filters;
   },
 }
+
 const actions = {
   async fetchTags({
     commit,
@@ -33,6 +34,7 @@ const actions = {
         }
       })
       .then(response => {
+        console.log(response.data)
         commit('STORE_TAGS', response.data);
       })
       .catch(error => {

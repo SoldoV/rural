@@ -6,13 +6,14 @@ import {
 
 const state = {
   cities: [],
-
 }
+
 const getters = {
   GET_CITIES: state => {
     return state.cities;
   },
 }
+
 const actions = {
   async fetchCities({
     commit,

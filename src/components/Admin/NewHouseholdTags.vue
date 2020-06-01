@@ -31,7 +31,7 @@
                           required
                           outlined
                           :items="getTags"
-                          item-text="icon"
+                          item-text="title"
                           return-object
                           :rules="tagRules"
                           v-model="tag.type"
@@ -71,8 +71,13 @@
         </v-toolbar>
       </template>
       <template v-slot:item.image="{ item }">
-        <div class="p-2">
+        <div class="p-2" v-if="item.type.icon">
           <img class="tagovi-image" :src="getImgUrl(item.type.icon)" />
+        </div>
+      </template>
+      <template v-slot:item.title="{ item }">
+        <div class="p-2">
+          {{ item.type.title }}
         </div>
       </template>
       <template v-slot:item.actions="{ item }">
@@ -114,6 +119,7 @@ export default {
     },
     headers: [
       { text: "Slika", value: "image", sortable: false },
+      { text: "Naslov", value: "title" },
       { text: "Vrijednost", value: "value" },
       { text: "Actions", value: "actions", sortable: false }
     ]
