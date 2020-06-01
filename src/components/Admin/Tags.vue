@@ -7,7 +7,7 @@
         </div>
       </template>
       <template v-slot:item.icon="{ item }">
-        <div class="p-2">
+        <div class="p-2" v-if="item.icon">
           <v-img
             class="tagovi-image"
             :src="getImgUrl(item.icon)"
@@ -48,13 +48,14 @@
                           :rules="titleRules"
                           :items="categories"
                           v-model="editedItem.category_id"
+                          item-value="id"
+                          item-text="title"
                           label="Kategorija"
                         ></v-select>
                       </v-col>
                       <v-col cols="12">
                         <v-select
                           required
-                          :rules="titleRules"
                           :items="icons"
                           v-model="editedItem.icon"
                           label="Ikona"
@@ -117,7 +118,12 @@ export default {
     titleRules: [v => !!v || "Popuniti polje"],
     valid: false,
     snackbarText: "",
-    categories: [1, 2, 3],
+    categories: [
+      { title: "Glavne oznake", id: 1 },
+      { title: "Dodatne oznake", id: 2 },
+      { title: "Udaljenost", id: 3 },
+      { title: "Glavni filteri", id: 4 }
+    ],
     icons: [
       "icon-gym",
       "icon-ac",
@@ -204,9 +210,14 @@ export default {
         this.editedIndex = -1;
       });
     },
-
+    isValid() {
+      if ([1, 2].indexOf(this.editedItem.category_id) > -1)
+        return this.editedItem.icon.length && this.editedItem.title.length;
+      if ([3, 4].indexOf(this.editedItem.category_id) > -1)
+        return this.editedItem.title.length;
+    },
     save() {
-      if (this.$refs.form.validate()) {
+      if (this.$refs.form.validate() && this.isValid()) {
         if (this.editedIndex > -1) {
           let data = {
             category_id: this.editedItem.category_id,

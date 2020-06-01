@@ -147,8 +147,12 @@ export default {
     }
   },
   methods: {
-    ...mapGetters(["GET_SINGLE_HOUSEHOLD", "GET_CITIES"]),
-    ...mapActions(["fetchCities"]),
+    ...mapGetters([
+      "GET_SINGLE_HOUSEHOLD",
+      "GET_HOUSEHOLDID_RESP",
+      "GET_CITIES"
+    ]),
+    ...mapActions(["fetchCities", "getHouseholdById"]),
     getImgUrl(img) {
       return require("../assets/icons/" + img + ".svg");
     },
@@ -182,10 +186,14 @@ export default {
     }
   },
   mounted() {
+    this.getHouseholdById(this.$route.params.id).then(() => {
+      if (this.GET_HOUSEHOLDID_RESP()) {
+        this.storeHousehold();
+      }
+    });
     this.fetchCities().then(() => {
       this.cities = JSON.parse(JSON.stringify(this.GET_CITIES()));
     });
-    this.storeHousehold();
   }
 };
 </script>

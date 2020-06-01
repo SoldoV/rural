@@ -7,11 +7,11 @@
       Vrste domaćinstava
     </div>
     <div class="categories-sidebar-checkboxes">
-      <div v-for="item in checkboxes" :key="item.name">
+      <div v-for="(item, i) in checkboxes" :key="i">
         <v-checkbox
           hide-details
           v-model="item.value"
-          :label="item.name"
+          :label="item.title"
         ></v-checkbox>
       </div>
     </div>
@@ -80,6 +80,7 @@ export default {
     additionalFilters: () => import("./AdditionalFilters.vue")
   },
   data: () => ({
+    filters: [],
     dialog: false,
     household: {
       city_id: null
@@ -88,36 +89,7 @@ export default {
       min: null,
       max: null
     },
-    checkboxes: [
-      {
-        name: "Izletište",
-        value: false
-      },
-      {
-        name: "Seosko domaćinstvo",
-        value: false
-      },
-      {
-        name: "Etno selo",
-        value: false
-      },
-      {
-        name: "Apartman",
-        value: false
-      },
-      {
-        name: "Vila",
-        value: false
-      },
-      {
-        name: "Gostinjska kuća",
-        value: false
-      },
-      {
-        name: "Kamp",
-        value: false
-      }
-    ]
+    checkboxes: []
   }),
   computed: {
     getCities() {
@@ -125,14 +97,21 @@ export default {
     }
   },
   methods: {
-    ...mapGetters(["GET_CITIES"]),
-    ...mapActions(["fetchCities"]),
+    ...mapGetters(["GET_CITIES", "GET_FILTERS"]),
+    ...mapActions(["fetchCities", "fetchFilters"]),
     toggleAdditionalFilters() {
       this.dialog = !this.dialog;
     }
   },
   created() {
     this.fetchCities();
+    this.fetchFilters().then(() => {
+      this.filters = this.GET_FILTERS();
+      this.checkboxes = this.filters.map(e => {
+        return { ...e, value: false };
+      });
+      console.log(this.checkboxes);
+    });
   }
 };
 </script>

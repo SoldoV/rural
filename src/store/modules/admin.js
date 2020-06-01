@@ -10,6 +10,7 @@ const state = {
   categories: [],
   cities: [],
   articles: [],
+  filters: [],
   singleHousehold: {},
   households: {},
   singleArticle: {},
@@ -90,6 +91,9 @@ const getters = {
   IS_LOGGED_IN: state => {
     return state.loginToken !== null;
   },
+  GET_FILTERS: state => {
+    return state.filters;
+  },
 }
 const actions = {
   async fetchTags({
@@ -109,6 +113,24 @@ const actions = {
         console.log(error);
       });
   },
+  async fetchFilters({
+    commit,
+    state
+  }) {
+    await axios.get(`${rootUrls.URL}/categories/4/tags`, {
+        headers: {
+          ...state.header,
+          "Authorization": "Bearer " + state.loginToken
+        }
+      })
+      .then(response => {
+        commit('STORE_FILTERS', response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  },
+
   async fetchArticles({
     commit,
     state,
@@ -603,6 +625,9 @@ const mutations = {
   },
   STORE_SINGLE_ARTICLE: (state, data) => {
     state.singleArticle = data;
+  },
+  STORE_FILTERS: (state, data) => {
+    state.filters = data;
   },
 }
 
