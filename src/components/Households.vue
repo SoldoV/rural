@@ -4,6 +4,7 @@
       class="image-header-parent households-header"
       :headerText="text"
       :single="false"
+      @search="search"
       :imgSrc="'bg.jpg'"
     />
     <div class="housholds-body">
@@ -11,11 +12,11 @@
         <v-expansion-panel>
           <v-expansion-panel-header>Filteri</v-expansion-panel-header>
           <v-expansion-panel-content>
-            <categoriesSidebar @storeFilters="storeFilters" />
+            <categoriesSidebar @setFilters="setFilters"></categoriesSidebar>
           </v-expansion-panel-content>
         </v-expansion-panel>
       </v-expansion-panels>
-      <categoriesSidebar class="hidden-md-and-down" />
+      <categoriesSidebar class="hidden-md-and-down" @setFilters="setFilters" />
       <div class="households-right-wrapper">
         <div class="households-right-sort">
           <div class="sort-label">Sortiraj:</div>
@@ -27,6 +28,9 @@
             outlined
             hide-details
           ></v-select>
+        </div>
+        <div class="no-content" v-if="households.length == 0">
+          Nema kućanstava
         </div>
         <div class="households-body-content">
           <card
@@ -64,10 +68,12 @@ export default {
   },
   data: () => ({
     currentPage: 1,
+    firstFilter: {},
+    secondFilter: [],
+    searchFilter: {},
     lastPage: 1,
     households: [],
     cities: [],
-    filters: "",
     sortSelected: "Po preporuci",
     text: "Lorem Ipsum is simply dummy text",
     sort: ["Po preporuci", "Cijena silazno", "Cijena uzlazno", "Udaljenost"]
@@ -78,15 +84,24 @@ export default {
     getHouseholdPage(id) {
       this.$router.push(`/households/${id}`);
     },
-    storeFilters(val) {
-      console.log("dsads");
-      this.filters = val;
+    setFilters(first, second) {
+      this.firstFilter = first;
+      this.secondFilter = second;
+      this.getHouseholds(1);
+    },
+    search(val) {
+      this.searchFilter = val;
       this.getHouseholds(1);
     },
     getHouseholds(i) {
-      console.log("dsadasdasdasdas");
-      console.log(this.filters);
-      this.fetchHouseholds([i, 12, this.filters || ""]).then(() => {
+      let params = [
+        i,
+        12,
+        this.firstFilter,
+        this.secondFilter,
+        this.searchFilter
+      ];
+      this.fetchHouseholds(params).then(() => {
         this.fetchCities().then(() => {
           if (this.HOUSEHOLD_RESP()) {
             let household = this.GET_HOUSEHOLDS();
@@ -108,6 +123,15 @@ export default {
 <style lang="scss">
 .households {
   margin-bottom: 4em;
+  .no-content {
+    height: 500px;
+    width: 100%;
+    color: $secondary-text;
+    font-size: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
   .households-header {
     margin-bottom: 80px;
   }
@@ -132,6 +156,7 @@ export default {
       margin-right: 16px;
     }
     .households-sort {
+      width: 100%;
       max-width: 170px !important;
       font-weight: 500;
       font-size: 14px;

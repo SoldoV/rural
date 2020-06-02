@@ -134,7 +134,8 @@ export default {
       "icon-tv",
       "icon-wifi",
       "icon-ac",
-      "icon-shower"
+      "icon-shower",
+      "icon-bed"
     ],
     headers: [
       { text: "Ime", value: "title" },

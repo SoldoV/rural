@@ -8,63 +8,47 @@
           <v-btn icon @click="close"><v-icon>mdi-close</v-icon></v-btn>
         </div>
         <div class="filter-rooms">
-          <div class="filter-beds my-2 align-row-center">
-            <div class="filter-text">Kreveta</div>
-            <v-spacer />
-            <div class="filter-counter">
-              <v-btn outlined :disabled="isDisabled(beds)" @click="beds--"
-                >-</v-btn
-              >
-              <div class="filter-counter-text">
-                {{ beds }}
-              </div>
-              <v-btn outlined @click="beds++">+</v-btn>
-            </div>
-          </div>
-          <div class="filter-bedrooms my-2 align-row-center">
-            <div class="filter-text">Spavaćih soba</div>
+          <div
+            class="filter-beds my-2 align-row-center"
+            v-for="(item, i) in firstCategoryFilters"
+            :key="i"
+          >
+            <div class="filter-text">{{ item.title }}</div>
             <v-spacer />
             <div class="filter-counter">
               <v-btn
                 outlined
-                :disabled="isDisabled(bedrooms)"
-                @click="bedrooms--"
+                :disabled="isDisabled(item.value)"
+                @click="item.value--"
                 >-</v-btn
               >
               <div class="filter-counter-text">
-                {{ bedrooms }}
+                {{ item.value }}
               </div>
-              <v-btn outlined @click="bedrooms++">+</v-btn>
-            </div>
-          </div>
-          <div class="filter-toilets my-2 align-row-center">
-            <div class="filter-text">Kupaonica</div>
-            <v-spacer />
-            <div class="filter-counter">
-              <v-btn outlined :disabled="isDisabled(toilets)" @click="toilets--"
-                >-</v-btn
-              >
-              <div class="filter-counter-text">
-                {{ toilets }}
-              </div>
-              <v-btn outlined @click="toilets++">+</v-btn>
+              <v-btn outlined @click="item.value++">+</v-btn>
             </div>
           </div>
         </div>
         <div class="filter-extras">
-          <div v-for="item in extras" :key="item.name">
+          <div v-for="item in secondCategoryFilters" :key="item.title">
             <v-checkbox
               hide-details
               v-model="item.value"
-              :label="item.name"
+              :label="item.title"
             ></v-checkbox>
           </div>
         </div>
         <div class="filter-footer">
-          <v-btn depressed outlined class="common-btn-outlined" @click="close"
+          <v-btn
+            depressed
+            outlined
+            class="common-btn-outlined common-btn-footer"
+            @click="close"
             >Odustani</v-btn
           >
-          <v-btn depressed class="common-btn" @click="close">Potvrda</v-btn>
+          <v-btn depressed class="common-btn common-btn-footer" @click="apply"
+            >Potvrda</v-btn
+          >
         </div>
       </div>
     </v-card>
@@ -72,6 +56,8 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
+
 export default {
   props: {
     dialog: {
@@ -82,49 +68,51 @@ export default {
     beds: 0,
     bedrooms: 0,
     toilets: 0,
-    extras: [
-      {
-        name: "Kuhinja",
-        value: false
-      },
-      {
-        name: "Klima",
-        value: false
-      },
-      {
-        name: "TV",
-        value: false
-      },
-      {
-        name: "Teretana",
-        value: false
-      },
-      {
-        name: "Grijanje",
-        value: false
-      },
-      {
-        name: "Wi-Fi",
-        value: false
-      },
-      {
-        name: "Besplatani parking",
-        value: false
-      },
-      {
-        name: "Bazen",
-        value: false
-      }
-    ]
+    firstCategoryFilters: [],
+    filters: [],
+    secondCategoryFilters: []
   }),
   methods: {
+    ...mapGetters(["GET_FILTERS"]),
+    ...mapActions(["fetchFilters"]),
     isDisabled(val) {
       if (val > 0) return false;
       return true;
     },
     close() {
       this.$emit("toggleAdditionalFilters");
+    },
+    apply() {
+      let tags = { householdTags: {} };
+      let secondaryTags = [];
+      let counter = 0;
+      this.firstCategoryFilters.forEach(e => {
+        if (e.value) {
+          tags.householdTags[counter] = { tag_id: e.tag_id, value: e.value };
+          counter++;
+        }
+      });
+      this.secondCategoryFilters.forEach(e => {
+        if (e.value) secondaryTags.push({ id: e.tag_id });
+      });
+      this.$emit("additionalFilters", tags, secondaryTags);
+      this.$emit("toggleAdditionalFilters");
     }
+  },
+
+  created() {
+    this.fetchFilters(1).then(() => {
+      this.filters = this.GET_FILTERS();
+      this.firstCategoryFilters = this.filters.map(e => {
+        return { title: e.title, tag_id: e.id, value: 0 };
+      });
+    });
+    this.fetchFilters(2).then(() => {
+      this.filters = this.GET_FILTERS();
+      this.secondCategoryFilters = this.filters.map(e => {
+        return { title: e.title, tag_id: e.id, value: false };
+      });
+    });
   }
 };
 </script>

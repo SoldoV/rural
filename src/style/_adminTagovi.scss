@@ -6,4 +6,8 @@
 .tagovi-image {
   height: 40px;
   width: 40px;
+
+  .v-image__image--cover {
+    background-size: 100% !important;
+  }
 }

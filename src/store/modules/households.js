@@ -33,20 +33,35 @@ const getters = {
     return state.singleHousehold;
   },
 }
+var qs = require("qs");
 
 const actions = {
   async fetchHouseholds({
     rootState,
     commit,
   }, data) {
-    await axios.get(`${rootUrls.URL}/households/?${data[2]}with[]=prices&with[]=images&with[]=platforms&with[]=tags&perPage=${data[1]}&page=${data[0]}`, {
+    await axios.get(`${rootUrls.URL}/households`, {
         headers: {
           ...rootState.common.header,
           "Authorization": "Bearer " + rootState.common.loginToken
-        }
+        },
+        params: {
+          filterRelation: {
+            ...data[2],
+            ...data[3],
+          },
+          ...data[4],
+          with: ['prices', 'images', 'platforms', 'tags'],
+          perPage: data[1],
+          page: data[0]
+        },
+        paramsSerializer: function (params) {
+          return qs.stringify(params, {
+            arrayFormat: 'brackets'
+          })
+        },
       })
       .then(response => {
-        console.log(response.data)
         commit('STORE_HOUSEHOLDS', response.data);
         commit('STORE_HOUSEHOLD_RESP', true);
       })

@@ -10,6 +10,7 @@
       <div v-for="(item, i) in checkboxes" :key="i">
         <v-checkbox
           hide-details
+          @change="updateFilters"
           v-model="item.value"
           :label="item.title"
         ></v-checkbox>
@@ -67,6 +68,7 @@
     </div>
     <additionalFilters
       :dialog="dialog"
+      @additionalFilters="setAdditionalFilters"
       @toggleAdditionalFilters="toggleAdditionalFilters"
     />
   </div>
@@ -82,6 +84,8 @@ export default {
   data: () => ({
     filters: [],
     dialog: false,
+    firstFilter: {},
+    secondFilter: [],
     household: {
       city_id: null
     },
@@ -96,41 +100,37 @@ export default {
       return JSON.parse(JSON.stringify(this.GET_CITIES()));
     }
   },
-  watch: {
-    checkboxes() {
-      console.log("val");
-    }
-  },
   methods: {
-    ...mapGetters(["GET_CITIES", "GET_FILTERS", "HOUSEHOLD_RESP"]),
-    ...mapActions(["fetchCities", "fetchFilters", "applyFilters"]),
+    ...mapGetters(["GET_CITIES", "GET_FILTERS"]),
+    ...mapActions(["fetchCities", "fetchFilters"]),
     toggleAdditionalFilters() {
       this.dialog = !this.dialog;
+    },
+    setAdditionalFilters(first, second) {
+      this.firstFilter = first;
+      this.secondFilter = second;
+      this.updateFilters();
+    },
+    updateFilters() {
+      let tags = [];
+      this.checkboxes.forEach(e => {
+        if (e.value) tags.push({ id: e.id });
+      });
+      this.$emit(
+        "setFilters",
+        { tags: tags.concat(this.secondFilter) },
+        this.firstFilter
+      );
     }
   },
   created() {
     this.fetchCities();
-    this.fetchFilters().then(() => {
+    this.fetchFilters(4).then(() => {
       this.filters = this.GET_FILTERS();
       this.checkboxes = this.filters.map(e => {
         return { ...e, value: false };
       });
     });
-  },
-  updated() {
-    //console.log(this.checkboxes);
-    let tags = [];
-    this.checkboxes.forEach(e => {
-      if (e.value) tags.push(e.id);
-    });
-    if (tags.length) {
-      let query = "?";
-      tags.forEach(e => {
-        query += `filterRelation[tags][id]=${e}&`;
-      });
-      query += `with[]=tags`;
-      this.$emit("storeFilters", query);
-    }
   }
 };
 </script>

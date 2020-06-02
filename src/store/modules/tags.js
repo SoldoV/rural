@@ -44,8 +44,8 @@ const actions = {
   async fetchFilters({
     commit,
     rootState
-  }) {
-    await axios.get(`${rootUrls.URL}/categories/4/tags`, {
+  }, data) {
+    await axios.get(`${rootUrls.URL}/categories/${data}/tags`, {
         headers: {
           ...rootState.common.header,
           "Authorization": "Bearer " + rootState.common.loginToken
