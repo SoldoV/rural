@@ -25,10 +25,11 @@
         hide-details
         outlined
         :items="getCities"
+        @change="updateFilters"
         item-value="id"
         item-text="title"
         return-object
-        v-model="household.city_id"
+        v-model="city"
         label="Sve lokacije"
       ></v-select>
     </div>
@@ -86,9 +87,7 @@ export default {
     dialog: false,
     firstFilter: {},
     secondFilter: [],
-    household: {
-      city_id: null
-    },
+    city: null,
     price: {
       min: null,
       max: null
@@ -112,6 +111,7 @@ export default {
       this.updateFilters();
     },
     updateFilters() {
+      let cityFilter = { city_id: this.city.id };
       let tags = [];
       this.checkboxes.forEach(e => {
         if (e.value) tags.push({ id: e.id });
@@ -119,7 +119,8 @@ export default {
       this.$emit(
         "setFilters",
         { tags: tags.concat(this.secondFilter) },
-        this.firstFilter
+        this.firstFilter,
+        cityFilter
       );
     }
   },

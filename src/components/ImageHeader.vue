@@ -38,7 +38,7 @@ export default {
   }),
   methods: {
     search(val) {
-      this.$emit("search", { filter: { title: `~=${val}` } });
+      this.$emit("search", { title: `~=${val}` });
     },
     getUrl(val) {
       return this.single ? val : require("@/assets/" + val);
