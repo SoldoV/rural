@@ -44,6 +44,11 @@ export default {
     swiperOptions: {
       slidesPerView: 3,
       spaceBetween: 20,
+      autoplay: {
+        delay: 2500,
+        disableOnInteraction: false
+      },
+      loop: true,
       pagination: {
         el: ".swiper-pagination"
       },
@@ -66,10 +71,7 @@ export default {
         }
       }
     },
-    currentPage: 1,
-    lastPage: 1,
-    articles: null,
-    text: "Lorem Ipsum is simply dummy text"
+    articles: null
   }),
   methods: {
     ...mapActions(["fetchArticles"]),
@@ -82,8 +84,6 @@ export default {
       this.fetchArticles(pages).then(() => {
         let article = this.GET_ARTICLES();
         this.articles = article.data;
-        this.lastPage = article.last_page;
-        this.currentPage = article.current_page;
       });
     }
   },
@@ -98,29 +98,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss">
-.selected-news-wrapper {
-  display: flex;
-  flex-direction: row;
-  margin-bottom: 80px;
-}
-.selected-news-btn {
-  background-color: none !important;
-}
-.selected-news-title {
-  color: $primary-text;
-  font-family: "BalooPaaji2Bold";
-  font-size: 34px;
-}
-
-.selected-news-btn {
-  text-transform: none !important;
-  border-color: $border;
-
-  .v-icon {
-    font-size: 14px;
-    margin-left: 1em;
-  }
-}
-</style>

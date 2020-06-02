@@ -41,7 +41,11 @@ export default {
       this.$emit("getHousehold", id);
     }
   },
+  updated() {
+    console.log(this.cardItem);
+  },
   created() {
+    console.log(this.cardItem);
     this.cities.forEach(e => {
       if (e.id == this.cardItem.city_id) this.cityName = e.title;
     });

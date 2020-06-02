@@ -104,13 +104,18 @@
         </a>
       </div>
     </div>
+    <featured />
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import featured from "./FeaturedHouseholds.vue";
 
 export default {
+  components: {
+    featured
+  },
   data: () => ({
     markers: {
       position: {
