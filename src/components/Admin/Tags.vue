@@ -200,10 +200,10 @@ export default {
 
     deleteItem(item) {
       confirm("Are you sure you want to delete this item?") &&
-        this.deleteTag(item.id);
-      this.popSnackbar("Item successfully deleted");
+        this.deleteTag(item.id).then(() => {
+          this.popSnackbar("Item successfully deleted");
+        });
     },
-
     close() {
       this.dialog = false;
       this.$nextTick(() => {

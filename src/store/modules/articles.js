@@ -26,7 +26,7 @@ const actions = {
     commit,
     rootState,
   }, data) {
-    await axios.get(`${rootUrls.URL}/news_articles${data || ""}`, {
+    await axios.get(`${rootUrls.URL}/news_articles/${data || ""}`, {
         headers: {
           ...rootState.common.header,
           "Authorization": "Bearer " + rootState.common.loginToken
@@ -82,7 +82,7 @@ const actions = {
     dispatch,
     rootState
   }, data) {
-    await axios.put(`${rootUrls.URL}/news_articles/${data.id}`, data, {
+    await axios.put(`${rootUrls.URL}/news_articles/${data[1]}`, data[0], {
         headers: {
           ...rootState.common.header,
           ...rootState.common.headerForm,
@@ -93,6 +93,7 @@ const actions = {
         dispatch("fetchArticles")
       })
       .catch(error => {
+        console.log(data[0])
         console.log(error);
       });
   },
@@ -124,6 +125,9 @@ const mutations = {
   },
   STORE_SINGLE_ARTICLE: (state, data) => {
     state.singleArticle = data;
+  },
+  SET_ARTICLES: (state) => {
+    state.articles = [];
   },
 }
 

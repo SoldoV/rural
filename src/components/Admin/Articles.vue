@@ -1,6 +1,6 @@
 <template>
   <div class="tagovi">
-    <v-data-table :headers="headers" :items="articles" class="elevation-1">
+    <v-data-table :headers="headers" :items="getArticles" class="elevation-1">
       <template v-slot:top>
         <v-toolbar flat color="white">
           <v-toolbar-title>Članci</v-toolbar-title>
@@ -71,6 +71,7 @@
                   outlined
                   class="common-btn-outlined"
                   @click="close"
+                  :disabled="loading"
                   >Cancel</v-btn
                 >
                 <v-btn
@@ -78,6 +79,7 @@
                   color="primary"
                   class="common-btn"
                   @click="save"
+                  :loading="loading"
                   >Save</v-btn
                 >
               </v-card-actions>
@@ -115,7 +117,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 import {
   TiptapVuetify,
   Heading,
@@ -162,6 +164,7 @@ export default {
       Paragraph,
       HardBreak
     ],
+    loading: false,
     dialog: false,
     snackbar: false,
     titleRules: [v => !!v || "Popuniti polje"],
@@ -193,6 +196,9 @@ export default {
   computed: {
     formTitle() {
       return this.editedIndex === -1 ? "New Item" : "Edit Item";
+    },
+    getArticles() {
+      return JSON.parse(JSON.stringify(this.GET_ARTICLES()));
     }
   },
   watch: {
@@ -208,6 +214,7 @@ export default {
       "deleteArticle"
     ]),
     ...mapGetters(["GET_ARTICLES", "GET_ARTICLE_RESP"]),
+    ...mapMutations(["SET_ARTICLES"]),
     upload(val) {
       val.stopImmediatePropagation();
       let file = val.target.files[0];
@@ -258,33 +265,31 @@ export default {
     },
     save() {
       if (this.isValid()) {
+        this.loading = true;
         var articlesObj = new FormData();
         articlesObj.append("title", this.editedItem.title);
         articlesObj.append("text", this.editedItem.text);
         articlesObj.append("active", this.editedItem.active ? 1 : 0);
         if (this.editedIndex > -1) {
           if (this.image) articlesObj.append("image", this.image);
-          this.editArticle(articlesObj);
+          this.editArticle([articlesObj, this.editedItem.id]);
           this.popSnackbar("Item successfully edited");
         } else {
           articlesObj.append("image", this.editedItem.image_path);
           this.postArticle(articlesObj).then(() => {
-            if (this.GET_ARTICLE_RESP())
+            if (this.GET_ARTICLE_RESP()) {
               this.popSnackbar("Item successfully added");
-            else this.popSnackbar("Couldn't add article");
-            this.close();
+            } else this.popSnackbar("Couldn't add article");
           });
         }
+        this.loading = false;
+        this.close();
       }
-    },
-    getArticles() {
-      this.fetchArticles().then(() => {
-        console.log(this.articles);
-      });
     }
   },
-  mounted() {
-    this.getArticles();
+  beforeMount() {
+    this.SET_ARTICLES();
+    this.fetchArticles();
   }
 };
 </script>

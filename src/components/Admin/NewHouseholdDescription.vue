@@ -1,5 +1,14 @@
 <template>
   <div class="new-household">
+    <div class="align-column-center mt-10">
+      <v-btn
+        depressed
+        @click="deleteItem"
+        :to="'/dashboard/household/description'"
+        class="common-btn"
+        ><v-icon class="mr-3">mdi-delete</v-icon>Izbriši domacinstvo</v-btn
+      >
+    </div>
     <v-row class="justify-center mt-10">
       <v-col cols="12" lg="6" sm="10">
         <v-form ref="form" v-model="valid" lazy-validation>
@@ -110,8 +119,18 @@ export default {
       "GET_SINGLE_HOUSEHOLD",
       "GET_EDIT_HOUSEHOLD_RESP"
     ]),
-    ...mapActions(["fetchCities", "editHousehold", "postHousehold"]),
-
+    ...mapActions([
+      "fetchCities",
+      "editHousehold",
+      "postHousehold",
+      "deleteHousehold"
+    ]),
+    deleteItem() {
+      confirm("Are you sure you want to delete this item?") &&
+        this.deleteHousehold(this.household.id).then(() => {
+          this.$router.push("/dashboard/households");
+        });
+    },
     addMarker(e) {
       this.markers = {
         position: {
@@ -177,7 +196,8 @@ export default {
         city_id: data.city_id,
         latitude: data.latitude,
         longitude: data.longitude,
-        popular: data.popular
+        popular: data.popular,
+        id: data.id
       };
       this.markers = {
         position: {

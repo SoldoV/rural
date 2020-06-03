@@ -142,6 +142,23 @@ const actions = {
         commit('STORE_EDIT_HOUSEHOLD_RESP', false);
       });
   },
+  async deleteHousehold({
+    dispatch,
+    rootState
+  }, data) {
+    await axios.delete(`${rootUrls.URL}/households/${data}`, {
+        headers: {
+          ...rootState.common.header,
+          "Authorization": "Bearer " + rootState.common.loginToken
+        }
+      })
+      .then(() => {
+        dispatch("fetchTags")
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  },
 }
 
 const mutations = {

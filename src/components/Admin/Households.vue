@@ -1,11 +1,11 @@
 <template>
   <div class="domacinstva">
-    <div class="domacinstva-btn-wrapper">
+    <div class="domacinstva-btn-wrapper mb-10">
       <v-btn
         depressed
         :to="'/dashboard/household/description'"
-        class="header-log-in domacinstva-btn"
-        ><v-icon>mdi-plus</v-icon>Dodaj domacinstvo</v-btn
+        class="common-btn"
+        ><v-icon class="mr-3">mdi-plus</v-icon>Dodaj domacinstvo</v-btn
       >
     </div>
     <div class="domacinstva-wrapper">
