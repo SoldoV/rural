@@ -1,6 +1,6 @@
 <template>
   <div class="tagovi">
-    <v-data-table :headers="headers" :items="getArticles" class="elevation-1">
+    <v-data-table :headers="headers" :items="articles" class="elevation-1">
       <template v-slot:top>
         <v-toolbar flat color="white">
           <v-toolbar-title>Članci</v-toolbar-title>
@@ -193,9 +193,6 @@ export default {
   computed: {
     formTitle() {
       return this.editedIndex === -1 ? "New Item" : "Edit Item";
-    },
-    getArticles() {
-      return JSON.parse(JSON.stringify(this.GET_ARTICLES()));
     }
   },
   watch: {
@@ -279,10 +276,15 @@ export default {
           });
         }
       }
+    },
+    getArticles() {
+      this.fetchArticles().then(() => {
+        console.log(this.articles);
+      });
     }
   },
   mounted() {
-    this.fetchArticles();
+    this.getArticles();
   }
 };
 </script>

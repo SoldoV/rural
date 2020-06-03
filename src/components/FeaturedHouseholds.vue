@@ -36,6 +36,8 @@ export default {
     sortSelected: "Po preporuci",
     sort: ["Po preporuci", "Cijena silazno", "Cijena uzlazno", "Udaljenost"],
     swiperOptions: {
+      preventClicks: false,
+      preventClicksPropagation: false,
       slidesPerView: 5,
       spaceBetween: 20,
       autoplay: {
@@ -72,6 +74,7 @@ export default {
     ...mapActions(["fetchCities", "fetchHouseholds"]),
     ...mapGetters(["GET_HOUSEHOLDS", "HOUSEHOLD_RESP", "GET_CITIES"]),
     getHouseholdPage(id) {
+      window.scrollTo(0, 0);
       this.$router.push(`/households/${id}`);
       location.reload();
     },

@@ -14,6 +14,7 @@
           :key="item.id"
           @click="goToArticle()"
           ><news-item
+            class="news-item"
             :id="item.id"
             :dateText="item.created_at.slice(0, 10)"
             :header="item.title"
@@ -44,6 +45,8 @@ export default {
     swiperOptions: {
       slidesPerView: 3,
       spaceBetween: 20,
+      preventClicks: true,
+      preventClicksPropagation: true,
       autoplay: {
         delay: 2500,
         disableOnInteraction: false

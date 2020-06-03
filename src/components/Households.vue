@@ -2,6 +2,7 @@
   <div class="households">
     <image-header
       class="image-header-parent households-header"
+      :searchText="'Pretražite domaćinstva...'"
       :headerText="text"
       :single="false"
       @search="search"
@@ -58,7 +59,7 @@
 import imageHeader from "./ImageHeader.vue";
 import categoriesSidebar from "./CategoriesSidebar.vue";
 import card from "./CardItem.vue";
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 
 export default {
   components: {
@@ -81,7 +82,14 @@ export default {
   }),
   methods: {
     ...mapActions(["fetchCities", "fetchHouseholds"]),
-    ...mapGetters(["GET_HOUSEHOLDS", "HOUSEHOLD_RESP", "GET_CITIES"]),
+    ...mapGetters([
+      "GET_HOUSEHOLDS",
+      "HOUSEHOLD_RESP",
+      "GET_CITIES",
+      "GET_HOMEPAGE_FILTER",
+      "GET_HOMEPAGE_SEARCH_FILTER"
+    ]),
+    ...mapMutations(["STORE_FILTER", "STORE_SEARCH_FILTER"]),
     getHouseholdPage(id) {
       this.$router.push(`/households/${id}`);
     },
@@ -118,6 +126,10 @@ export default {
     }
   },
   created() {
+    this.firstFilter = this.GET_HOMEPAGE_FILTER();
+    this.searchFilter = this.GET_HOMEPAGE_SEARCH_FILTER();
+    this.STORE_FILTER(null);
+    this.STORE_SEARCH_FILTER(null);
     this.getHouseholds(1);
   }
 };

@@ -47,6 +47,7 @@ export default {
   methods: {
     goToArticle() {
       this.$router.push(`/news/article/${this.id}`);
+      window.scrollTo(0, 0);
       this.$forceUpdate();
     }
   }

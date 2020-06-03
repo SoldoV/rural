@@ -34,7 +34,6 @@
                   type="password"
                   v-model="password"
                 ></v-text-field>
-                <div class="login-forgotten">Zaboravili ste lozinku?</div>
                 <v-btn depressed class="header-log-in login-btn" @click="login"
                   >Prijavite se</v-btn
                 >

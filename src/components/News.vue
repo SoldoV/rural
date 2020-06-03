@@ -3,6 +3,7 @@
     <image-header
       class="image-header-parent"
       :imgSrc="'image.jpg'"
+      :searchText="'Pretražite novosti...'"
       :headerText="text"
       :single="false"
     />

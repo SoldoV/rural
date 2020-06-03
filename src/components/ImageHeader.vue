@@ -7,7 +7,7 @@
       <div class="image-header-text">{{ headerText }}</div>
       <div class="image-header-searchbar" v-if="!single">
         <v-text-field
-          placeholder="Pretražite novosti..."
+          :placeholder="searchText"
           background-color="white"
           outlined
           v-model="searchVal"
@@ -30,6 +30,9 @@ export default {
       required: true
     },
     single: {
+      required: true
+    },
+    searchText: {
       required: true
     }
   },

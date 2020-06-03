@@ -7,6 +7,7 @@
         :style="{ backgroundImage: `url(${getUrl(i + 1)})` }"
         v-for="(item, i) in destinations"
         :key="i"
+        @click="goToHouseholds(item)"
       >
         <div class="destination-img-text">
           {{ item.title }}
@@ -21,7 +22,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 
 export default {
   data: () => ({
@@ -30,8 +31,14 @@ export default {
   methods: {
     ...mapGetters(["GET_FILTERS"]),
     ...mapActions(["fetchFilters"]),
+    ...mapMutations(["STORE_FILTER"]),
     getUrl(val) {
       return require("@/assets/homepage/selected" + val + ".png");
+    },
+    goToHouseholds(item) {
+      let tag = { tags: { id: item.id } };
+      this.STORE_FILTER(tag);
+      this.$router.push("/households");
     }
   },
   created() {
@@ -47,6 +54,7 @@ export default {
   margin: 80px 0 126px 0;
 
   .selected-destinations-wrapper {
+    cursor: pointer;
     display: flex;
     flex-flow: row wrap;
   }

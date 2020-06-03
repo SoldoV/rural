@@ -166,6 +166,35 @@ body {
   }
 }
 
+.news-item,
+.domacinstva-item {
+  z-index: 99999 !important;
+}
+
+.swiper-wrapper {
+  z-index: 3;
+}
+
+.swiper-pagination {
+  z-index: 2;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  z-index: 4;
+}
+
+.homepage-selected-households {
+  margin-bottom: 80px;
+  background: #f7f7f7;
+  position: relative;
+  width: 100vw;
+
+  .selected-news-title {
+    padding-top: 56px;
+  }
+}
+
 .homepage-selected-households {
   left: -120px !important;
 }

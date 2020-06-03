@@ -3,8 +3,10 @@
     <image-header
       class="image-header-parent households-header"
       :headerText="text"
+      :searchText="'Pretražite domaćinstva...'"
       :single="false"
       :imgSrc="'bg.jpg'"
+      @search="search"
     />
     <selectedDestinations />
     <featured class="homepage-selected-households" />
@@ -13,6 +15,7 @@
 </template>
 
 <script>
+import { mapMutations } from "vuex";
 import imageHeader from "./ImageHeader.vue";
 import featured from "./FeaturedHouseholds.vue";
 import selectedNews from "./SelectedNews.vue";
@@ -27,18 +30,13 @@ export default {
   },
   data: () => ({
     text: "Lorem Ipsum is simply dummy text"
-  })
+  }),
+  methods: {
+    ...mapMutations(["STORE_SEARCH_FILTER"]),
+    search(val) {
+      this.STORE_SEARCH_FILTER(val);
+      this.$router.push("/households");
+    }
+  }
 };
 </script>
-
-<style lang="scss">
-.homepage-selected-households {
-  margin-bottom: 80px;
-  background: #f7f7f7;
-  position: relative;
-  width: 100vw;
-  .selected-news-title {
-    padding-top: 56px;
-  }
-}
-</style>

@@ -2,6 +2,7 @@
   <div class="single-article">
     <image-header
       class="image-header-parent"
+      :searchText="''"
       :imgSrc="imgPath"
       headerText=""
       :single="true"

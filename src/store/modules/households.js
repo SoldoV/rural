@@ -11,6 +11,8 @@ const state = {
   editHouseholdResp: false,
   householdIdResp: false,
   householdId: null,
+  homepageFilter: null,
+  homepageSearchFilter: null,
 }
 
 const getters = {
@@ -31,6 +33,12 @@ const getters = {
   },
   GET_SINGLE_HOUSEHOLD: state => {
     return state.singleHousehold;
+  },
+  GET_HOMEPAGE_FILTER: state => {
+    return state.homepageFilter;
+  },
+  GET_HOMEPAGE_SEARCH_FILTER: state => {
+    return state.homepageSearchFilter;
   },
 }
 var qs = require("qs");
@@ -154,6 +162,12 @@ const mutations = {
   },
   STORE_EDIT_HOUSEHOLD_RESP: (state, data) => {
     state.editHouseholdResp = data;
+  },
+  STORE_FILTER: (state, data) => {
+    state.homepageFilter = data;
+  },
+  STORE_SEARCH_FILTER: (state, data) => {
+    state.homepageSearchFilter = data;
   },
 }
 
