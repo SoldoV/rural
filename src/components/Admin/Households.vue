@@ -65,7 +65,6 @@ export default {
       this.fetchHouseholds([i, 12]).then(() => {
         this.fetchCities().then(() => {
           if (this.HOUSEHOLD_RESP()) {
-            console.log(this.GET_HOUSEHOLDS());
             let household = this.GET_HOUSEHOLDS();
             this.households = household.data;
             this.lastPage = household.last_page;
@@ -78,9 +77,6 @@ export default {
   },
   created() {
     this.getHouseholds(1);
-  },
-  updated() {
-    console.log(this.households);
   }
 };
 </script>

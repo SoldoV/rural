@@ -111,7 +111,6 @@ export default {
       this.updateFilters();
     },
     updateFilters() {
-      console.log(this.city);
       let cityFilter = { city_id: this.city.id };
       let tags = [];
       this.checkboxes.forEach(e => {

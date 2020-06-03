@@ -166,7 +166,15 @@ body {
   }
 }
 
+.homepage-selected-households {
+  left: -120px !important;
+}
+
 @media only screen and (max-width: 964px) {
+  .homepage-selected-households {
+    left: -2em !important;
+  }
+
   #app {
     padding: 0 2em 0 2em;
 

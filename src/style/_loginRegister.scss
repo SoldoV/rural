@@ -49,10 +49,10 @@
   }
 
   .login-btn {
-    text-transform: none;
+    text-transform: none !important;
     width: 100%;
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 600 !important;
     margin: 32px 0 50px 0;
   }
 

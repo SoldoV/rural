@@ -50,17 +50,17 @@ export default {
         1700: {
           slidesPerView: 5
         },
-        1400: {
+        1200: {
           slidesPerView: 4
         },
-        1100: {
+        930: {
           slidesPerView: 3
         },
-        640: {
+        840: {
           slidesPerView: 2
         },
-        320: {
-          slidesPerView: 1
+        600: {
+          slidesPerView: 2
         },
         1: {
           slidesPerView: 1
@@ -99,3 +99,10 @@ export default {
   }
 };
 </script>
+<style lang="scss">
+.domacinstva-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+</style>

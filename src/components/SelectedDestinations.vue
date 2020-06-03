@@ -1,181 +1,136 @@
 <template>
   <div class="selected-destinations">
-    <div class="grid-container">
-      <div class="destination-img upperLarge">
+    <div class="selected-news-title mb-6">Izdvojene destinacije</div>
+    <div class="selected-destinations-wrapper">
+      <div
+        class="destination-img"
+        :style="{ backgroundImage: `url(${getUrl(i + 1)})` }"
+        v-for="(item, i) in destinations"
+        :key="i"
+      >
         <div class="destination-img-text">
-          Izletista
+          {{ item.title }}
           <div class="destination-img-second-text">
-            Vise od 10 sela u ponudi <v-icon>mdi-arrow-right</v-icon>
-          </div>
-        </div>
-        <div class="overlay"></div>
-      </div>
-      <div class="destination-img upperSmallLeft">
-        <div class="destination-img-text">
-          Izletista
-          <div class="destination-img-second-text">
-            Vise od 10 sela u ponudi <v-icon>mdi-arrow-right</v-icon>
-          </div>
-        </div>
-        <div class="overlay"></div>
-      </div>
-      <div class="destination-img upperSmallRight">
-        <div class="destination-img-text">
-          Izletista
-          <div class="destination-img-second-text">
-            Vise od 10 sela u ponudi <v-icon>mdi-arrow-right</v-icon>
-          </div>
-        </div>
-        <div class="overlay"></div>
-      </div>
-      <div class="destination-img lowerLarge">
-        <div class="destination-img-text">
-          Izletista
-          <div class="destination-img-second-text">
-            Vise od 10 sela u ponudi <v-icon>mdi-arrow-right</v-icon>
-          </div>
-        </div>
-        <div class="overlay"></div>
-      </div>
-      <div class="destination-img lowerSmallLeft">
-        <div class="destination-img-text">
-          Izletista
-          <div class="destination-img-second-text">
-            Vise od 10 sela u ponudi <v-icon>mdi-arrow-right</v-icon>
-          </div>
-        </div>
-        <div class="overlay"></div>
-      </div>
-      <div class="destination-img lowerSmallRight">
-        <div class="destination-img-text">
-          Izletista
-          <div class="destination-img-second-text">
-            Vise od 10 sela u ponudi <v-icon>mdi-arrow-right</v-icon>
+            Pogledajte ponudu <v-icon>mdi-arrow-right</v-icon>
           </div>
         </div>
         <div class="overlay"></div>
       </div>
     </div>
-    <div class="a"></div>
   </div>
 </template>
 
 <script>
-export default {};
+import { mapActions, mapGetters } from "vuex";
+
+export default {
+  data: () => ({
+    destinations: []
+  }),
+  methods: {
+    ...mapGetters(["GET_FILTERS"]),
+    ...mapActions(["fetchFilters"]),
+    getUrl(val) {
+      return require("@/assets/homepage/selected" + val + ".png");
+    }
+  },
+  created() {
+    this.fetchFilters(4).then(() => {
+      this.destinations = this.GET_FILTERS().slice(0, 6);
+    });
+  }
+};
 </script>
 
 <style lang="scss">
-.destination-img-second-text {
-  word-break: break-all;
-  color: rgba(255, 255, 255, 0.87);
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 19px;
-  display: none;
-}
-.grid-container {
-  height: 588px !important;
-  display: grid;
-  cursor: pointer;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-  gap: 24px 24px;
-  grid-template-areas: "upperSmallLeft upperLarge upperLarge upperSmallRight" "lowerLarge lowerLarge lowerSmallLeft lowerSmallRight";
-}
+.selected-destinations {
+  margin: 80px 0 126px 0;
 
-.upperLarge {
-  grid-area: upperLarge;
-  background-image: url("../assets/image.jpg");
-}
-
-.upperSmallLeft {
-  grid-area: upperSmallLeft;
-  background-image: url("../assets/image.jpg");
-}
-
-.upperSmallRight {
-  grid-area: upperSmallRight;
-  background-image: url("../assets/image.jpg");
-}
-
-.lowerLarge {
-  grid-area: lowerLarge;
-  background-image: url("../assets/image.jpg");
-}
-
-.lowerSmallLeft {
-  grid-area: lowerSmallLeft;
-  background-image: url("../assets/image.jpg");
-}
-
-.lowerSmallRight {
-  grid-area: lowerSmallRight;
-  background-image: url("../assets/image.jpg");
-}
-.destination-img {
-  position: relative;
-  border-radius: 8px;
-  height: 282px !important;
-}
-.a {
-  height: 600px;
-}
-.overlay {
-  position: absolute;
-  top: 0;
-  border-radius: 8px;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 100%;
-  width: 100%;
-  opacity: 0;
-  transition: 0.5s ease;
-  background-color: $primary;
-}
-.destination-img:hover {
-  .overlay {
-    opacity: 0.5;
+  .selected-destinations-wrapper {
+    display: flex;
+    flex-flow: row wrap;
+  }
+  .destination-img:nth-child(even) {
+    width: calc(50% - 20px);
+  }
+  .destination-img:nth-child(odd) {
+    width: calc(25% - 20px);
+  }
+  .destination-img:nth-child(6) {
+    width: calc(25% - 20px);
   }
   .destination-img-second-text {
-    display: initial;
-  }
-}
-.destination-img-text {
-  position: absolute;
-  bottom: 24px;
-  left: 24px;
-  color: rgba(255, 255, 255, 0.87);
-  font-family: "MontserratBold";
-  font-size: 20px;
-  font-weight: 400;
-  line-height: 24.38px;
-  max-width: calc(100% - 24px);
-  text-align: left;
-  z-index: 10;
-  display: flex;
-  flex-direction: column;
-
-  .v-icon {
+    word-break: break-all;
     color: rgba(255, 255, 255, 0.87);
-    font-size: 20px;
+    font-size: 16px;
+    display: none;
   }
-}
 
-@media only screen and (max-width: 1100px) {
-  .grid-container {
+  .upperLarge {
+    background-image: url("../assets/image.jpg");
+  }
+  .destination-img {
+    margin: 10px;
+    position: relative;
+    background-size: cover;
+    border-radius: 8px;
+    height: 282px;
+  }
+  .overlay {
+    position: absolute;
+    top: 0;
+    border-radius: 8px;
+    bottom: 0;
+    left: 0;
+    right: 0;
     height: 100%;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
-    grid-template-areas: "upperSmallLeft upperLarge" "upperSmallRight lowerLarge" "lowerSmallLeft lowerSmallRight";
+    width: 100%;
+    opacity: 0.8;
+    background: rgb(32, 32, 32);
+    background: linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 1) 0%,
+      rgba(0, 0, 0, 0) 50%
+    );
+    transition: 0.5s ease;
+  }
+  .destination-img:hover {
+    .overlay {
+      opacity: 0.5;
+      background: $primary;
+    }
+    .destination-img-second-text {
+      display: initial;
+    }
+  }
+  .destination-img-text {
+    position: absolute;
+    bottom: 24px;
+    left: 24px;
+    color: rgba(255, 255, 255, 0.87);
+    font-family: "MontserratBold";
+    font-size: 20px;
+    max-width: calc(100% - 24px);
+    text-align: left;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+
+    .v-icon {
+      color: rgba(255, 255, 255, 0.87);
+      font-size: 20px;
+    }
   }
 }
-@media only screen and (max-width: 500px) {
-  .grid-container {
-    height: 100%;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
-    grid-template-areas: "upperSmallLeft" "upperLarge" "upperSmallRight" "lowerLarge" "lowerSmallLeft" "lowerSmallRight";
+@media only screen and (max-width: 1000px) {
+  .destination-img {
+    width: calc(50% - 20px) !important;
+  }
+}
+@media only screen and (max-width: 450px) {
+  .destination-img {
+    width: calc(100% - 20px) !important;
+    height: 200px !important;
   }
 }
 </style>

@@ -34,7 +34,6 @@ const actions = {
         }
       })
       .then(response => {
-        console.log(response.data)
         commit('STORE_TAGS', response.data);
       })
       .catch(error => {

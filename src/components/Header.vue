@@ -60,7 +60,7 @@
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-md-and-down">
-        <v-tabs class="header-toolbar-tabs" align-with-title>
+        <v-tabs :optional="true" class="header-toolbar-tabs" align-with-title>
           <v-tab v-for="item in menuItems" :key="item.title" :to="item.path">
             {{ item.title }}
           </v-tab>
@@ -109,7 +109,7 @@ export default {
       appTitle: "Awesome App",
       sidebar: false,
       menuItems: [
-        { title: "Domaćinstva", path: "/" },
+        { title: "Domaćinstva", path: "/households" },
         { title: "Novosti", path: "/news" },
         { title: "O nama", path: "/about" },
         { title: "Kontakt", path: "/contact" }

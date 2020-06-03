@@ -69,7 +69,6 @@ const actions = {
         },
       })
       .then(response => {
-        console.log(response.data)
         commit('STORE_HOUSEHOLDS', response.data);
         commit('STORE_HOUSEHOLD_RESP', true);
       })

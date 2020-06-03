@@ -104,7 +104,7 @@
         </a>
       </div>
     </div>
-    <featured />
+    <featured class="homepage-selected-households" />
   </div>
 </template>
 
