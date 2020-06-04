@@ -74,9 +74,8 @@ export default {
     ...mapActions(["fetchCities", "fetchHouseholds"]),
     ...mapGetters(["GET_HOUSEHOLDS", "HOUSEHOLD_RESP", "GET_CITIES"]),
     getHouseholdPage(id) {
-      window.scrollTo(0, 0);
       this.$router.push(`/households/${id}`);
-      location.reload();
+      window.scrollTo(0, 0);
     },
     getHouseholds(i) {
       let params = [i, 12, null, null, { popular: 1 }, null];

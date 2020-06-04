@@ -21,16 +21,30 @@ const getters = {
   },
 }
 
+var qs = require("qs");
+
 const actions = {
   async fetchArticles({
     commit,
     rootState,
   }, data) {
-    await axios.get(`${rootUrls.URL}/news_articles/${data || ""}`, {
+    await axios.get(`${rootUrls.URL}/news_articles`, {
         headers: {
           ...rootState.common.header,
           "Authorization": "Bearer " + rootState.common.loginToken
-        }
+        },
+        params: {
+          filter: {
+            ...data[1],
+          },
+          perPage: 5,
+          page: data[0]
+        },
+        paramsSerializer: function (params) {
+          return qs.stringify(params, {
+            arrayFormat: 'brackets'
+          })
+        },
       })
       .then(response => {
         console.log(response.data)

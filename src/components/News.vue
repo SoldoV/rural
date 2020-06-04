@@ -5,6 +5,7 @@
       :imgSrc="'image.jpg'"
       :searchText="'Pretražite novosti...'"
       :headerText="text"
+      @search="search"
       :single="false"
     />
     <news-item
@@ -47,9 +48,11 @@ export default {
   methods: {
     ...mapActions(["fetchArticles"]),
     ...mapGetters(["GET_ARTICLES"]),
-    getArticles(i) {
-      let pages = `?perPage=5&page=${i}`;
-      this.fetchArticles(pages).then(() => {
+    search(val) {
+      this.getArticles(1, val);
+    },
+    getArticles(i, filter) {
+      this.fetchArticles([i, filter]).then(() => {
         let article = this.GET_ARTICLES();
         this.articles = article.data;
         this.lastPage = article.last_page;

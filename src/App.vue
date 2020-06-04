@@ -1,7 +1,10 @@
 <template>
   <v-app id="app">
     <Header v-if="!$route.fullPath.includes('dashboard')" />
-    <router-view class="app-page" />
+    <router-view
+      class="app-page"
+      :key="$route.name + ($route.params.id || '')"
+    />
     <Footer v-if="!$route.fullPath.includes('dashboard')" />
   </v-app>
 </template>
