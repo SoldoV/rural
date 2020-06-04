@@ -117,13 +117,15 @@ export default {
       "HOUSEHOLD_RESP",
       "GET_CITIES",
       "GET_SINGLE_HOUSEHOLD",
-      "GET_EDIT_HOUSEHOLD_RESP"
+      "GET_EDIT_HOUSEHOLD_RESP",
+      "GET_HOUSEHOLDID_RESP"
     ]),
     ...mapActions([
       "fetchCities",
       "editHousehold",
       "postHousehold",
-      "deleteHousehold"
+      "deleteHousehold",
+      "getHouseholdById"
     ]),
     deleteItem() {
       confirm("Are you sure you want to delete this item?") &&
@@ -210,7 +212,11 @@ export default {
   mounted() {
     this.geolocate();
     this.fetchCities();
-    if (this.$route.params.id) this.storeHousehold();
+    this.getHouseholdById(this.$route.params.id).then(() => {
+      if (this.GET_HOUSEHOLDID_RESP()) {
+        this.storeHousehold();
+      }
+    });
   }
 };
 </script>

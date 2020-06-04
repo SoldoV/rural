@@ -272,6 +272,8 @@ export default {
         articlesObj.append("active", this.editedItem.active ? 1 : 0);
         if (this.editedIndex > -1) {
           if (this.image) articlesObj.append("image", this.image);
+          articlesObj.append("_method", "PUT");
+          articlesObj.append("id", this.editedItem.id);
           this.editArticle([articlesObj, this.editedItem.id]);
           this.popSnackbar("Item successfully edited");
         } else {

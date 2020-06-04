@@ -112,16 +112,21 @@ export default {
     },
     updateFilters() {
       let cityFilter = { city_id: this.city.id };
-      let tags = [];
-      this.checkboxes.forEach(e => {
-        if (e.value) tags.push({ id: e.id });
+      let tags = { tags: {} };
+      let counter = 0;
+      if (this.checkboxes.some(e => e.value === true)) {
+        tags = { tags: { 0: { id: "i=" } } };
+        this.checkboxes.forEach(e => {
+          if (e.value) tags.tags[0].id += e.id + ",";
+        });
+        counter++;
+        tags.tags[0].id = tags.tags[0].id.slice(0, -1);
+      }
+      this.secondFilter.forEach(e => {
+        tags.tags[counter] = e;
+        counter++;
       });
-      this.$emit(
-        "setFilters",
-        { tags: tags.concat(this.secondFilter) },
-        this.firstFilter,
-        cityFilter
-      );
+      this.$emit("setFilters", tags, this.firstFilter, cityFilter);
     }
   },
   created() {

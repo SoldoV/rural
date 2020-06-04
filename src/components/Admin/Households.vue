@@ -53,13 +53,9 @@ export default {
     ]),
 
     getHousehold(id) {
-      this.getHouseholdById(id).then(() => {
-        if (this.GET_HOUSEHOLDID_RESP()) {
           this.$router.push(
-            `/dashboard/household/${this.GET_SINGLE_HOUSEHOLD().id}/description`
+            `/dashboard/household/${id}/description`
           );
-        }
-      });
     },
     getHouseholds(i) {
       this.fetchHouseholds([i, 12]).then(() => {

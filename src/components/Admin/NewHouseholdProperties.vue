@@ -95,9 +95,10 @@ export default {
       "GET_HOUSEHOLD_ID",
       "PLATFORM_RESP",
       "GET_ERROR_MSG",
-      "GET_SINGLE_HOUSEHOLD"
+      "GET_SINGLE_HOUSEHOLD",
+      "GET_HOUSEHOLDID_RESP"
     ]),
-    ...mapActions(["postPlatforms", "postHouseholdTags"]),
+    ...mapActions(["postPlatforms", "postHouseholdTags", "getHouseholdById"]),
     save() {
       if (this.$refs.form.validate()) {
         this.btnLoad = true;
@@ -161,8 +162,13 @@ export default {
     }
   },
   created() {
-    if (this.$route.params.id) this.setEditedHouseholdItems();
-    else this.householdId = this.GET_HOUSEHOLD_ID();
+    if (this.$route.params.id) {
+      this.getHouseholdById(this.$route.params.id).then(() => {
+        if (this.GET_HOUSEHOLDID_RESP()) {
+          this.setEditedHouseholdItems();
+        }
+      });
+    } else this.householdId = this.GET_HOUSEHOLD_ID();
   }
 };
 </script>

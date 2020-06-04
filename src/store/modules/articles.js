@@ -82,7 +82,7 @@ const actions = {
     dispatch,
     rootState
   }, data) {
-    await axios.put(`${rootUrls.URL}/news_articles/${data[1]}`, data[0], {
+    await axios.post(`${rootUrls.URL}/news_articles/${data[1]}`, data[0], {
         headers: {
           ...rootState.common.header,
           ...rootState.common.headerForm,

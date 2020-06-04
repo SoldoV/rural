@@ -97,22 +97,24 @@ export default {
       });
       this.$emit("additionalFilters", tags, secondaryTags);
       this.$emit("toggleAdditionalFilters");
+    },
+    setFilters() {
+      this.fetchFilters(1).then(() => {
+        this.filters = this.GET_FILTERS();
+        this.firstCategoryFilters = this.filters.map(e => {
+          return { title: e.title, tag_id: e.id, value: 0 };
+        });
+      });
+      this.fetchFilters(2).then(() => {
+        this.filters = this.GET_FILTERS();
+        this.secondCategoryFilters = this.filters.map(e => {
+          return { title: e.title, tag_id: e.id, value: false };
+        });
+      });
     }
   },
-
   created() {
-    this.fetchFilters(1).then(() => {
-      this.filters = this.GET_FILTERS();
-      this.firstCategoryFilters = this.filters.map(e => {
-        return { title: e.title, tag_id: e.id, value: 0 };
-      });
-    });
-    this.fetchFilters(2).then(() => {
-      this.filters = this.GET_FILTERS();
-      this.secondCategoryFilters = this.filters.map(e => {
-        return { title: e.title, tag_id: e.id, value: false };
-      });
-    });
+    this.setFilters();
   }
 };
 </script>
