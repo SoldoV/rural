@@ -244,9 +244,11 @@ export default {
     },
     deleteItem(item) {
       confirm("Are you sure you want to delete this item?") &&
-        this.deleteArticle(item.id).then(() =>
-          this.popSnackbar("Item successfully deleted")
-        );
+        this.deleteArticle(item.id).then(() => {
+          if (this.GET_ARTICLE_RESP())
+            this.popSnackbar("Item successfully deleted");
+          else this.popSnackbar("Couldn't delete article");
+        });
     },
     close() {
       this.dialog = false;
@@ -274,14 +276,17 @@ export default {
           if (this.image) articlesObj.append("image", this.image);
           articlesObj.append("_method", "PUT");
           articlesObj.append("id", this.editedItem.id);
-          this.editArticle([articlesObj, this.editedItem.id]);
-          this.popSnackbar("Item successfully edited");
+          this.editArticle([articlesObj, this.editedItem.id]).then(() => {
+            if (this.GET_ARTICLE_RESP())
+              this.popSnackbar("Item successfully edited");
+            else this.popSnackbar("Couldn't edit article");
+          });
         } else {
           articlesObj.append("image", this.editedItem.image_path);
           this.postArticle(articlesObj).then(() => {
-            if (this.GET_ARTICLE_RESP()) {
+            if (this.GET_ARTICLE_RESP())
               this.popSnackbar("Item successfully added");
-            } else this.popSnackbar("Couldn't add article");
+            else this.popSnackbar("Couldn't add article");
           });
         }
         this.loading = false;

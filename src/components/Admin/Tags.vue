@@ -177,7 +177,7 @@ export default {
 
   methods: {
     ...mapActions(["fetchTags", "editTag", "postTag", "deleteTag"]),
-    ...mapGetters(["GET_TAGS"]),
+    ...mapGetters(["GET_TAGS", "GET_TAG_RESP"]),
 
     popSnackbar(text) {
       this.snackbarText = text;
@@ -201,7 +201,9 @@ export default {
     deleteItem(item) {
       confirm("Are you sure you want to delete this item?") &&
         this.deleteTag(item.id).then(() => {
-          this.popSnackbar("Item successfully deleted");
+          if (this.GET_TAG_RESP())
+            this.popSnackbar("Item successfully deleted");
+          else this.popSnackbar("Couldn't delete tag");
         });
     },
     close() {
@@ -228,16 +230,22 @@ export default {
             created_at: this.editedItem.created_at,
             updated_at: this.editedItem.updated_at
           };
-          this.editTag(data);
-          this.popSnackbar("Item successfully edited");
+          this.editTag(data).then(() => {
+            if (this.GET_TAG_RESP())
+              this.popSnackbar("Item successfully edited");
+            else this.popSnackbar("Couldn't edit tag");
+          });
         } else {
           let data = {
             category_id: this.editedItem.category_id,
             icon: this.editedItem.icon,
             title: this.editedItem.title
           };
-          this.postTag(data);
-          this.popSnackbar("Item successfully added");
+          this.postTag(data).then(() => {
+            if (this.GET_TAG_RESP())
+              this.popSnackbar("Item successfully added");
+            else this.popSnackbar("Couldn't add tag");
+          });
         }
         this.close();
       }

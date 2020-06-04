@@ -6,18 +6,22 @@ import {
 
 const state = {
   cities: [],
+  cityResp: false
 }
 
 const getters = {
   GET_CITIES: state => {
     return state.cities;
   },
+  GET_CITY_RESP: state => {
+    return state.cityResp;
+  },
 }
 
 const actions = {
   async fetchCities({
-    commit,
-    rootState
+    rootState,
+    commit
   }) {
     await axios.get(`${rootUrls.URL}/cities`, {
         headers: {
@@ -34,7 +38,8 @@ const actions = {
   },
   async postCity({
     dispatch,
-    rootState
+    rootState,
+    commit
   }, data) {
     await axios.post(`${rootUrls.URL}/cities`, data, {
         headers: {
@@ -43,15 +48,18 @@ const actions = {
         }
       })
       .then(() => {
+        commit("STORE_CITY_RESP", true)
         dispatch("fetchCities")
       })
       .catch(error => {
+        commit("STORE_CITY_RESP", false)
         console.log(error);
       });
   },
   async editCity({
     dispatch,
-    rootState
+    rootState,
+    commit
   }, data) {
     await axios.put(`${rootUrls.URL}/cities/${data.id}`, data, {
         headers: {
@@ -60,15 +68,18 @@ const actions = {
         }
       })
       .then(() => {
+        commit("STORE_CITY_RESP", true)
         dispatch("fetchCities")
       })
       .catch(error => {
+        commit("STORE_CITY_RESP", false)
         console.log(error);
       });
   },
   async deleteCity({
     dispatch,
-    rootState
+    rootState,
+    commit
   }, data) {
     await axios.delete(`${rootUrls.URL}/cities/${data}`, {
         headers: {
@@ -77,9 +88,11 @@ const actions = {
         }
       })
       .then(() => {
+        commit("STORE_CITY_RESP", true)
         dispatch("fetchCities")
       })
       .catch(error => {
+        commit("STORE_CITY_RESP", false)
         console.log(error);
       });
   },
@@ -88,6 +101,9 @@ const actions = {
 const mutations = {
   STORE_CITIES: (state, data) => {
     state.cities = data;
+  },
+  STORE_CITY_RESP: (state, data) => {
+    state.cityResp = data;
   },
 }
 

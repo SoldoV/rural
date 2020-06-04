@@ -8,6 +8,7 @@ const state = {
   tags: [],
   filters: [],
   householdTag: false,
+  tagResp: false,
 }
 
 const getters = {
@@ -19,6 +20,9 @@ const getters = {
   },
   GET_FILTERS: state => {
     return state.filters;
+  },
+  GET_TAG_RESP: state => {
+    return state.tagResp;
   },
 }
 
@@ -59,7 +63,8 @@ const actions = {
   },
   async postTag({
     dispatch,
-    rootState
+    rootState,
+    commit
   }, data) {
     await axios.post(`${rootUrls.URL}/tags`, data, {
         headers: {
@@ -68,15 +73,18 @@ const actions = {
         }
       })
       .then(() => {
+        commit('STORE_TAG_RESP', true);
         dispatch("fetchTags")
       })
       .catch(error => {
+        commit('STORE_TAG_RESP', false);
         console.log(error);
       });
   },
   async editTag({
     dispatch,
-    rootState
+    rootState,
+    commit,
   }, data) {
     await axios.put(`${rootUrls.URL}/tags/${data.id}`, data, {
         headers: {
@@ -85,15 +93,18 @@ const actions = {
         }
       })
       .then(() => {
+        commit('STORE_TAG_RESP', true);
         dispatch("fetchTags")
       })
       .catch(error => {
+        commit('STORE_TAG_RESP', false);
         console.log(error);
       });
   },
   async deleteTag({
     dispatch,
-    rootState
+    rootState,
+    commit,
   }, data) {
     await axios.delete(`${rootUrls.URL}/tags/${data}`, {
         headers: {
@@ -102,9 +113,11 @@ const actions = {
         }
       })
       .then(() => {
+        commit('STORE_TAG_RESP', true);
         dispatch("fetchTags")
       })
       .catch(error => {
+        commit('STORE_TAG_RESP', false);
         console.log(error);
       });
   },
@@ -154,6 +167,9 @@ const mutations = {
   },
   STORE_FILTERS: (state, data) => {
     state.filters = data;
+  },
+  STORE_TAG_RESP: (state, data) => {
+    state.tagResp = data;
   },
 }
 

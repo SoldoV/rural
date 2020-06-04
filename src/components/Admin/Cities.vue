@@ -120,11 +120,8 @@ export default {
   },
 
   methods: {
-    ...mapActions(["fetchCities"]),
-    ...mapActions(["postCity"]),
-    ...mapActions(["deleteCity"]),
-    ...mapActions(["editCity"]),
-    ...mapGetters(["GET_CITIES"]),
+    ...mapActions(["deleteCity", "editCity", "postCity", "fetchCities"]),
+    ...mapGetters(["GET_CITIES", "GET_CITY_RESP"]),
 
     popSnackbar(text) {
       this.snackbarText = text;
@@ -138,8 +135,10 @@ export default {
 
     deleteItem(item) {
       confirm("Are you sure you want to delete this item?") &&
-        this.deleteCity(item.id);
-      this.popSnackbar("Grad uspješno izbrisan");
+        this.deleteCity(item.id).then(() => {
+          if (this.GET_CITY_RESP()) this.popSnackbar("Grad uspješno izbrisan");
+          else this.popSnackbar("Grad nije moguće izbrisati");
+        });
     },
 
     close() {
@@ -159,14 +158,18 @@ export default {
             created_at: this.editedItem.created_at,
             updated_at: this.editedItem.updated_at
           };
-          this.editCity(data);
-          this.popSnackbar("Grad uspješno uređen");
+          this.editCity(data).then(() => {
+            if (this.GET_CITY_RESP()) this.popSnackbar("Grad uspješno uređen");
+            else this.popSnackbar("Grad nije moguće urediti");
+          });
         } else {
           let data = {
             title: this.editedItem.title
           };
-          this.postCity(data);
-          this.popSnackbar("Grad uspješno dodan");
+          this.postCity(data).then(() => {
+            if (this.GET_CITY_RESP()) this.popSnackbar("Grad uspješno dodan");
+            else this.popSnackbar("Grad nije moguće dodati");
+          });
         }
         this.close();
       }

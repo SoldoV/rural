@@ -80,7 +80,8 @@ const actions = {
   },
   async editArticle({
     dispatch,
-    rootState
+    rootState,
+    commit
   }, data) {
     await axios.post(`${rootUrls.URL}/news_articles/${data[1]}`, data[0], {
         headers: {
@@ -91,15 +92,17 @@ const actions = {
       })
       .then(() => {
         dispatch("fetchArticles")
+        commit('STORE_ARTICLE_RESP', true);
       })
       .catch(error => {
-        console.log(data[0])
+        commit('STORE_ARTICLE_RESP', false);
         console.log(error);
       });
   },
   async deleteArticle({
     dispatch,
-    rootState
+    rootState,
+    commit
   }, data) {
     await axios.delete(`${rootUrls.URL}/news_articles/${data}`, {
         headers: {
@@ -108,9 +111,11 @@ const actions = {
         }
       })
       .then(() => {
+        commit('STORE_ARTICLE_RESP', true);
         dispatch("fetchArticles")
       })
       .catch(error => {
+        commit('STORE_ARTICLE_RESP', false);
         console.log(error);
       });
   },
