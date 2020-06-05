@@ -22,9 +22,9 @@
           v-if="!IS_LOGGED_IN()"
           class="header-buttons header-buttons-sidebar"
         >
-          <v-btn depressed class="header-log-in" @click="login"
-            >Prijavite se</v-btn
-          >
+          <v-btn depressed class="header-log-in" @click="login">{{
+            $t("header.signIn")
+          }}</v-btn>
         </div>
         <v-menu v-else offset-y>
           <template v-slot:activator="{ on }">
@@ -35,7 +35,9 @@
           </template>
           <v-list>
             <v-list-item @click="logout">
-              <v-list-item-title class="logout">Logout</v-list-item-title>
+              <v-list-item-title class="logout">{{
+                $t("common.logout")
+              }}</v-list-item-title>
             </v-list-item>
             <v-list-item @click="dashboard()">
               <v-list-item-title class="logout">Dashboard</v-list-item-title>
@@ -67,9 +69,9 @@
         </v-tabs>
       </v-toolbar-items>
       <div v-if="!IS_LOGGED_IN()" class="header-buttons hidden-md-and-down">
-        <v-btn depressed class="header-log-in" @click="login"
-          >Prijavite se</v-btn
-        >
+        <v-btn depressed class="header-log-in" @click="login">{{
+          $t("header.signIn")
+        }}</v-btn>
       </div>
       <v-menu v-else class="hidden-md-and-down" offset-y>
         <template v-slot:activator="{ on }">
@@ -84,10 +86,14 @@
         </template>
         <v-list>
           <v-list-item @click="logout">
-            <v-list-item-title class="logout">Logout</v-list-item-title>
+            <v-list-item-title class="logout">{{
+              $t("common.logout")
+            }}</v-list-item-title>
           </v-list-item>
           <v-list-item @click="dashboard()">
-            <v-list-item-title class="logout">Dashboard</v-list-item-title>
+            <v-list-item-title class="logout">{{
+              $t("common.dashboard")
+            }}</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
@@ -109,10 +115,10 @@ export default {
       appTitle: "Awesome App",
       sidebar: false,
       menuItems: [
-        { title: "Domaćinstva", path: "/households" },
-        { title: "Novosti", path: "/news" },
-        { title: "O nama", path: "/about" },
-        { title: "Kontakt", path: "/contact" }
+        { title: this.$t("header.households"), path: "/households" },
+        { title: this.$t("header.news"), path: "/news" },
+        { title: this.$t("header.about"), path: "/about" },
+        { title: this.$t("header.contact"), path: "/contact" }
       ]
     };
   },

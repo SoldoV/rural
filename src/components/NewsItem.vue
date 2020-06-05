@@ -15,7 +15,7 @@
       <div class="news-item-header">{{ header }}</div>
       <div class="news-item-text" v-html="text" v-if="!selected"></div>
       <div v-if="!selected" class="news-item-read-more">
-        Procitajte više
+        {{ $t("common.readMore") }}
         <v-icon>mdi-arrow-right</v-icon>
       </div>
     </div>

@@ -3,7 +3,7 @@
     <image-header
       class="image-header-parent"
       :imgSrc="'image.jpg'"
-      :searchText="'Pretražite novosti...'"
+      :searchText="$t('news.search')"
       :headerText="text"
       @search="search"
       :single="false"

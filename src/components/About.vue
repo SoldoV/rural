@@ -1,58 +1,34 @@
 <template>
   <div class="about">
     <div class="about-header">
-      O nama
+      {{ $t("about.about") }}
     </div>
     <div class="about-text">
-      <b>Unija za održivi povratak i integracije u Bosni i Hercegovini</b>
-      pokrenula je stranicu <b class="about-text-ex">"BH SELO"</b> s ciljem
-      prikupljanja podataka i kreiranja informacija o turističkim destinacijama
-      koja se odnose na etno sela, seoska domaćinstva, nacionalne parkove i
-      druge prirodne destinacije u Bosni i Hercegovini.
+      <b>{{ $t("about.text1") }}</b>
+      {{ $t("about.text2")
+      }}<b class="about-text-ex">{{ $t("about.text3") }}</b>
+      {{ $t("about.text4") }}
       <div class="about-subtext">
-        "BH SELO" nastoji unaprijedi ruralna područja koja imaju velike
-        mogućnosti za razvoj turističkih kapaciteta u Bosni i Hercegovini.
-        Želimo motivisati i podržati što više osoba koje žive u ruralnim
-        sredinama da se organizovano bave pokretanjme sosptvenog biznisa kroz
-        otvaranje seoskih domaćinstava i ukazati im na mogućnosti koje nude
-        ruralna područja. Koristeći dobre prakse i direktni uvid u potrebe,
-        zajedno sa ciljnom grupom nastojimo kreirati rješenja koja su realna i
-        izvodljiva.
+        {{ $t("about.text5") }}
       </div>
       <div class="about-subtext">
-        Pored očuvanja kulturne baštine, obnove starih kuća, poljoprivrednih
-        objekata, cilj je i zaustaviti iseljavanje stanovništva te podstaći
-        povratak domicilnog stanovništva, s naglaskom izmedju ostalog, i na
-        proizvodnju zdrave hrane.
+        {{ $t("about.text6") }}
       </div>
       <div class="about-subtext">
-        Projekat Unije pod nazivom <b>“Zajedno učinimo život boljim u BiH”</b>,
-        podržan od strane Vlade Švicarske, a implementira se na području Bihaća,
-        Lukavca i Čapljine.
+        {{ $t("about.text7") }}<b>{{ $t("about.text8") }}</b
+        >,
+        {{ $t("about.text9") }}
       </div>
-      Anketiranje povratnika i interno raseljenih lica u 2016. godini u Bihaću,
-      Čapljini i Lukavcu koje je provela Unija za održivi povratak i integracije
-      u BiH, omogućilo nam je stvaranje šire slike o potrebama za ulaganjem u
-      oblasti koje imaju šanse da uspiju i omoguće običnom čovjeku da radi i
-      živi od svog rada. Obzirom da se pomenuto anketiranje, uglavnom, provodilo
-      u ruralnim područjima, shvatili smo da trebamo konkretno pomoći
-      anketiranim porodicama, a ujedno i stvoriti ambijent u cilju jačanja
-      turističkih potencijala.
+      {{ $t("about.text10") }}
     </div>
     <div class="about-subheader">
-      Unaprijedimo ruralna područja u BIH !
+      {{ $t("about.text11") }}
     </div>
     <div class="about-text">
-      Ruralna područja u Bosni i Hercegovini imaju velike mogućnosti za razvoj
-      seoskog turizma. Motivišimo i podržimo što više osoba koje žive u ruralnim
-      sredinama da se organizovano bave pokretanjem sopstvenog biznisa kroz
-      otvaranje seoskih domaćinstava.
+      {{ $t("about.text12") }}
     </div>
     <div class="about-bottom-subheader">
-      <b
-        >Projekat "Zajedno učinimo život boljim u BiH" podržan je od strane
-        Vlade Švicarske.</b
-      >
+      <b>{{ $t("about.text13") }}</b>
     </div>
     <div class="about-logo"></div>
   </div>

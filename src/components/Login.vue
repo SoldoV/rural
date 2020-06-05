@@ -17,7 +17,7 @@
           <div class="login-box">
             <div class="login-header align-column-center">
               <div class="login-header-image"></div>
-              <div class="login-header-text">Prijavite se</div>
+              <div class="login-header-text">{{ $t("header.signIn") }}</div>
             </div>
             <div class="login-body">
               <v-form ref="form" v-model="valid">
@@ -27,15 +27,18 @@
                   :rules="emailRules"
                   v-model="email"
                 ></v-text-field>
-                <div class="login-label">Lozinka:</div>
+                <div class="login-label">{{ $t("login.pass") }}</div>
                 <v-text-field
                   outlined
                   :rules="passRules"
                   type="password"
                   v-model="password"
                 ></v-text-field>
-                <v-btn depressed class="header-log-in login-btn" @click="login"
-                  >Prijavite se</v-btn
+                <v-btn
+                  depressed
+                  class="header-log-in login-btn"
+                  @click="login"
+                  >{{ $t("header.signIn") }}</v-btn
                 >
               </v-form>
             </div>
@@ -58,24 +61,26 @@ export default {
       required: true
     }
   },
-  data: () => ({
-    error: false,
-    errorValue: "",
-    valid: false,
-    email: "",
-    password: "",
-    passRules: [
-      v => !!v || "Morate unijeti lozinku",
-      v => (v && v.length >= 6) || "Lozinka mora imati više od 5 znakova"
-    ],
-    emailRules: [
-      v =>
-        !v ||
-        /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
-        "E-mail mora biti ispravan",
-      v => !!v || "Morate unijeti E-Mail"
-    ]
-  }),
+  data: function() {
+    return {
+      error: false,
+      errorValue: "",
+      valid: false,
+      email: "",
+      password: "",
+      passRules: [
+        v => !!v || this.$t("login.passRules"),
+        v => (v && v.length >= 6) || this.$t("login.passRules2")
+      ],
+      emailRules: [
+        v =>
+          !v ||
+          /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
+          this.$t("contact.mailRules"),
+        v => !!v || this.$t("contact.mailRules2")
+      ]
+    };
+  },
   watch: {
     error(val) {
       if (val) setTimeout(() => (this.error = false), 5000);

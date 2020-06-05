@@ -1,10 +1,10 @@
 <template>
   <div class="selected-news">
     <div class="align-row-center mb-8 selected-news-header">
-      <div class="selected-news-title">Izdvojene novosti</div>
+      <div class="selected-news-title">{{ $t("selectedNews.selected") }}</div>
       <v-spacer />
       <v-btn outlined @click="$router.push('/news')" class="selected-news-btn"
-        >Vidi sve novosti <v-icon>mdi-arrow-right</v-icon></v-btn
+        >{{ $t("selectedNews.all") }} <v-icon>mdi-arrow-right</v-icon></v-btn
       >
     </div>
     <div class="selected-news-wrapper">

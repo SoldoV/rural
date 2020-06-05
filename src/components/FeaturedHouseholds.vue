@@ -1,7 +1,9 @@
 <template>
   <div class="selected-news">
     <div class="align-row-center mb-8 selected-news-header">
-      <div class="selected-news-title">Predložena domaćinstva</div>
+      <div class="selected-news-title">
+        {{ $t("featuredHouseholds.featured") }}
+      </div>
     </div>
     <div class="selected-news-wrapper">
       <swiper ref="mySwiper" :options="swiperOptions">
@@ -33,8 +35,6 @@ export default {
   data: () => ({
     households: [],
     cities: [],
-    sortSelected: "Po preporuci",
-    sort: ["Po preporuci", "Cijena silazno", "Cijena uzlazno", "Udaljenost"],
     swiperOptions: {
       preventClicks: false,
       preventClicksPropagation: false,

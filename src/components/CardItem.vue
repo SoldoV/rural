@@ -12,7 +12,8 @@
         {{ cardItem.title }}
       </div>
       <div class="card-item-price">
-        cijena <b>{{ cardItem.prices[0].price }} KM</b>/noć
+        {{ $t("cardItem.price") }} <b>{{ cardItem.prices[0].price }} KM</b
+        >{{ $t("cardItem.night") }}
       </div>
     </div>
   </div>

@@ -3,7 +3,9 @@
     <v-card>
       <div class="additional-filters">
         <div class="filter-header align-row-center">
-          <div class="filter-header-text">Dodatni filteri</div>
+          <div class="filter-header-text">
+            {{ $t("additionalFilters.additional") }}
+          </div>
           <v-spacer />
           <v-btn icon @click="close"><v-icon>mdi-close</v-icon></v-btn>
         </div>
@@ -44,10 +46,13 @@
             outlined
             class="common-btn-outlined common-btn-footer"
             @click="close"
-            >Odustani</v-btn
+            >{{ $t("common.cancel") }}</v-btn
           >
-          <v-btn depressed class="common-btn common-btn-footer" @click="apply"
-            >Potvrda</v-btn
+          <v-btn
+            depressed
+            class="common-btn common-btn-footer"
+            @click="apply"
+            >{{ $t("common.confirm") }}</v-btn
           >
         </div>
       </div>

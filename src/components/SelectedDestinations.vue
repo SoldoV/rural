@@ -1,6 +1,8 @@
 <template>
   <div class="selected-destinations">
-    <div class="selected-news-title mb-6">Izdvojene destinacije</div>
+    <div class="selected-news-title mb-6">
+      {{ $t("selectedDestinations.selected") }}
+    </div>
     <div class="selected-destinations-wrapper">
       <div
         class="destination-img"
@@ -12,7 +14,8 @@
         <div class="destination-img-text">
           {{ item.title }}
           <div class="destination-img-second-text">
-            Pogledajte ponudu <v-icon>mdi-arrow-right</v-icon>
+            {{ $t("selectedDestinations.offer") }}
+            <v-icon>mdi-arrow-right</v-icon>
           </div>
         </div>
         <div class="overlay"></div>

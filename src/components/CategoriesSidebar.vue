@@ -1,10 +1,10 @@
 <template>
   <div class="categories-sidebar">
     <div class="categories-sidebar-title">
-      Kategorije
+      {{ $t("catSidebar.cats") }}
     </div>
     <div class="categories-sidebar-subtitle">
-      Vrste domaćinstava
+      {{ $t("catSidebar.types") }}
     </div>
     <div class="categories-sidebar-checkboxes">
       <div v-for="(item, i) in checkboxes" :key="i">
@@ -18,7 +18,7 @@
     </div>
     <div class="categories-sidebar-locations">
       <div class="categories-sidebar-subtitle categories-sidebar-label">
-        Lokacija
+        {{ $t("catSidebar.location") }}
       </div>
       <v-select
         required
@@ -30,13 +30,11 @@
         item-text="title"
         return-object
         v-model="city"
-        label="Sve lokacije"
+        :label="$t('catSidebar.allLocations')"
       ></v-select>
     </div>
     <div class="categories-sidebar-price">
-      <div class="categories-sidebar-subtitle">
-        Cijena:
-      </div>
+      <div class="categories-sidebar-subtitle">{{ $t("cardItem.price") }}:</div>
       <div class="categories-sidebar-price-wrapper align-row-center">
         <v-text-field
           type="number"
@@ -45,7 +43,7 @@
           outlined
           onkeydown="return event.keyCode !== 69"
           v-model="price.min"
-          label="min"
+          :label="$t('catSidebar.min')"
         ></v-text-field>
         <div class="categories-sidebar-divider">—</div>
         <v-text-field
@@ -55,7 +53,7 @@
           min="0"
           onkeydown="return event.keyCode !== 69"
           v-model="price.max"
-          label="max"
+          :label="$t('catSidebar.max')"
         ></v-text-field>
       </div>
     </div>
@@ -64,7 +62,8 @@
         depressed
         @click="toggleAdditionalFilters"
         class="header-log-in categories-sidebar-btn"
-        >Dodatni filteri <v-icon>mdi-filter-variant</v-icon></v-btn
+        >{{ $t("additionalFilters.additional") }}
+        <v-icon>mdi-filter-variant</v-icon></v-btn
       >
     </div>
     <additionalFilters

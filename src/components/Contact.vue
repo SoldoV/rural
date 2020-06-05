@@ -1,7 +1,7 @@
 <template>
   <div class="contact">
     <div class="contact-header">
-      Kontakt
+      {{ $t("contact.contact") }}
     </div>
     <div class="contact-text">
       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi pulvinar
@@ -14,7 +14,9 @@
         <v-container>
           <v-row>
             <v-col cols="6" class="contact-form-name">
-              <div class="contact-form-label">Ime i prezime:</div>
+              <div class="contact-form-label">
+                {{ $t("contact.firstAndLastName") }}
+              </div>
               <v-text-field
                 outlined
                 v-model="firstname"
@@ -28,14 +30,14 @@
               <v-text-field
                 outlined
                 v-model="lastname"
-                :rules="lastNameRules"
+                :rules="emailRules"
                 required
               ></v-text-field>
             </v-col>
           </v-row>
           <v-row>
             <v-col cols="12">
-              <div class="contact-form-label">Naslov:</div>
+              <div class="contact-form-label">{{ $t("contact.title") }}</div>
               <v-text-field
                 outlined
                 v-model="title"
@@ -46,7 +48,7 @@
           </v-row>
           <v-row>
             <v-col cols="12">
-              <div class="contact-form-label">Poruka:</div>
+              <div class="contact-form-label">{{ $t("contact.message") }}</div>
               <v-textarea
                 outlined
                 v-model="message"
@@ -56,27 +58,29 @@
             </v-col>
           </v-row>
         </v-container>
-        <v-btn class="contact-form-btn" @click="validate">Pošalji</v-btn>
+        <v-btn class="contact-form-btn" @click="validate">{{
+          $t("contact.send")
+        }}</v-btn>
       </v-form>
     </div>
     <div class="contact-inf-div">
       <div class="contact-inf-wrapper">
         <v-col cols="6" class="contact-inf-left">
-          Poštanska Adresa:
+          {{ $t("contact.address") }}
         </v-col>
         <v-col cols="6" class="contact-inf-right">
           <div>
-            Unija za održivi povratak i integracije
-            <div>u Bosni i Hercegovini</div>
+            {{ $t("contact.union1") }}
+            <div>{{ $t("contact.union2") }}</div>
           </div>
           <div style="margin-top:16px">Mihrivode 59</div>
           <div>71000 Sarajevo</div>
-          <div>Bosna i Hercegovina</div>
+          <div>{{ $t("contact.bih") }}</div>
         </v-col>
       </div>
       <div class="contact-inf-wrapper">
         <v-col cols="6" class="contact-inf-left">
-          Telefon:
+          {{ $t("contact.phone") }}
         </v-col>
         <v-col cols="6" class="contact-inf-right">
           <div>+387 33 239 604</div>
@@ -102,7 +106,7 @@
       </div>
       <div class="contact-inf-wrapper">
         <v-col cols="6" class="contact-inf-left">
-          Društvene mreže:
+          {{ $t("contact.social") }}
         </v-col>
         <v-col cols="6" class="contact-inf-right">
           <div class="footer-social">
@@ -127,28 +131,29 @@ import { validationMixin } from "vuelidate";
 export default {
   mixins: [validationMixin],
 
-  data: () => ({
-    valid: false,
-    firstname: "",
-    lastname: "",
-    title: "",
-    message: "",
-    titleRules: [v => !!v || "Naslov je potreban"],
-    messageRules: [v => !!v || "Poruka je potrebna"],
-    nameRules: [
-      v => !!v || "Ime je potrebno",
-      v => v.length <= 20 || "Ime mora biti ispod 20 slova"
-    ],
-    lastNameRules: [
-      v => !!v || "Prezime je potrebno",
-      v => v.length <= 20 || "Prezime mora biti ispod 20 slova"
-    ],
-    email: "",
-    emailRules: [
-      v => !!v || "E-mail je potreban",
-      v => /.+@.+/.test(v) || "E-mail mora biti ispravan"
-    ]
-  }),
+  data: function() {
+    return {
+      valid: false,
+      firstname: "",
+      lastname: "",
+      title: "",
+      message: "",
+      titleRules: [v => !!v || this.$t("contact.titleRule")],
+      messageRules: [v => !!v || this.$t("contact.messageRule")],
+      nameRules: [
+        v => !!v || this.$t("contact.nameRules"),
+        v => v.length <= 20 || this.$t("contact.nameRules2")
+      ],
+      emailRules: [
+        v =>
+          !v ||
+          /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
+          this.$t("contact.mailRules"),
+        v => !!v || this.$t("contact.mailRules2")
+      ],
+      email: ""
+    };
+  },
   methods: {
     validate() {
       this.$refs.form.validate();

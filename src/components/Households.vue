@@ -11,7 +11,9 @@
     <div class="housholds-body">
       <v-expansion-panels class="categories-mobile-view hidden-lg-and-up">
         <v-expansion-panel>
-          <v-expansion-panel-header>Filteri</v-expansion-panel-header>
+          <v-expansion-panel-header>{{
+            $t("households.filters")
+          }}</v-expansion-panel-header>
           <v-expansion-panel-content>
             <categoriesSidebar @setFilters="setFilters"></categoriesSidebar>
           </v-expansion-panel-content>
@@ -20,7 +22,7 @@
       <categoriesSidebar class="hidden-md-and-down" @setFilters="setFilters" />
       <div class="households-right-wrapper">
         <div class="households-right-sort">
-          <div class="sort-label">Sortiraj:</div>
+          <div class="sort-label">{{ $t("households.sort") }}</div>
           <v-select
             class="footer-lang households-sort"
             :items="sort"
@@ -31,7 +33,7 @@
           ></v-select>
         </div>
         <div class="no-content" v-if="households.length == 0">
-          Nema kućanstava
+          {{ $t("households.noData") }}
         </div>
         <div class="households-body-content">
           <card
@@ -67,19 +69,26 @@ export default {
     categoriesSidebar,
     card
   },
-  data: () => ({
-    currentPage: 1,
-    firstFilter: {},
-    secondFilter: [],
-    searchFilter: {},
-    cityFilter: {},
-    lastPage: 1,
-    households: [],
-    cities: [],
-    sortSelected: "Po preporuci",
-    text: "Lorem Ipsum is simply dummy text",
-    sort: ["Po preporuci", "Cijena silazno", "Cijena uzlazno", "Udaljenost"]
-  }),
+  data: function() {
+    return {
+      currentPage: 1,
+      firstFilter: {},
+      secondFilter: [],
+      searchFilter: {},
+      cityFilter: {},
+      lastPage: 1,
+      households: [],
+      cities: [],
+      sortSelected: this.$t("households.suggested"),
+      text: "Lorem Ipsum is simply dummy text",
+      sort: [
+        this.$t("households.suggested"),
+        this.$t("households.priceAsc"),
+        this.$t("households.priceDsc"),
+        this.$t("households.distance")
+      ]
+    };
+  },
   methods: {
     ...mapActions(["fetchCities", "fetchHouseholds"]),
     ...mapGetters([

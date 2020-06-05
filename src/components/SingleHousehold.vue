@@ -21,7 +21,8 @@
           {{ household.title }}
         </div>
         <div class="card-item-price">
-          cijena <b>{{ household.prices[0].price }} KM</b>/noć
+          {{ $t("cardItem.price") }} <b>{{ household.prices[0].price }} KM</b
+          >{{ $t("cardItem.night") }}
         </div>
         <div class="single-household-description">
           {{ household.description }}
@@ -61,7 +62,9 @@
           </div>
         </div>
         <div class="single-household-location">
-          <div class="single-household-location-text">Lokacija</div>
+          <div class="single-household-location-text">
+            {{ $t("catSidebar.location") }}
+          </div>
           <gmap-map
             :center="markers.position || center"
             :zoom="12"
@@ -77,7 +80,9 @@
           v-if="tagsCatThree.length > 0"
           class="single-household-tags-three-wrapper"
         >
-          <div class="single-household-tags-three-header">U blizini:</div>
+          <div class="single-household-tags-three-header">
+            {{ $t("common.nearby") }}
+          </div>
           <div class="single-household-tags-three-badge">
             <div
               class="single-household-tags-three"
@@ -92,7 +97,7 @@
 
       <div class="single-household-airbnb-wrapper align-column-center">
         <div class="single-household-airbnb-text">
-          Rezervirajte smještaj na:
+          {{ $t("common.reserve") }}
         </div>
         <a
           :href="'http://airbnb.com/' + household.platforms[0].pivot.uid"

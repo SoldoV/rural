@@ -54,14 +54,6 @@ export default {
       });
     }
   },
-  watch: {
-    /* eslint-disable-next-line */
-    $route(to, from) {
-      if (to.name === "AdminSingleArticle") {
-        this.getArticles();
-      }
-    }
-  },
   created() {
     this.getArticles();
   }
