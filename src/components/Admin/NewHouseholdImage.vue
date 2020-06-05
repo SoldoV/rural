@@ -12,6 +12,7 @@
         <v-spacer></v-spacer>
         <v-btn
           depressed
+          :loading="loading"
           color="primary"
           class="common-btn file-input-btn"
           @change="upload"
@@ -52,6 +53,7 @@ export default {
     }
   },
   data: () => ({
+    loading: false,
     image: {
       image: ""
     },
@@ -77,6 +79,7 @@ export default {
         this.images.splice(index, 1);
     },
     upload(val) {
+      this.loading = true;
       val.stopImmediatePropagation();
       let file = val.target.files[0];
       this.post(file);
@@ -86,6 +89,7 @@ export default {
       imagesObj.append("method", "createMany");
       imagesObj.append(`data[0][image]`, file);
       this.postHouseholdImages([imagesObj, this.householdId]).then(() => {
+        this.loading = false;
         if (!this.HOUSEHOLD_IMAGE_RESP())
           return this.$emit("errorNotif", this.GET_ERROR_MSG());
         let reader = new FileReader();

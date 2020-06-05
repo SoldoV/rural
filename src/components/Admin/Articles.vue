@@ -273,13 +273,16 @@ export default {
         articlesObj.append("text", this.editedItem.text);
         articlesObj.append("active", this.editedItem.active ? 1 : 0);
         if (this.editedIndex > -1) {
-          if (this.image) articlesObj.append("image", this.image);
+          if (this.editedItem.image_path instanceof File)
+            articlesObj.append("image", this.editedItem.image_path);
           articlesObj.append("_method", "PUT");
           articlesObj.append("id", this.editedItem.id);
           this.editArticle([articlesObj, this.editedItem.id]).then(() => {
             if (this.GET_ARTICLE_RESP())
               this.popSnackbar("Item successfully edited");
             else this.popSnackbar("Couldn't edit article");
+            this.loading = false;
+            this.close();
           });
         } else {
           articlesObj.append("image", this.editedItem.image_path);
@@ -287,16 +290,16 @@ export default {
             if (this.GET_ARTICLE_RESP())
               this.popSnackbar("Item successfully added");
             else this.popSnackbar("Couldn't add article");
+            this.loading = false;
+            this.close();
           });
         }
-        this.loading = false;
-        this.close();
       }
     }
   },
   beforeMount() {
     this.SET_ARTICLES();
-    this.fetchArticles();
+    this.fetchArticles([]);
   }
 };
 </script>

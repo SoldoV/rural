@@ -35,10 +35,10 @@ const actions = {
         },
         params: {
           filter: {
-            ...data[1],
+            ...data[0] || "",
           },
-          perPage: 5,
-          page: data[0]
+          perPage: data[2],
+          page: data[1]
         },
         paramsSerializer: function (params) {
           return qs.stringify(params, {
@@ -47,7 +47,6 @@ const actions = {
         },
       })
       .then(response => {
-        console.log(response.data)
         commit('STORE_ARTICLES', response.data);
       })
       .catch(error => {
@@ -85,7 +84,7 @@ const actions = {
       })
       .then(() => {
         commit('STORE_ARTICLE_RESP', true);
-        dispatch("fetchArticles")
+        dispatch("fetchArticles", [])
       })
       .catch(error => {
         commit('STORE_ARTICLE_RESP', false);
@@ -105,7 +104,7 @@ const actions = {
         }
       })
       .then(() => {
-        dispatch("fetchArticles")
+        dispatch("fetchArticles", [])
         commit('STORE_ARTICLE_RESP', true);
       })
       .catch(error => {
@@ -126,7 +125,7 @@ const actions = {
       })
       .then(() => {
         commit('STORE_ARTICLE_RESP', true);
-        dispatch("fetchArticles")
+        dispatch("fetchArticles", [])
       })
       .catch(error => {
         commit('STORE_ARTICLE_RESP', false);

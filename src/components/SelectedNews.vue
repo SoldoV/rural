@@ -84,7 +84,7 @@ export default {
     },
     getArticles(i) {
       let pages = `?perPage=5&page=${i}`;
-      this.fetchArticles(pages).then(() => {
+      this.fetchArticles([{}, pages, 5]).then(() => {
         let article = this.GET_ARTICLES();
         this.articles = article.data;
       });
