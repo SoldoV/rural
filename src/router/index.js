@@ -1,10 +1,11 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import store from "../store/index.js"
+import store from "../store/index.js";
 
 Vue.use(VueRouter);
 
-const routes = [{
+const routes = [
+  {
     path: "/",
     name: "home",
     component: () =>
@@ -12,7 +13,8 @@ const routes = [{
         /* webpackChunkName: "Homepage" */
         "../components/Homepage.vue"
       )
-  }, {
+  },
+  {
     path: "/households",
     name: "households",
     component: () =>
@@ -37,7 +39,7 @@ const routes = [{
       import(
         /* webpackChunkName: "news" */
         "../components/News.vue"
-      ),
+      )
   },
   {
     path: "/news/article/:id?",
@@ -46,7 +48,7 @@ const routes = [{
       import(
         /* webpackChunkName: "SingleArticle" */
         "../components/SingleArticle.vue"
-      ),
+      )
   },
   {
     path: "/dashboard",
@@ -59,7 +61,8 @@ const routes = [{
         /* webpackChunkName: "AdminDashboard" */
         "../components/Admin/AdminDashboard.vue"
       ),
-    children: [{
+    children: [
+      {
         path: "tags",
         name: "Admin tags",
         meta: {
@@ -93,7 +96,7 @@ const routes = [{
           import(
             /* webpackChunkName: "AdminArticles" */
             "../components/Admin/Articles.vue"
-          ),
+          )
       },
       {
         path: "cities",
@@ -118,7 +121,8 @@ const routes = [{
             /* webpackChunkName: "AdminHousehold" */
             "../components/Admin/NewHousehold.vue"
           ),
-        children: [{
+        children: [
+          {
             path: "description",
             name: "Admin household description",
             meta: {
@@ -143,7 +147,7 @@ const routes = [{
               )
           }
         ]
-      },
+      }
     ]
   },
   {
@@ -163,8 +167,7 @@ const routes = [{
         /* webpackChunkName: "contact" */
         "../components/Contact.vue"
       )
-  },
-
+  }
 ];
 
 const router = new VueRouter({
@@ -173,15 +176,15 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some((record) => record.meta.requiresAuth)) {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
     if (store.getters.IS_LOGGED_IN) {
-      next()
-      return
+      next();
+      return;
     }
     next({
       name: "Home"
-    })
-  } else next()
-})
+    });
+  } else next();
+});
 
 export default router;

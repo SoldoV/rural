@@ -3,23 +3,26 @@
     <v-data-table
       :headers="headers"
       :items="prices"
-      sort-by="calories"
       class="new-household-table mt-10"
     >
       <template v-slot:top>
         <v-toolbar flat color="white">
-          <v-toolbar-title>Cijene</v-toolbar-title>
+          <v-toolbar-title>{{
+            $t("admin.newHouseholdPrice.prices")
+          }}</v-toolbar-title>
           <v-divider class="mx-4" inset vertical></v-divider>
           <v-spacer></v-spacer>
           <v-dialog v-model="dialog" max-width="500px">
             <template v-slot:activator="{ on }">
-              <v-btn depressed color="primary" class="common-btn" v-on="on"
-                >Nova cijena</v-btn
-              >
+              <v-btn depressed color="primary" class="common-btn" v-on="on">{{
+                $t("admin.newHouseholdPrice.new")
+              }}</v-btn>
             </template>
             <v-card>
               <v-card-title>
-                <span class="headline">Nova cijena</span>
+                <span class="headline">{{
+                  $t("admin.newHouseholdPrice.new")
+                }}</span>
               </v-card-title>
 
               <v-card-text>
@@ -34,10 +37,10 @@
                           outlined
                           onkeydown="return event.keyCode !== 69"
                           v-model="price.price"
-                          label="Cijena"
+                          :label="$t('admin.newHouseholdPrice.price')"
                         ></v-text-field>
                         <div class="new-household-properties-price">
-                          Datum od do:
+                          {{ $t("admin.newHouseholdPrice.fromTo") }}
                         </div>
                         <v-date-picker
                           v-model="price.date"
@@ -55,14 +58,14 @@
                   outlined
                   class="common-btn-outlined"
                   @click="close"
-                  >Cancel</v-btn
+                  >{{ $t("common.cancel") }}</v-btn
                 >
                 <v-btn
                   depressed
                   color="primary"
                   class="common-btn"
                   @click="save"
-                  >Save</v-btn
+                  >{{ $t("common.save") }}</v-btn
                 >
               </v-card-actions>
             </v-card>
@@ -75,7 +78,7 @@
         </v-icon>
       </template>
       <template v-slot:no-data>
-        No Prices
+        {{ $t("admin.newHouseholdPrice.noPrices") }}
       </template>
     </v-data-table>
   </div>
@@ -93,24 +96,30 @@ export default {
       required: true
     }
   },
-  data: () => ({
-    dialog: false,
-    valid: false,
-    priceRules: [v => !!v || "Morate unijeti ovo polje"],
-    price: {
-      price: "",
-      date: []
-    },
-    defaultPrice: {
-      price: "",
-      date: []
-    },
-    headers: [
-      { text: "Cijena", value: "price", sortable: false },
-      { text: "Datum", value: "date" },
-      { text: "Actions", value: "actions", sortable: false }
-    ]
-  }),
+  data: function() {
+    return {
+      dialog: false,
+      valid: false,
+      priceRules: [v => !!v || this.$t("common.required")],
+      price: {
+        price: "",
+        date: []
+      },
+      defaultPrice: {
+        price: "",
+        date: []
+      },
+      headers: [
+        {
+          text: this.$t("admin.newHouseholdPrice.price"),
+          value: "price",
+          sortable: false
+        },
+        { text: this.$t("admin.newHouseholdPrice.date"), value: "date" },
+        { text: this.$t("common.actions"), value: "actions", sortable: false }
+      ]
+    };
+  },
   methods: {
     ...mapActions(["postPrice", "deletePrice"]),
     ...mapGetters(["PRICE_RESP", "GET_ERROR_MSG"]),
@@ -141,9 +150,8 @@ export default {
     },
     deleteItem(item) {
       const index = this.prices.indexOf(item);
-      confirm("Are you sure you want to delete this item?") &&
-        this.deletePrice(item.id) &&
-        this.prices.splice(index, 1);
+      confirm(this.$t("common.deleteConfirm")) &&
+        this.deletePrice(item.id).then(() => this.prices.splice(index, 1));
     }
   }
 };

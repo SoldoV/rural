@@ -3,23 +3,24 @@
     <v-data-table
       :headers="headers"
       :items="tags"
-      sort-by="calories"
       class="new-household-table mt-10"
     >
       <template v-slot:top>
         <v-toolbar flat color="white">
-          <v-toolbar-title>Tagovi</v-toolbar-title>
+          <v-toolbar-title>{{ $t("admin.navigation.tags") }}</v-toolbar-title>
           <v-divider class="mx-4" inset vertical></v-divider>
           <v-spacer></v-spacer>
           <v-dialog v-model="dialog" max-width="500px">
             <template v-slot:activator="{ on }">
-              <v-btn depressed color="primary" class="common-btn" v-on="on"
-                >Novi tag</v-btn
-              >
+              <v-btn depressed color="primary" class="common-btn" v-on="on">{{
+                $t("admin.householdTags.new")
+              }}</v-btn>
             </template>
             <v-card>
               <v-card-title>
-                <span class="headline">Novi tag</span>
+                <span class="headline">{{
+                  $t("admin.householdTags.new")
+                }}</span>
               </v-card-title>
 
               <v-card-text>
@@ -35,14 +36,14 @@
                           return-object
                           :rules="tagRules"
                           v-model="tag.type"
-                          label="Tag"
+                          :label="$t('admin.householdTags.tag')"
                         ></v-select>
                         <v-text-field
                           outlined
                           :rules="tagRules"
                           type="number"
                           v-model="tag.value"
-                          label="Vrijednost"
+                          :label="$t('common.val')"
                         ></v-text-field>
                       </v-form>
                     </v-col>
@@ -56,14 +57,14 @@
                   outlined
                   class="common-btn-outlined"
                   @click="close"
-                  >Cancel</v-btn
+                  >{{ $t("common.cancel") }}</v-btn
                 >
                 <v-btn
                   depressed
                   color="primary"
                   class="common-btn"
                   @click="save"
-                  >Save</v-btn
+                  >{{ $t("common.save") }}</v-btn
                 >
               </v-card-actions>
             </v-card>
@@ -86,7 +87,7 @@
         </v-icon>
       </template>
       <template v-slot:no-data>
-        No Tags
+        {{ $t("admin.householdTags.noTags") }}
       </template>
     </v-data-table>
   </div>
@@ -104,26 +105,28 @@ export default {
       required: true
     }
   },
-  data: () => ({
-    dialog: false,
-    valid: false,
-    tagRules: [v => !!v || "Morate unijeti ovo polje"],
-    newTags: [],
-    tag: {
-      type: {},
-      value: ""
-    },
-    defaultTag: {
-      type: {},
-      value: ""
-    },
-    headers: [
-      { text: "Slika", value: "image", sortable: false },
-      { text: "Naslov", value: "title" },
-      { text: "Vrijednost", value: "value" },
-      { text: "Actions", value: "actions", sortable: false }
-    ]
-  }),
+  data: function() {
+    return {
+      dialog: false,
+      valid: false,
+      tagRules: [v => !!v || this.$t("common.required")],
+      newTags: [],
+      tag: {
+        type: {},
+        value: ""
+      },
+      defaultTag: {
+        type: {},
+        value: ""
+      },
+      headers: [
+        { text: this.$t("common.img"), value: "image", sortable: false },
+        { text: this.$t("common.title"), value: "title" },
+        { text: this.$t("common.val"), value: "value" },
+        { text: this.$t("common.actions"), value: "actions", sortable: false }
+      ]
+    };
+  },
   computed: {
     getTags() {
       return JSON.parse(JSON.stringify(this.GET_TAGS()));
@@ -166,7 +169,7 @@ export default {
     },
     deleteItem(item) {
       const index = this.tags.indexOf(item);
-      confirm("Are you sure you want to delete this item?") &&
+      confirm(this.$t("common.deleteConfirm")) &&
         this.deleteHouseholdTag([
           this.householdId,
           { method: "detach", data: [item.type.id] }

@@ -1,0 +1,32 @@
+{
+  "homepage": {
+    "searchText": "Search the households..."
+  },
+  "common": {
+    "newItem": "New item",
+    "editItem": "Edit item",
+    "titleLabel": "Name",
+    "cancel": "Cancel",
+    "save": "Save",
+    "noData": "No data",
+    "close": "Close",
+    "required": "The field is required",
+    "actions": "Actions",
+    "deleteConfirm": "Are you sure you want to delete this item?",
+    "deleteSuccess": "Item successfully deleted",
+    "deleteFail": "Couldn't delete item",
+    "editSuccess": "Item successfully edited",
+    "editFail": "Couldn't edit item",
+    "addSuccess": "Item successfully added",
+    "addFail": "Couldn't add item"
+  },
+  "admin": {
+    "articles": {
+      "title": "Articles",
+      "new": "New article",
+      "newImg": "New image",
+      "active": "Active",
+      "img": "Image"
+    }
+  }
+}

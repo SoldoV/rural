@@ -3,14 +3,14 @@
     <v-data-table :headers="headers" :items="getArticles" class="elevation-1">
       <template v-slot:top>
         <v-toolbar flat color="white">
-          <v-toolbar-title>Članci</v-toolbar-title>
+          <v-toolbar-title>{{ $t("admin.articles.title") }}</v-toolbar-title>
           <v-divider class="mx-4" inset vertical></v-divider>
           <v-spacer></v-spacer>
           <v-dialog fullscreen v-model="dialog" max-width="500px">
             <template v-slot:activator="{ on }">
-              <v-btn color="primary" dark class="mb-2 common-btn" v-on="on"
-                >Novi članak</v-btn
-              >
+              <v-btn color="primary" dark class="mb-2 common-btn" v-on="on">{{
+                $t("admin.articles.new")
+              }}</v-btn>
             </template>
             <v-card>
               <v-card-title>
@@ -25,7 +25,7 @@
                           required
                           :rules="titleRules"
                           v-model="editedItem.title"
-                          label="Naziv"
+                          :label="$t('common.titleLabel')"
                         ></v-text-field>
                       </v-col>
                       <v-col cols="12">
@@ -38,7 +38,7 @@
                           <label class="file-input">
                             <input type="file" @change="upload" />
                           </label>
-                          Nova slika
+                          {{ $t("common.newImg") }}
                         </v-btn>
                         <div class="p-2" v-if="editedItem.image_path">
                           <img
@@ -51,7 +51,7 @@
                         <v-checkbox
                           hide-details
                           v-model="editedItem.active"
-                          label="Aktivan"
+                          :label="$t('admin.articles.active')"
                         ></v-checkbox>
                       </v-col>
                       <v-col cols="12">
@@ -72,7 +72,7 @@
                   class="common-btn-outlined"
                   @click="close"
                   :disabled="loading"
-                  >Cancel</v-btn
+                  >{{ $t("common.cancel") }}</v-btn
                 >
                 <v-btn
                   depressed
@@ -80,7 +80,7 @@
                   class="common-btn"
                   @click="save"
                   :loading="loading"
-                  >Save</v-btn
+                  >{{ $t("common.save") }}</v-btn
                 >
               </v-card-actions>
             </v-card>
@@ -104,13 +104,13 @@
         </v-icon>
       </template>
       <template v-slot:no-data>
-        No data
+        {{ $t("common.noData") }}
       </template>
     </v-data-table>
     <v-snackbar v-model="snackbar" :timeout="3000">
       {{ snackbarText }}
       <v-btn color="white" text @click="snackbar = false">
-        Close
+        {{ $t("common.close") }}
       </v-btn>
     </v-snackbar>
   </div>
@@ -139,63 +139,75 @@ import {
 
 export default {
   components: { TiptapVuetify },
-  data: () => ({
-    extensions: [
-      History,
-      Blockquote,
-      Link,
-      Underline,
-      Strike,
-      Italic,
-      ListItem,
-      BulletList,
-      OrderedList,
-      [
-        Heading,
-        {
-          options: {
-            levels: [1, 2, 3]
+  data: function() {
+    return {
+      extensions: [
+        History,
+        Blockquote,
+        Link,
+        Underline,
+        Strike,
+        Italic,
+        ListItem,
+        BulletList,
+        OrderedList,
+        [
+          Heading,
+          {
+            options: {
+              levels: [1, 2, 3]
+            }
           }
+        ],
+        Bold,
+        Code,
+        HorizontalRule,
+        Paragraph,
+        HardBreak
+      ],
+      loading: false,
+      dialog: false,
+      snackbar: false,
+      titleRules: [v => !!v || this.$t("common.required")],
+      valid: false,
+      snackbarText: "",
+      headers: [
+        { text: this.$t("common.titleLabel"), value: "title" },
+        {
+          text: this.$t("common.img"),
+          value: "image_path",
+          sortable: true
+        },
+        { text: this.$t("admin.articles.active"), value: "active" },
+        {
+          text: this.$t("common.actions"),
+          value: "actions",
+          sortable: false
         }
       ],
-      Bold,
-      Code,
-      HorizontalRule,
-      Paragraph,
-      HardBreak
-    ],
-    loading: false,
-    dialog: false,
-    snackbar: false,
-    titleRules: [v => !!v || "Popuniti polje"],
-    valid: false,
-    snackbarText: "",
-    headers: [
-      { text: "Ime", value: "title" },
-      { text: "Slika", value: "image_path", sortable: true },
-      { text: "Aktivan", value: "active" },
-      { text: "Akcije", value: "actions", sortable: false }
-    ],
-    articles: [],
-    editedIndex: -1,
-    image: "",
-    editedItem: {
-      title: "",
-      image_path: "",
-      active: false,
-      text: ``,
-      id: ""
-    },
-    defaultItem: {
-      title: "",
-      image_path: "",
-      text: ``,
-      active: false
-    }
-  }),
+      articles: [],
+      editedIndex: -1,
+      image: "",
+      editedItem: {
+        title: "",
+        image_path: "",
+        active: false,
+        text: ``,
+        id: ""
+      },
+      defaultItem: {
+        title: "",
+        image_path: "",
+        text: ``,
+        active: false
+      }
+    };
+  },
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? "New Item" : "Edit Item";
+      return this.editedIndex === -1
+        ? this.$t("common.newItem")
+        : this.$t("common.editItem");
     },
     getArticles() {
       return JSON.parse(JSON.stringify(this.GET_ARTICLES()));
@@ -243,11 +255,11 @@ export default {
       this.dialog = true;
     },
     deleteItem(item) {
-      confirm("Are you sure you want to delete this item?") &&
+      confirm(this.$t("common.deleteConfirm")) &&
         this.deleteArticle(item.id).then(() => {
           if (this.GET_ARTICLE_RESP())
-            this.popSnackbar("Item successfully deleted");
-          else this.popSnackbar("Couldn't delete article");
+            this.popSnackbar(this.$t("common.deleteSuccess"));
+          else this.popSnackbar(this.$t("common.deleteFail"));
         });
     },
     close() {
@@ -279,8 +291,8 @@ export default {
           articlesObj.append("id", this.editedItem.id);
           this.editArticle([articlesObj, this.editedItem.id]).then(() => {
             if (this.GET_ARTICLE_RESP())
-              this.popSnackbar("Item successfully edited");
-            else this.popSnackbar("Couldn't edit article");
+              this.popSnackbar(this.$t("common.editSuccess"));
+            else this.popSnackbar(this.$t("common.editFail"));
             this.loading = false;
             this.close();
           });
@@ -288,8 +300,8 @@ export default {
           articlesObj.append("image", this.editedItem.image_path);
           this.postArticle(articlesObj).then(() => {
             if (this.GET_ARTICLE_RESP())
-              this.popSnackbar("Item successfully added");
-            else this.popSnackbar("Couldn't add article");
+              this.popSnackbar(this.$t("common.addSuccess"));
+            else this.popSnackbar(this.$t("common.addFail"));
             this.loading = false;
             this.close();
           });

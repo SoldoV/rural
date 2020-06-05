@@ -31,7 +31,9 @@
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title style="width: 300px" class="ml-0 pl-4">
-        <span class="hidden-sm-and-down">Admin dashboard</span>
+        <span class="hidden-sm-and-down">{{
+          $t("admin.navigation.title")
+        }}</span>
       </v-toolbar-title>
       <v-spacer />
       <v-menu offset-y>
@@ -43,10 +45,14 @@
         </template>
         <v-list>
           <v-list-item @click="logout">
-            <v-list-item-title class="logout">Logout</v-list-item-title>
+            <v-list-item-title class="logout">{{
+              $t("common.logout")
+            }}</v-list-item-title>
           </v-list-item>
           <v-list-item @click="home()">
-            <v-list-item-title class="logout">Home Page</v-list-item-title>
+            <v-list-item-title class="logout">{{
+              $t("admin.navigation.home")
+            }}</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
@@ -61,17 +67,35 @@ export default {
   props: {
     source: String
   },
-  data: () => ({
-    dialog: false,
-    drawer: null,
-    user: "Admin",
-    items: [
-      { icon: "mdi-home", text: "Domaćinstva", url: "/dashboard/households" },
-      { icon: "mdi-tag", text: "Tagovi", url: "/dashboard/tags" },
-      { icon: "mdi-map", text: "Gradovi", url: "/dashboard/cities" },
-      { icon: "mdi-newspaper", text: "Članci", url: "/dashboard/articles" }
-    ]
-  }),
+  data: function() {
+    return {
+      dialog: false,
+      drawer: null,
+      user: "Admin",
+      items: [
+        {
+          icon: "mdi-home",
+          text: this.$t("admin.navigation.households"),
+          url: "/dashboard/households"
+        },
+        {
+          icon: "mdi-tag",
+          text: this.$t("admin.navigation.tags"),
+          url: "/dashboard/tags"
+        },
+        {
+          icon: "mdi-map",
+          text: this.$t("admin.navigation.cities"),
+          url: "/dashboard/cities"
+        },
+        {
+          icon: "mdi-newspaper",
+          text: this.$t("admin.navigation.articles"),
+          url: "/dashboard/articles"
+        }
+      ]
+    };
+  },
   methods: {
     ...mapActions(["userLogout"]),
     logout() {

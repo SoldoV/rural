@@ -3,14 +3,14 @@
     <v-data-table :headers="headers" :items="getCities" class="elevation-1">
       <template v-slot:top>
         <v-toolbar flat color="white">
-          <v-toolbar-title>Gradovi</v-toolbar-title>
+          <v-toolbar-title>{{ $t("admin.cities.cities") }}</v-toolbar-title>
           <v-divider class="mx-4" inset vertical></v-divider>
           <v-spacer></v-spacer>
           <v-dialog v-model="dialog" max-width="500px">
             <template v-slot:activator="{ on }">
-              <v-btn color="primary" dark class="mb-2 common-btn" v-on="on"
-                >Novi grad</v-btn
-              >
+              <v-btn color="primary" dark class="mb-2 common-btn" v-on="on">{{
+                $t("admin.cities.new")
+              }}</v-btn>
             </template>
             <v-card>
               <v-card-title>
@@ -25,7 +25,7 @@
                           required
                           :rules="titleRules"
                           v-model="editedItem.title"
-                          label="Naziv"
+                          :label="$t('common.titleLabel')"
                         ></v-text-field>
                       </v-col>
                     </v-form>
@@ -39,14 +39,14 @@
                   outlined
                   class="common-btn-outlined"
                   @click="close"
-                  >Cancel</v-btn
+                  >{{ $t("common.cancel") }}</v-btn
                 >
                 <v-btn
                   depressed
                   color="primary"
                   class="common-btn"
                   @click="save"
-                  >Save</v-btn
+                  >{{ $t("common.save") }}</v-btn
                 >
               </v-card-actions>
             </v-card>
@@ -62,13 +62,13 @@
         </v-icon>
       </template>
       <template v-slot:no-data>
-        No data
+        {{ $t("common.noData") }}
       </template>
     </v-data-table>
     <v-snackbar v-model="snackbar" :timeout="3000">
       {{ snackbarText }}
       <v-btn color="white" text @click="snackbar = false">
-        Close
+        {{ $t("common.close") }}
       </v-btn>
     </v-snackbar>
   </div>
@@ -78,35 +78,42 @@
 import { mapActions, mapGetters } from "vuex";
 
 export default {
-  data: () => ({
-    dialog: false,
-    snackbar: false,
-    titleRules: [v => !!v || "Popuniti polje"],
-    valid: false,
-    snackbarText: "",
-    headers: [
-      { text: "Ime", value: "title" },
-      { text: "Id", value: "id", sortable: true },
-      { text: "Akcije", value: "actions", sortable: false }
-    ],
-    editedIndex: -1,
-    editedItem: {
-      title: "",
-      id: "",
-      created_at: "",
-      updated_at: ""
-    },
-    defaultItem: {
-      title: "",
-      id: "",
-      created_at: "",
-      updated_at: ""
-    }
-  }),
-
+  data: function() {
+    return {
+      dialog: false,
+      snackbar: false,
+      titleRules: [v => !!v || this.$t("common.required")],
+      valid: false,
+      snackbarText: "",
+      headers: [
+        { text: this.$t("common.titleLabel"), value: "title" },
+        { text: this.$t("common.id"), value: "id", sortable: true },
+        {
+          text: this.$t("common.actions"),
+          value: "actions",
+          sortable: false
+        }
+      ],
+      editedIndex: -1,
+      editedItem: {
+        title: "",
+        id: "",
+        created_at: "",
+        updated_at: ""
+      },
+      defaultItem: {
+        title: "",
+        id: "",
+        created_at: "",
+        updated_at: ""
+      }
+    };
+  },
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? "New Item" : "Edit Item";
+      return this.editedIndex === -1
+        ? this.$t("common.newItem")
+        : this.$t("common.editItem");
     },
     getCities() {
       return JSON.parse(JSON.stringify(this.GET_CITIES()));
@@ -134,10 +141,11 @@ export default {
     },
 
     deleteItem(item) {
-      confirm("Are you sure you want to delete this item?") &&
+      confirm(this.$t("common.deleteConfirm")) &&
         this.deleteCity(item.id).then(() => {
-          if (this.GET_CITY_RESP()) this.popSnackbar("Grad uspješno izbrisan");
-          else this.popSnackbar("Grad nije moguće izbrisati");
+          if (this.GET_CITY_RESP())
+            this.popSnackbar(this.$t("common.deleteSuccess"));
+          else this.popSnackbar(this.$t("common.deleteFail"));
         });
     },
 
@@ -159,16 +167,18 @@ export default {
             updated_at: this.editedItem.updated_at
           };
           this.editCity(data).then(() => {
-            if (this.GET_CITY_RESP()) this.popSnackbar("Grad uspješno uređen");
-            else this.popSnackbar("Grad nije moguće urediti");
+            if (this.GET_CITY_RESP())
+              this.popSnackbar(this.$t("common.editSuccess"));
+            else this.popSnackbar(this.$t("common.editFail"));
           });
         } else {
           let data = {
             title: this.editedItem.title
           };
           this.postCity(data).then(() => {
-            if (this.GET_CITY_RESP()) this.popSnackbar("Grad uspješno dodan");
-            else this.popSnackbar("Grad nije moguće dodati");
+            if (this.GET_CITY_RESP())
+              this.popSnackbar(this.$t("common.addSuccess"));
+            else this.popSnackbar(this.$t("common.addFail"));
           });
         }
         this.close();
@@ -180,4 +190,3 @@ export default {
   }
 };
 </script>
-

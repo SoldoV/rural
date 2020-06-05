@@ -4,13 +4,12 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import "./registerServiceWorker";
-import './style/main.scss';
+import "./style/main.scss";
 import * as VueGoogleMaps from "vue2-google-maps";
-import {
-  TiptapVuetifyPlugin
-} from 'tiptap-vuetify'
-import 'tiptap-vuetify/dist/main.css'
-import 'vuetify/dist/vuetify.min.css'
+import { TiptapVuetifyPlugin } from "tiptap-vuetify";
+import "tiptap-vuetify/dist/main.css";
+import "vuetify/dist/vuetify.min.css";
+import i18n from "./i18n";
 
 Vue.use(VueGoogleMaps, {
   load: {
@@ -21,8 +20,8 @@ Vue.use(VueGoogleMaps, {
 
 Vue.use(TiptapVuetifyPlugin, {
   vuetify,
-  iconsGroup: 'mdi'
-})
+  iconsGroup: "mdi"
+});
 
 Vue.config.productionTip = false;
 
@@ -30,5 +29,6 @@ new Vue({
   vuetify,
   router,
   store,
+  i18n,
   render: h => h(App)
 }).$mount("#app");

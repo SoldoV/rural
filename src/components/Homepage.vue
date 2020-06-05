@@ -3,7 +3,7 @@
     <image-header
       class="image-header-parent households-header"
       :headerText="text"
-      :searchText="'Pretražite domaćinstva...'"
+      :searchText="$t('homepage.searchText')"
       :single="false"
       :imgSrc="'bg.jpg'"
       @search="search"

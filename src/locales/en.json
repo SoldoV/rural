@@ -1,0 +1,87 @@
+{
+  "homepage": {
+    "searchText": "Search the households..."
+  },
+  "common": {
+    "logout": "Logout",
+    "newItem": "New item",
+    "editItem": "Edit item",
+    "titleLabel": "Name",
+    "title": "Title",
+    "cancel": "Cancel",
+    "newImg": "New image",
+    "img": "Image",
+    "next": "Next",
+    "val": "Value",
+    "save": "Save",
+    "noData": "No data",
+    "id": "Id",
+    "close": "Close",
+    "required": "The field is required",
+    "actions": "Actions",
+    "deleteConfirm": "Are you sure you want to delete this item?",
+    "deleteSuccess": "Item successfully deleted",
+    "deleteFail": "Couldn't delete item",
+    "editSuccess": "Item successfully edited",
+    "editFail": "Couldn't edit item",
+    "addSuccess": "Item successfully added",
+    "addFail": "Couldn't add item"
+  },
+  "admin": {
+    "articles": {
+      "title": "Articles",
+      "new": "New article",
+      "active": "Active"
+    },
+    "cities": {
+      "cities": "Cities",
+      "new": "New city"
+    },
+    "households": {
+      "add": "Add household"
+    },
+    "navigation": {
+      "title": "Admin dashboard",
+      "home": "Home page",
+      "households": "Households",
+      "tags": "Tags",
+      "cities": "Cities",
+      "articles": "Articles"
+    },
+    "newHouseholdDesc": {
+      "delete": "Delete household",
+      "desc": "Description",
+      "address": "Address",
+      "city": "City",
+      "selected": "Selected"
+    },
+    "newHouseholdImg": {
+      "images": "Images"
+    },
+    "newHouseholdPrice": {
+      "prices": "Prices",
+      "new": "New price",
+      "price": "Price",
+      "date": "Date",
+      "fromTo": "Date from to:",
+      "noPrices": "No prices"
+    },
+    "newHouseholdProperties": {
+      "airBnb": "Airbnb link",
+      "booking": "Booking link",
+      "successEdit": "Household successfully edited",
+      "successAdd": "Household successfully added"
+    },
+    "householdTags": {
+      "new": "New tag",
+      "tag": "Tag",
+      "noTags": "No tags",
+      "category": "Category",
+      "icon": "Icon",
+      "main": "Main tags",
+      "additional": "Additional tags",
+      "distance": "Distance",
+      "mainFilters": "Main filters"
+    }
+  }
+}

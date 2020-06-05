@@ -17,14 +17,14 @@
       </template>
       <template v-slot:top>
         <v-toolbar flat color="white">
-          <v-toolbar-title>Tagovi</v-toolbar-title>
+          <v-toolbar-title>{{ $t("admin.navigation.tags") }}</v-toolbar-title>
           <v-divider class="mx-4" inset vertical></v-divider>
           <v-spacer></v-spacer>
           <v-dialog v-model="dialog" max-width="500px">
             <template v-slot:activator="{ on }">
-              <v-btn color="primary" dark class="mb-2 common-btn" v-on="on"
-                >Novi tag</v-btn
-              >
+              <v-btn color="primary" dark class="mb-2 common-btn" v-on="on">{{
+                $t("admin.householdTags.new")
+              }}</v-btn>
             </template>
             <v-card>
               <v-card-title>
@@ -39,7 +39,7 @@
                           required
                           :rules="titleRules"
                           v-model="editedItem.title"
-                          label="Naziv"
+                          :label="$t('common.titleLabel')"
                         ></v-text-field>
                       </v-col>
                       <v-col cols="24">
@@ -50,7 +50,7 @@
                           v-model="editedItem.category_id"
                           item-value="id"
                           item-text="title"
-                          label="Kategorija"
+                          :label="$t('admin.householdTags.category')"
                         ></v-select>
                       </v-col>
                       <v-col cols="12">
@@ -58,7 +58,7 @@
                           required
                           :items="icons"
                           v-model="editedItem.icon"
-                          label="Ikona"
+                          :label="$t('admin.householdTags.icon')"
                         ></v-select>
                       </v-col>
                     </v-form>
@@ -73,14 +73,14 @@
                   outlined
                   class="common-btn-outlined"
                   @click="close"
-                  >Cancel</v-btn
+                  >{{ $t("common.cancel") }}</v-btn
                 >
                 <v-btn
                   depressed
                   color="primary"
                   class="common-btn"
                   @click="save"
-                  >Save</v-btn
+                  >{{ $t("common.save") }}</v-btn
                 >
               </v-card-actions>
             </v-card>
@@ -96,13 +96,13 @@
         </v-icon>
       </template>
       <template v-slot:no-data>
-        No data
+        {{ $t("common.noData") }}
       </template>
     </v-data-table>
     <v-snackbar v-model="snackbar" :timeout="3000">
       {{ snackbarText }}
       <v-btn color="white" text @click="snackbar = false">
-        Close
+        {{ $t("common.close") }}
       </v-btn>
     </v-snackbar>
   </div>
@@ -112,57 +112,65 @@
 import { mapActions, mapGetters } from "vuex";
 
 export default {
-  data: () => ({
-    dialog: false,
-    snackbar: false,
-    titleRules: [v => !!v || "Popuniti polje"],
-    valid: false,
-    snackbarText: "",
-    categories: [
-      { title: "Glavne oznake", id: 1 },
-      { title: "Dodatne oznake", id: 2 },
-      { title: "Udaljenost", id: 3 },
-      { title: "Glavni filteri", id: 4 }
-    ],
-    icons: [
-      "icon-gym",
-      "icon-ac",
-      "icon-heater",
-      "icon-kitchen",
-      "icon-parking",
-      "icon-pool",
-      "icon-tv",
-      "icon-wifi",
-      "icon-ac",
-      "icon-shower",
-      "icon-bed"
-    ],
-    headers: [
-      { text: "Ime", value: "title" },
-      { text: "Kategorija", value: "category_id", sortable: true },
-      { text: "Ikona", value: "icon" },
-      { text: "Akcije", value: "actions", sortable: false }
-    ],
-    tags: [],
-    editedIndex: -1,
-    editedItem: {
-      title: "",
-      category_id: "",
-      icon: "",
-      created_at: "",
-      updated_at: "",
-      id: ""
-    },
-    defaultItem: {
-      title: "",
-      category_id: "",
-      icon: ""
-    }
-  }),
+  data: function() {
+    return {
+      dialog: false,
+      snackbar: false,
+      titleRules: [v => !!v || this.$t("common.required")],
+      valid: false,
+      snackbarText: "",
+      categories: [
+        { title: this.$t("admin.householdTags.main"), id: 1 },
+        { title: this.$t("admin.householdTags.additional"), id: 2 },
+        { title: this.$t("admin.householdTags.distance"), id: 3 },
+        { title: this.$t("admin.householdTags.mainFilters"), id: 4 }
+      ],
+      icons: [
+        "icon-gym",
+        "icon-ac",
+        "icon-heater",
+        "icon-kitchen",
+        "icon-parking",
+        "icon-pool",
+        "icon-tv",
+        "icon-wifi",
+        "icon-ac",
+        "icon-shower",
+        "icon-bed"
+      ],
+      headers: [
+        { text: this.$t("common.titleLabel"), value: "title" },
+        {
+          text: this.$t("admin.householdTags.category"),
+          value: "category_id",
+          sortable: true
+        },
+        { text: this.$t("admin.householdTags.icon"), value: "icon" },
+        { text: this.$t("common.actions"), value: "actions", sortable: false }
+      ],
+      tags: [],
+      editedIndex: -1,
+      editedItem: {
+        title: "",
+        category_id: "",
+        icon: "",
+        created_at: "",
+        updated_at: "",
+        id: ""
+      },
+      defaultItem: {
+        title: "",
+        category_id: "",
+        icon: ""
+      }
+    };
+  },
 
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? "New Item" : "Edit Item";
+      return this.editedIndex === -1
+        ? this.$t("common.newItem")
+        : this.$t("common.editItem");
     },
     getTags() {
       return JSON.parse(JSON.stringify(this.GET_TAGS()));
@@ -199,11 +207,11 @@ export default {
     },
 
     deleteItem(item) {
-      confirm("Are you sure you want to delete this item?") &&
+      confirm(this.$t("common.deleteConfirm")) &&
         this.deleteTag(item.id).then(() => {
           if (this.GET_TAG_RESP())
-            this.popSnackbar("Item successfully deleted");
-          else this.popSnackbar("Couldn't delete tag");
+            this.popSnackbar(this.$t("common.deleteSuccess"));
+          else this.popSnackbar(this.$t("common.deleteFail"));
         });
     },
     close() {
@@ -232,8 +240,8 @@ export default {
           };
           this.editTag(data).then(() => {
             if (this.GET_TAG_RESP())
-              this.popSnackbar("Item successfully edited");
-            else this.popSnackbar("Couldn't edit tag");
+              this.popSnackbar(this.$t("common.editSuccess"));
+            else this.popSnackbar(this.$t("common.editFail"));
           });
         } else {
           let data = {
@@ -243,8 +251,8 @@ export default {
           };
           this.postTag(data).then(() => {
             if (this.GET_TAG_RESP())
-              this.popSnackbar("Item successfully added");
-            else this.popSnackbar("Couldn't add tag");
+              this.popSnackbar(this.$t("common.addSuccess"));
+            else this.popSnackbar(this.$t("common.addFail"));
           });
         }
         this.close();
@@ -256,4 +264,3 @@ export default {
   }
 };
 </script>
-

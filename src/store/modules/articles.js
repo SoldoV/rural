@@ -1,14 +1,11 @@
-import axios from 'axios';
-import {
-  rootUrls
-} from '../../assets/_constants.js';
-
+import axios from "axios";
+import { rootUrls } from "../../assets/_constants.js";
 
 const state = {
   singleArticle: {},
   articleResp: false,
-  articles: [],
-}
+  articles: []
+};
 const getters = {
   GET_ARTICLES: state => {
     return state.articles;
@@ -18,121 +15,108 @@ const getters = {
   },
   GET_SINGLE_ARTICLE: state => {
     return state.singleArticle;
-  },
-}
+  }
+};
 
 var qs = require("qs");
 
 const actions = {
-  async fetchArticles({
-    commit,
-    rootState,
-  }, data) {
-    await axios.get(`${rootUrls.URL}/news_articles`, {
+  async fetchArticles({ commit, rootState }, data) {
+    await axios
+      .get(`${rootUrls.URL}/news_articles`, {
         headers: {
           ...rootState.common.header,
-          "Authorization": "Bearer " + rootState.common.loginToken
+          Authorization: "Bearer " + rootState.common.loginToken
         },
         params: {
           filter: {
-            ...data[0] || "",
+            ...(data[0] || "")
           },
           perPage: data[2],
           page: data[1]
         },
-        paramsSerializer: function (params) {
+        paramsSerializer: function(params) {
           return qs.stringify(params, {
-            arrayFormat: 'brackets'
-          })
-        },
-      })
-      .then(response => {
-        commit('STORE_ARTICLES', response.data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  },
-  async fetchSingleArticle({
-    commit,
-    rootState,
-  }, data) {
-    await axios.get(`${rootUrls.URL}/news_articles/${data}`, {
-        headers: {
-          ...rootState.common.header,
-          "Authorization": "Bearer " + rootState.common.loginToken
+            arrayFormat: "brackets"
+          });
         }
       })
       .then(response => {
-        commit('STORE_SINGLE_ARTICLE', response.data);
+        commit("STORE_ARTICLES", response.data);
       })
       .catch(error => {
         console.log(error);
       });
   },
-  async postArticle({
-    dispatch,
-    commit,
-    rootState
-  }, data) {
-    await axios.post(`${rootUrls.URL}/news_articles`, data, {
+  async fetchSingleArticle({ commit, rootState }, data) {
+    await axios
+      .get(`${rootUrls.URL}/news_articles/${data}`, {
+        headers: {
+          ...rootState.common.header,
+          Authorization: "Bearer " + rootState.common.loginToken
+        }
+      })
+      .then(response => {
+        commit("STORE_SINGLE_ARTICLE", response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  },
+  async postArticle({ dispatch, commit, rootState }, data) {
+    await axios
+      .post(`${rootUrls.URL}/news_articles`, data, {
         headers: {
           ...rootState.common.header,
           ...rootState.common.headerForm,
-          "Authorization": "Bearer " + rootState.common.loginToken
+          Authorization: "Bearer " + rootState.common.loginToken
         }
       })
       .then(() => {
-        commit('STORE_ARTICLE_RESP', true);
-        dispatch("fetchArticles", [])
+        commit("STORE_ARTICLE_RESP", true);
+        dispatch("fetchArticles", []);
       })
       .catch(error => {
-        commit('STORE_ARTICLE_RESP', false);
+        commit("STORE_ARTICLE_RESP", false);
         console.log(error);
       });
   },
-  async editArticle({
-    dispatch,
-    rootState,
-    commit
-  }, data) {
-    await axios.post(`${rootUrls.URL}/news_articles/${data[1]}`, data[0], {
+  async editArticle({ dispatch, rootState, commit }, data) {
+    await axios
+      .post(`${rootUrls.URL}/news_articles/${data[1]}`, data[0], {
         headers: {
           ...rootState.common.header,
           ...rootState.common.headerForm,
-          "Authorization": "Bearer " + rootState.common.loginToken
+          Authorization: "Bearer " + rootState.common.loginToken
         }
       })
       .then(() => {
-        dispatch("fetchArticles", [])
-        commit('STORE_ARTICLE_RESP', true);
+        dispatch("fetchArticles", []);
+        commit("STORE_ARTICLE_RESP", true);
       })
       .catch(error => {
-        commit('STORE_ARTICLE_RESP', false);
+        commit("STORE_ARTICLE_RESP", false);
         console.log(error);
       });
   },
-  async deleteArticle({
-    dispatch,
-    rootState,
-    commit
-  }, data) {
-    await axios.delete(`${rootUrls.URL}/news_articles/${data}`, {
+  async deleteArticle({ dispatch, rootState, commit }, data) {
+    await axios
+      .delete(`${rootUrls.URL}/news_articles/${data}`, {
         headers: {
           ...rootState.common.header,
-          "Authorization": "Bearer " + rootState.common.loginToken
+          Authorization: "Bearer " + rootState.common.loginToken
         }
       })
       .then(() => {
-        commit('STORE_ARTICLE_RESP', true);
-        dispatch("fetchArticles", [])
+        commit("STORE_ARTICLE_RESP", true);
+        dispatch("fetchArticles", []);
       })
       .catch(error => {
-        commit('STORE_ARTICLE_RESP', false);
+        commit("STORE_ARTICLE_RESP", false);
         console.log(error);
       });
-  },
-}
+  }
+};
 
 const mutations = {
   STORE_ARTICLES: (state, data) => {
@@ -144,14 +128,14 @@ const mutations = {
   STORE_SINGLE_ARTICLE: (state, data) => {
     state.singleArticle = data;
   },
-  SET_ARTICLES: (state) => {
+  SET_ARTICLES: state => {
     state.articles = [];
-  },
-}
+  }
+};
 
 export default {
   state,
   getters,
   mutations,
   actions
-}
+};

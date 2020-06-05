@@ -5,7 +5,8 @@
         depressed
         :to="'/dashboard/household/description'"
         class="common-btn"
-        ><v-icon class="mr-3">mdi-plus</v-icon>Dodaj domacinstvo</v-btn
+        ><v-icon class="mr-3">mdi-plus</v-icon
+        >{{ $t("admin.households.add") }}</v-btn
       >
     </div>
     <div class="domacinstva-wrapper">
@@ -53,9 +54,7 @@ export default {
     ]),
 
     getHousehold(id) {
-          this.$router.push(
-            `/dashboard/household/${id}/description`
-          );
+      this.$router.push(`/dashboard/household/${id}/description`);
     },
     getHouseholds(i) {
       this.fetchHouseholds([i, 12]).then(() => {
@@ -76,4 +75,3 @@ export default {
   }
 };
 </script>
-

@@ -1,13 +1,10 @@
 <template>
-  <v-data-table
-    :headers="headers"
-    :items="images"
-    sort-by="calories"
-    class="new-household-table"
-  >
+  <v-data-table :headers="headers" :items="images" class="new-household-table">
     <template v-slot:top>
       <v-toolbar flat color="white">
-        <v-toolbar-title>Slike</v-toolbar-title>
+        <v-toolbar-title>{{
+          $t("admin.newHouseholdImg.images")
+        }}</v-toolbar-title>
         <v-divider class="mx-4" inset vertical></v-divider>
         <v-spacer></v-spacer>
         <v-btn
@@ -20,7 +17,7 @@
           <label class="file-input">
             <input type="file" @change="upload" />
           </label>
-          Nova slika
+          {{ $t("common.newImg") }}
         </v-btn>
       </v-toolbar>
     </template>
@@ -35,7 +32,7 @@
       </v-icon>
     </template>
     <template v-slot:no-data>
-      No images
+      {{ $t("common.noData") }}
     </template>
   </v-data-table>
 </template>
@@ -52,17 +49,18 @@ export default {
       required: true
     }
   },
-  data: () => ({
-    loading: false,
-    image: {
-      image: ""
-    },
-    headers: [
-      { text: "Slika", value: "image" },
-      { text: "Actions", value: "actions", sortable: false }
-    ]
-  }),
-
+  data: function() {
+    return {
+      loading: false,
+      image: {
+        image: ""
+      },
+      headers: [
+        { text: this.$t("common.img"), value: "image" },
+        { text: this.$t("common.actions"), value: "actions", sortable: false }
+      ]
+    };
+  },
   methods: {
     ...mapGetters(["HOUSEHOLD_IMAGE_RESP", "GET_ERROR_MSG"]),
     ...mapActions(["postHouseholdImages", "deleteImage"]),
@@ -74,7 +72,7 @@ export default {
     },
     deleteItem(item) {
       const index = this.images.indexOf(item);
-      confirm("Are you sure you want to delete this item?") &&
+      confirm(this.$t("common.deleteConfirm")) &&
         this.deleteImage(item.id) &&
         this.images.splice(index, 1);
     },

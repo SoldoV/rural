@@ -6,7 +6,8 @@
         @click="deleteItem"
         :to="'/dashboard/household/description'"
         class="common-btn"
-        ><v-icon class="mr-3">mdi-delete</v-icon>Izbriši domacinstvo</v-btn
+        ><v-icon class="mr-3">mdi-delete</v-icon
+        >{{ $t("admin.newHouseholdDesc.delete") }}</v-btn
       >
     </div>
     <v-row class="justify-center mt-10">
@@ -17,21 +18,21 @@
             :rules="descRules"
             required
             v-model="household.title"
-            label="Naziv"
+            :label="$t('common.titleLabel')"
           ></v-text-field>
           <v-textarea
             required
             :rules="descRules"
             v-model="household.description"
             outlined
-            label="Opis"
+            :label="$t('admin.newHouseholdDesc.desc')"
           ></v-textarea>
           <v-text-field
             required
             :rules="descRules"
             outlined
             v-model="household.address"
-            label="Adresa"
+            :label="$t('admin.newHouseholdDesc.address')"
           ></v-text-field>
           <v-select
             required
@@ -42,7 +43,7 @@
             item-text="title"
             return-object
             v-model="household.city_id"
-            label="Grad"
+            :label="$t('admin.newHouseholdDesc.city')"
           ></v-select>
           <gmap-map
             :center="markers.position || center"
@@ -57,7 +58,7 @@
           </gmap-map>
           <v-checkbox
             v-model="household.popular"
-            label="Izdvojeno"
+            :label="$t('admin.newHouseholdDesc.selected')"
           ></v-checkbox>
           <div class="new-household-btn-wrapper">
             <v-btn
@@ -65,11 +66,11 @@
               outlined
               class="new-household-btn common-btn-outlined"
               @click="close"
-              >Odustani</v-btn
+              >{{ $t("common.cancel") }}</v-btn
             >
-            <v-btn depressed color="primary" class="common-btn" @click="save"
-              >Dalje</v-btn
-            >
+            <v-btn depressed color="primary" class="common-btn" @click="save">{{
+              $t("common.next")
+            }}</v-btn>
           </div>
         </v-form>
       </v-col>
@@ -81,31 +82,27 @@
 import { mapActions, mapGetters } from "vuex";
 
 export default {
-  data: () => ({
-    markers: {
-      position: {
-        lat: 45.508,
-        lng: -73.587
+  data: function() {
+    return {
+      markers: {
+        position: {
+          lat: 45.508,
+          lng: -73.587
+        }
+      },
+      valid: false,
+      descRules: [v => !!v || this.$t("common.required")],
+      household: {
+        title: "",
+        description: "",
+        address: "",
+        city_id: null,
+        latitude: null,
+        longitude: null,
+        popular: false
       }
-    },
-    valid: false,
-    descRules: [v => !!v || "Popuniti polje"],
-    latRules: [
-      v => (v >= -90 && v <= 90) || "Vrijednost treba biti od -90 do 90"
-    ],
-    longRules: [
-      v => (v >= -180 && v <= 80) || "Vrijednost treba biti od -180 do 80"
-    ],
-    household: {
-      title: "",
-      description: "",
-      address: "",
-      city_id: null,
-      latitude: null,
-      longitude: null,
-      popular: false
-    }
-  }),
+    };
+  },
   computed: {
     getCities() {
       return JSON.parse(JSON.stringify(this.GET_CITIES()));
@@ -128,7 +125,7 @@ export default {
       "getHouseholdById"
     ]),
     deleteItem() {
-      confirm("Are you sure you want to delete this item?") &&
+      confirm(this.$t("common.deleteConfirm")) &&
         this.deleteHousehold(this.household.id).then(() => {
           this.$router.push("/dashboard/households");
         });

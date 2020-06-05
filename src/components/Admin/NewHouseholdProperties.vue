@@ -17,7 +17,7 @@
         :rules="inputRules"
         outlined
         v-model="links.airBnb"
-        label="Airbnb uid"
+        :label="$t('admin.newHouseholdProperties.airBnb')"
         class="mt-10"
       ></v-text-field>
       <v-text-field
@@ -25,7 +25,7 @@
         required
         outlined
         v-model="links.booking"
-        label="Booking uid"
+        :label="$t('admin.newHouseholdProperties.booking')"
       ></v-text-field>
       <div class="new-household-btn-wrapper">
         <v-btn
@@ -34,7 +34,7 @@
           class="common-btn"
           :loading="btnLoad"
           @click="save"
-          >Dalje</v-btn
+          >{{ $t("common.next") }}</v-btn
         >
       </div>
     </v-form>
@@ -59,23 +59,25 @@ export default {
     priceComp,
     images
   },
-  data: () => ({
-    inputRules: [v => !!v || "Popuniti polje"],
-    householdId: null,
-    valid: false,
-    error: false,
-    btnLoad: false,
-    errorValue: "",
-    success: false,
-    prices: [],
-    tags: [],
-    newTags: [],
-    links: {
-      airBnb: "",
-      booking: ""
-    },
-    images: []
-  }),
+  data: function() {
+    return {
+      inputRules: [v => !!v || this.$t("common.required")],
+      householdId: null,
+      valid: false,
+      error: false,
+      btnLoad: false,
+      errorValue: "",
+      success: false,
+      prices: [],
+      tags: [],
+      newTags: [],
+      links: {
+        airBnb: "",
+        booking: ""
+      },
+      images: []
+    };
+  },
   watch: {
     success(val) {
       if (val) setTimeout(() => (this.success = false), 2000);
@@ -86,8 +88,9 @@ export default {
   },
   computed: {
     successMessage() {
-      if (this.$route.params.id) return "Uspješno uređeno domaćinstvo";
-      return "Uspješno dodano domaćinstvo";
+      if (this.$route.params.id)
+        return this.$t("admin.newHouseholdProperties.successEdit");
+      return this.$t("admin.newHouseholdProperties.successAdd");
     }
   },
   methods: {
