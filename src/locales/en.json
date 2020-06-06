@@ -174,5 +174,13 @@
   "selectedNews": {
     "selected": "Selected news",
     "all": "See all news"
+  },
+  "modules": {
+    "login": "Couldn't log in!",
+    "households": "Couldn't post household!",
+    "images": "Couldn't post image!",
+    "platforms": "Couldn't post platform!",
+    "price": "Couldn't post price!",
+    "tags": "Couldn't post tags!"
   }
 }

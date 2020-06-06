@@ -1,5 +1,8 @@
 import axios from "axios";
-import { rootUrls } from "../../assets/_constants.js";
+import {
+  rootUrls
+} from "../../assets/_constants.js";
+import i18n from "../../i18n.js"
 
 const state = {
   loginToken: localStorage.getItem("access_token") || null,
@@ -29,7 +32,9 @@ const getters = {
 };
 
 const actions = {
-  async userLogin({ commit }, data) {
+  async userLogin({
+    commit
+  }, data) {
     await axios
       .post(`${rootUrls.URL}/auth/login`, data, {
         headers: {
@@ -44,10 +49,13 @@ const actions = {
       })
       .catch(error => {
         console.log(error);
-        commit("STORE_ERROR_MSG", "ERROR: Couldn't log in");
+        commit("STORE_ERROR_MSG", `ERROR: ${i18n.t('modules.login')}`);
       });
   },
-  userLogout({ getters, commit }) {
+  userLogout({
+    getters,
+    commit
+  }) {
     if (getters.IS_LOGGED_IN) {
       localStorage.removeItem("access_token");
       commit("DESTROY_TOKEN");

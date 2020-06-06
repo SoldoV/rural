@@ -1,5 +1,8 @@
 import axios from "axios";
-import { rootUrls } from "../../assets/_constants.js";
+import {
+  rootUrls
+} from "../../assets/_constants.js";
+import i18n from "../../i18n.js";
 
 const state = {
   householdImage: false
@@ -12,7 +15,9 @@ const getters = {
 };
 
 const actions = {
-  async deleteImage({ rootState }, data) {
+  async deleteImage({
+    rootState
+  }, data) {
     await axios
       .delete(`${rootUrls.URL}/images/${data}`, {
         headers: {
@@ -25,7 +30,10 @@ const actions = {
         console.log(error);
       });
   },
-  async postHouseholdImages({ commit, rootState }, data) {
+  async postHouseholdImages({
+    commit,
+    rootState
+  }, data) {
     await axios
       .post(`${rootUrls.URL}/households/${data[1]}/images`, data[0], {
         headers: {
@@ -40,7 +48,7 @@ const actions = {
       .catch(error => {
         console.log(error);
         commit("STORE_HOUSEHOLD_IMAGE_RESP", false);
-        commit("STORE_ERROR_MSG", "ERROR: Couldn't post images", {
+        commit("STORE_ERROR_MSG", `ERROR: ${i18n.t('modules.images')}`, {
           root: true
         });
       });

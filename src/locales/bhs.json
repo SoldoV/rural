@@ -174,5 +174,13 @@
   "selectedNews": {
     "selected": "Izdvojene vijesti",
     "all": "Pogledaj sve novosti"
+  },
+  "modules": {
+    "login": "Prijava neuspješna!",
+    "households": "Nemoguće dodati domaćinstvo!",
+    "images": "Nemoguće dodati sliku!",
+    "platforms": "Nemoguće dodati platforme!",
+    "price": "Nemoguće dodati cijenu!",
+    "tags": "Nemoguće dodati tag!"
   }
 }

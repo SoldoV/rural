@@ -1,5 +1,8 @@
 import axios from "axios";
-import { rootUrls } from "../../assets/_constants.js";
+import {
+  rootUrls
+} from "../../assets/_constants.js";
+import i18n from "../../i18n.js"
 
 const state = {
   platformResp: false
@@ -12,7 +15,10 @@ const getters = {
 };
 
 const actions = {
-  async postPlatforms({ commit, rootState }, data) {
+  async postPlatforms({
+    commit,
+    rootState
+  }, data) {
     await axios
       .post(`${rootUrls.URL}/households/${data[1]}/platforms`, data[0], {
         headers: {
@@ -27,7 +33,7 @@ const actions = {
       .catch(error => {
         console.log(error);
         commit("STORE_PLATFORM_RESP", false);
-        commit("STORE_ERROR_MSG", "ERROR: Couldn't post platforms", {
+        commit("STORE_ERROR_MSG", `ERROR: ${i18n.t('modules.platforms')}`, {
           root: true
         });
       });

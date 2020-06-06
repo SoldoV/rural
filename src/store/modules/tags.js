@@ -1,5 +1,8 @@
 import axios from "axios";
-import { rootUrls } from "../../assets/_constants.js";
+import {
+  rootUrls
+} from "../../assets/_constants.js";
+import i18n from "../../i18n.js"
 
 const state = {
   tags: [],
@@ -24,7 +27,10 @@ const getters = {
 };
 
 const actions = {
-  async fetchTags({ commit, rootState }) {
+  async fetchTags({
+    commit,
+    rootState
+  }) {
     await axios
       .get(`${rootUrls.URL}/tags`, {
         headers: {
@@ -39,7 +45,10 @@ const actions = {
         console.log(error);
       });
   },
-  async fetchFilters({ commit, rootState }, data) {
+  async fetchFilters({
+    commit,
+    rootState
+  }, data) {
     await axios
       .get(`${rootUrls.URL}/categories/${data}/tags`, {
         headers: {
@@ -54,7 +63,11 @@ const actions = {
         console.log(error);
       });
   },
-  async postTag({ dispatch, rootState, commit }, data) {
+  async postTag({
+    dispatch,
+    rootState,
+    commit
+  }, data) {
     await axios
       .post(`${rootUrls.URL}/tags`, data, {
         headers: {
@@ -71,7 +84,11 @@ const actions = {
         console.log(error);
       });
   },
-  async editTag({ dispatch, rootState, commit }, data) {
+  async editTag({
+    dispatch,
+    rootState,
+    commit
+  }, data) {
     await axios
       .put(`${rootUrls.URL}/tags/${data.id}`, data, {
         headers: {
@@ -88,7 +105,11 @@ const actions = {
         console.log(error);
       });
   },
-  async deleteTag({ dispatch, rootState, commit }, data) {
+  async deleteTag({
+    dispatch,
+    rootState,
+    commit
+  }, data) {
     await axios
       .delete(`${rootUrls.URL}/tags/${data}`, {
         headers: {
@@ -105,7 +126,9 @@ const actions = {
         console.log(error);
       });
   },
-  async deleteHouseholdTag({ rootState }, data) {
+  async deleteHouseholdTag({
+    rootState
+  }, data) {
     await axios
       .post(`${rootUrls.URL}/households/${data[0]}/tags`, data[1], {
         headers: {
@@ -119,7 +142,10 @@ const actions = {
         console.log(error);
       });
   },
-  async postHouseholdTags({ commit, rootState }, data) {
+  async postHouseholdTags({
+    commit,
+    rootState
+  }, data) {
     await axios
       .post(`${rootUrls.URL}/households/${data[1]}/tags`, data[0], {
         headers: {
@@ -134,7 +160,9 @@ const actions = {
       .catch(error => {
         console.log(error);
         commit("STORE_HOUSEHOLD_TAG_RESP", false);
-        commit("STORE_ERROR_MSG", "ERROR: Couldn't post tags");
+        commit("STORE_ERROR_MSG", `ERROR: ${i18n.t('modules.tag')}`, {
+          root: true
+        });
       });
   }
 };
