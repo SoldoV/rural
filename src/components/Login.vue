@@ -114,11 +114,3 @@ export default {
 };
 </script>
 
-<style lang="scss">
-.error-alert {
-  position: fixed !important;
-  bottom: 1em !important;
-  margin: 0 10% 0 10%;
-  width: 80%;
-}
-</style>

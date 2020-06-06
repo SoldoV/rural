@@ -5,7 +5,7 @@
       :headerText="text"
       :searchText="$t('homepage.searchText')"
       :single="false"
-      :imgSrc="'bg.jpg'"
+      :imgSrc="'bg.webp'"
       @search="search"
     />
     <selectedDestinations />

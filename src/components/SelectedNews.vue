@@ -47,11 +47,6 @@ export default {
       spaceBetween: 20,
       preventClicks: true,
       preventClicksPropagation: true,
-      autoplay: {
-        delay: 2500,
-        disableOnInteraction: false
-      },
-      loop: true,
       pagination: {
         el: ".swiper-pagination"
       },

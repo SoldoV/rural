@@ -52,20 +52,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss">
-.singleNews {
-  flex-direction: column !important;
-  max-width: 100% !important;
-
-  .news-items-wrapper {
-    padding: 0 10px 0 10px;
-  }
-
-  .news-item-image {
-    margin-right: 0px !important;
-    max-width: 100% !important;
-    width: initial !important;
-  }
-}
-</style>

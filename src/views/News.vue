@@ -2,7 +2,7 @@
   <div class="news">
     <image-header
       class="image-header-parent"
-      :imgSrc="'image.jpg'"
+      :imgSrc="'image.webp'"
       :searchText="$t('news.search')"
       :headerText="text"
       @search="search"

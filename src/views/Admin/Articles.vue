@@ -315,9 +315,3 @@ export default {
   }
 };
 </script>
-<style lang="scss">
-.container-height {
-  height: calc(100% - 0vh) !important;
-  max-height: calc(100% - 0vh) !important;
-}
-</style>

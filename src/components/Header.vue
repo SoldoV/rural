@@ -138,18 +138,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss">
-.header {
-  .navigation-profile-button {
-    width: initial;
-    margin-left: 1em;
-    .v-btn {
-      width: 100%;
-    }
-  }
-}
-.logout {
-  cursor: pointer;
-}
-</style>

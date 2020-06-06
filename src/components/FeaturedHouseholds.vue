@@ -97,14 +97,6 @@ export default {
   },
   mounted() {
     this.getHouseholds(1);
-    this.swiper.slideTo(3, 1000, false);
   }
 };
 </script>
-<style lang="scss">
-.domacinstva-item {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-</style>

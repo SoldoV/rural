@@ -166,6 +166,34 @@ body {
   }
 }
 
+.error-alert {
+  position: fixed !important;
+  bottom: 1em !important;
+  margin: 0 10% 0 10%;
+  width: 80%;
+}
+
+.header {
+  .navigation-profile-button {
+    width: initial;
+    margin-left: 1em;
+
+    .v-btn {
+      width: 100%;
+    }
+  }
+}
+
+.logout {
+  cursor: pointer;
+}
+
+.domacinstva-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .news-item,
 .domacinstva-item {
   z-index: 4 !important;
@@ -197,6 +225,11 @@ body {
 
 .homepage-selected-households {
   left: -120px !important;
+}
+
+.container-height {
+  height: calc(100% - 0vh) !important;
+  max-height: calc(100% - 0vh) !important;
 }
 
 @media only screen and (max-width: 964px) {
