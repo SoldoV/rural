@@ -126,11 +126,7 @@
 </template>
 
 <script>
-import { validationMixin } from "vuelidate";
-
 export default {
-  mixins: [validationMixin],
-
   data: function() {
     return {
       valid: false,

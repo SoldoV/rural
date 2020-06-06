@@ -48,9 +48,9 @@
 </template>
 
 <script>
-import tags from "./NewHouseholdTags.vue";
-import priceComp from "./NewHouseholdPrice.vue";
-import images from "./NewHouseholdImage.vue";
+import tags from "../../components/Admin/NewHouseholdTags.vue";
+import priceComp from "../../components/Admin/NewHouseholdPrice.vue";
+import images from "../../components/Admin/NewHouseholdImage.vue";
 import { mapGetters, mapActions } from "vuex";
 
 export default {

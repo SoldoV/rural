@@ -115,7 +115,7 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import featured from "./FeaturedHouseholds.vue";
+import featured from "../components/FeaturedHouseholds.vue";
 
 export default {
   components: {

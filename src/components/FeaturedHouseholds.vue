@@ -36,8 +36,8 @@ export default {
     households: [],
     cities: [],
     swiperOptions: {
-      preventClicks: false,
-      preventClicksPropagation: false,
+      preventClicks: true,
+      preventClicksPropagation: true,
       slidesPerView: 5,
       spaceBetween: 20,
       autoplay: {

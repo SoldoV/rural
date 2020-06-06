@@ -4,14 +4,13 @@ import store from "../store/index.js";
 
 Vue.use(VueRouter);
 
-const routes = [
-  {
+const routes = [{
     path: "/",
     name: "home",
     component: () =>
       import(
         /* webpackChunkName: "Homepage" */
-        "../components/Homepage.vue"
+        "../views/Homepage.vue"
       )
   },
   {
@@ -20,7 +19,7 @@ const routes = [
     component: () =>
       import(
         /* webpackChunkName: "households" */
-        "../components/Households.vue"
+        "../views/Households.vue"
       )
   },
   {
@@ -29,7 +28,7 @@ const routes = [
     component: () =>
       import(
         /* webpackChunkName: "Household" */
-        "../components/SingleHousehold.vue"
+        "../views/SingleHousehold.vue"
       )
   },
   {
@@ -38,7 +37,7 @@ const routes = [
     component: () =>
       import(
         /* webpackChunkName: "news" */
-        "../components/News.vue"
+        "../views/News.vue"
       )
   },
   {
@@ -47,7 +46,7 @@ const routes = [
     component: () =>
       import(
         /* webpackChunkName: "SingleArticle" */
-        "../components/SingleArticle.vue"
+        "../views/SingleArticle.vue"
       )
   },
   {
@@ -59,10 +58,9 @@ const routes = [
     component: () =>
       import(
         /* webpackChunkName: "AdminDashboard" */
-        "../components/Admin/AdminDashboard.vue"
+        "../views/Admin/AdminDashboard.vue"
       ),
-    children: [
-      {
+    children: [{
         path: "tags",
         name: "Admin tags",
         meta: {
@@ -71,7 +69,7 @@ const routes = [
         component: () =>
           import(
             /* webpackChunkName: "AdminTags" */
-            "../components/Admin/Tags.vue"
+            "../views/Admin/Tags.vue"
           )
       },
       {
@@ -83,7 +81,7 @@ const routes = [
         component: () =>
           import(
             /* webpackChunkName: "AdminHouseholds" */
-            "../components/Admin/Households.vue"
+            "../views/Admin/Households.vue"
           )
       },
       {
@@ -95,7 +93,7 @@ const routes = [
         component: () =>
           import(
             /* webpackChunkName: "AdminArticles" */
-            "../components/Admin/Articles.vue"
+            "../views/Admin/Articles.vue"
           )
       },
       {
@@ -107,7 +105,7 @@ const routes = [
         component: () =>
           import(
             /* webpackChunkName: "AdminCities" */
-            "../components/Admin/Cities.vue"
+            "../views/Admin/Cities.vue"
           )
       },
       {
@@ -119,10 +117,9 @@ const routes = [
         component: () =>
           import(
             /* webpackChunkName: "AdminHousehold" */
-            "../components/Admin/NewHousehold.vue"
+            "../views/Admin/NewHousehold.vue"
           ),
-        children: [
-          {
+        children: [{
             path: "description",
             name: "Admin household description",
             meta: {
@@ -131,7 +128,7 @@ const routes = [
             component: () =>
               import(
                 /* webpackChunkName: "householdDescription" */
-                "../components/Admin/NewHouseholdDescription.vue"
+                "../views/Admin/NewHouseholdDescription.vue"
               )
           },
           {
@@ -143,7 +140,7 @@ const routes = [
             component: () =>
               import(
                 /* webpackChunkName: "householdProperties" */
-                "../components/Admin/NewHouseholdProperties.vue"
+                "../views/Admin/NewHouseholdProperties.vue"
               )
           }
         ]
@@ -156,7 +153,7 @@ const routes = [
     component: () =>
       import(
         /* webpackChunkName: "about" */
-        "../components/About.vue"
+        "../views/About.vue"
       )
   },
   {
@@ -165,7 +162,7 @@ const routes = [
     component: () =>
       import(
         /* webpackChunkName: "contact" */
-        "../components/Contact.vue"
+        "../views/Contact.vue"
       )
   }
 ];

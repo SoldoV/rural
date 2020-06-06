@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import card from "../CardItem.vue";
+import card from "../../components/CardItem.vue";
 import { mapActions, mapGetters } from "vuex";
 
 export default {

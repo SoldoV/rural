@@ -30,8 +30,8 @@
 </template>
 
 <script>
-import imageHeader from "./ImageHeader.vue";
-import newsItem from "./NewsItem.vue";
+import imageHeader from "../components/ImageHeader.vue";
+import newsItem from "../components/NewsItem.vue";
 import { mapActions, mapGetters } from "vuex";
 
 export default {

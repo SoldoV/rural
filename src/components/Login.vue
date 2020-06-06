@@ -33,6 +33,7 @@
                   :rules="passRules"
                   type="password"
                   v-model="password"
+                  @keyup.enter="login()"
                 ></v-text-field>
                 <v-btn
                   depressed

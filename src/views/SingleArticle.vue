@@ -23,8 +23,8 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import imageHeader from "./ImageHeader.vue";
-import selectedNews from "./SelectedNews.vue";
+import imageHeader from "../components/ImageHeader.vue";
+import selectedNews from "../components/SelectedNews.vue";
 
 export default {
   components: {

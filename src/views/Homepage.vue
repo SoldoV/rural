@@ -16,10 +16,10 @@
 
 <script>
 import { mapMutations } from "vuex";
-import imageHeader from "./ImageHeader.vue";
-import featured from "./FeaturedHouseholds.vue";
-import selectedNews from "./SelectedNews.vue";
-import selectedDestinations from "./SelectedDestinations.vue";
+import imageHeader from "../components/ImageHeader.vue";
+import featured from "../components/FeaturedHouseholds.vue";
+import selectedNews from "../components/SelectedNews.vue";
+import selectedDestinations from "../components/SelectedDestinations.vue";
 
 export default {
   components: {

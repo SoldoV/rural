@@ -58,9 +58,9 @@
 </template>
 
 <script>
-import imageHeader from "./ImageHeader.vue";
-import categoriesSidebar from "./CategoriesSidebar.vue";
-import card from "./CardItem.vue";
+import imageHeader from "../components/ImageHeader.vue";
+import categoriesSidebar from "../components/CategoriesSidebar.vue";
+import card from "../components/CardItem.vue";
 import { mapActions, mapGetters, mapMutations } from "vuex";
 
 export default {
