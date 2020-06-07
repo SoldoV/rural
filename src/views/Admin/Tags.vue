@@ -38,8 +38,14 @@
                         <v-text-field
                           required
                           :rules="titleRules"
-                          v-model="editedItem.title"
-                          :label="$t('common.titleLabel')"
+                          v-model="editedItem.title.bhs"
+                          :label="$t('common.titleLabel') + ' (bhs)'"
+                        ></v-text-field>
+                        <v-text-field
+                          required
+                          :rules="titleRules"
+                          v-model="editedItem.title.en"
+                          :label="$t('common.titleLabel') + ' (en)'"
                         ></v-text-field>
                       </v-col>
                       <v-col cols="24">
@@ -139,7 +145,8 @@ export default {
         "icon-bed"
       ],
       headers: [
-        { text: this.$t("common.titleLabel"), value: "title" },
+        { text: this.$t("common.titleLabel") + " (en)", value: "title.en" },
+        { text: this.$t("common.titleLabel") + " (bhs)", value: "title.bhs" },
         {
           text: this.$t("admin.householdTags.category"),
           value: "category_id",
@@ -151,7 +158,7 @@ export default {
       tags: [],
       editedIndex: -1,
       editedItem: {
-        title: "",
+        title: { en: "", bhs: "" },
         category_id: "",
         icon: "",
         created_at: "",
@@ -159,7 +166,7 @@ export default {
         id: ""
       },
       defaultItem: {
-        title: "",
+        title: { en: "", bhs: "" },
         category_id: "",
         icon: ""
       }
@@ -223,32 +230,39 @@ export default {
     },
     isValid() {
       if ([1, 2].indexOf(this.editedItem.category_id) > -1)
-        return this.editedItem.icon.length && this.editedItem.title.length;
+        return (
+          this.editedItem.icon.length &&
+          this.editedItem.title.en.length &&
+          this.editedItem.title.bhs.length
+        );
       if ([3, 4].indexOf(this.editedItem.category_id) > -1)
-        return this.editedItem.title.length;
+        return (
+          this.editedItem.title.en.length && this.editedItem.title.bhs.length
+        );
     },
     save() {
       if (this.$refs.form.validate() && this.isValid()) {
+        let data = {
+          category_id: this.editedItem.category_id,
+          icon: this.editedItem.icon,
+          title: {
+            en: this.editedItem.title.en,
+            bhs: this.editedItem.title.bhs
+          }
+        };
         if (this.editedIndex > -1) {
-          let data = {
-            category_id: this.editedItem.category_id,
-            icon: this.editedItem.icon,
-            title: this.editedItem.title,
+          let editedData = {
             id: this.editedItem.id,
             created_at: this.editedItem.created_at,
-            updated_at: this.editedItem.updated_at
+            updated_at: this.editedItem.updated_at,
+            ...data
           };
-          this.editTag(data).then(() => {
+          this.editTag(editedData).then(() => {
             if (this.GET_TAG_RESP())
               this.popSnackbar(this.$t("common.editSuccess"));
             else this.popSnackbar(this.$t("common.editFail"));
           });
         } else {
-          let data = {
-            category_id: this.editedItem.category_id,
-            icon: this.editedItem.icon,
-            title: this.editedItem.title
-          };
           this.postTag(data).then(() => {
             if (this.GET_TAG_RESP())
               this.popSnackbar(this.$t("common.addSuccess"));
@@ -260,7 +274,7 @@ export default {
     }
   },
   mounted() {
-    this.fetchTags();
+    this.fetchTags({ withTranslations: 1 });
   }
 };
 </script>

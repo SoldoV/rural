@@ -106,7 +106,7 @@ export default {
       if (this.$refs.form.validate()) {
         this.btnLoad = true;
         let platforms = {
-          method: "attach",
+          method: "syncWithoutDetaching",
           data: {
             1: {
               uid: this.links.airBnb
@@ -166,7 +166,10 @@ export default {
   },
   created() {
     if (this.$route.params.id) {
-      this.getHouseholdById(this.$route.params.id).then(() => {
+      this.getHouseholdById([
+        this.$route.params.id,
+        { withTranslations: 1 }
+      ]).then(() => {
         if (this.GET_HOUSEHOLDID_RESP()) {
           this.setEditedHouseholdItems();
         }

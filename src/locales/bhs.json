@@ -34,6 +34,8 @@
   },
   "admin": {
     "articles": {
+      "labelEn": "Tekst članka (en):",
+      "labelBhs": "Tekst članka (bhs):",
       "title": "Članci",
       "new": "Novi članak",
       "active": "Aktivan"

@@ -35,9 +35,9 @@ export default {
       let lang = this.selected == "English" ? "en" : "bhs";
       this.$i18n.locale = lang;
       localStorage.setItem("Lang", lang);
+      location.reload();
     },
     setSelected() {
-      console.log("dadad");
       if (localStorage.Lang != null)
         this.selected = localStorage.Lang == "en" ? "English" : "BHS";
       else this.selected = "English";
@@ -46,6 +46,7 @@ export default {
   mounted() {
     this.setSelected();
     if (localStorage.Lang != null) this.$i18n.locale = localStorage.Lang;
+    else this.$i18n.locale = "en";
   }
 };
 </script>

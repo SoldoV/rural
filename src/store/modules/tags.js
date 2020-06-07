@@ -30,12 +30,16 @@ const actions = {
   async fetchTags({
     commit,
     rootState
-  }) {
+  }, data) {
     await axios
       .get(`${rootUrls.URL}/tags`, {
         headers: {
           ...rootState.common.header,
-          Authorization: "Bearer " + rootState.common.loginToken
+          Authorization: "Bearer " + rootState.common.loginToken,
+          "X-Localization": localStorage.getItem("Lang")
+        },
+        params: {
+          ...data
         }
       })
       .then(response => {
@@ -77,7 +81,9 @@ const actions = {
       })
       .then(() => {
         commit("STORE_TAG_RESP", true);
-        dispatch("fetchTags");
+        dispatch("fetchTags", {
+          withTranslations: 1
+        });
       })
       .catch(error => {
         commit("STORE_TAG_RESP", false);
@@ -98,7 +104,9 @@ const actions = {
       })
       .then(() => {
         commit("STORE_TAG_RESP", true);
-        dispatch("fetchTags");
+        dispatch("fetchTags", {
+          withTranslations: 1
+        });
       })
       .catch(error => {
         commit("STORE_TAG_RESP", false);
@@ -119,7 +127,9 @@ const actions = {
       })
       .then(() => {
         commit("STORE_TAG_RESP", true);
-        dispatch("fetchTags");
+        dispatch("fetchTags", {
+          withTranslations: 1
+        });
       })
       .catch(error => {
         commit("STORE_TAG_RESP", false);

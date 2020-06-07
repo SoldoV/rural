@@ -24,8 +24,14 @@
                         <v-text-field
                           required
                           :rules="titleRules"
-                          v-model="editedItem.title"
-                          :label="$t('common.titleLabel')"
+                          v-model="editedItem.title.bhs"
+                          :label="$t('common.titleLabel') + '(bhs)'"
+                        ></v-text-field>
+                        <v-text-field
+                          required
+                          :rules="titleRules"
+                          v-model="editedItem.title.en"
+                          :label="$t('common.titleLabel') + '(en)'"
                         ></v-text-field>
                       </v-col>
                       <v-col cols="12">
@@ -55,8 +61,20 @@
                         ></v-checkbox>
                       </v-col>
                       <v-col cols="12">
+                        <div class="articles-label">
+                          {{ $t("admin.articles.labelEn") }}
+                        </div>
                         <tiptap-vuetify
-                          v-model="editedItem.text"
+                          v-model="editedItem.text.en"
+                          :extensions="extensions"
+                        />
+                      </v-col>
+                      <v-col cols="12">
+                        <div class="articles-label">
+                          {{ $t("admin.articles.labelBhs") }}
+                        </div>
+                        <tiptap-vuetify
+                          v-model="editedItem.text.bhs"
                           :extensions="extensions"
                         />
                       </v-col>
@@ -86,6 +104,16 @@
             </v-card>
           </v-dialog>
         </v-toolbar>
+      </template>
+      <template v-slot:item.title.en="{ item }">
+        <div class="p-2 article-title">
+          {{ item.title.en }}
+        </div>
+      </template>
+      <template v-slot:item.title.bhs="{ item }">
+        <div class="p-2 article-title">
+          {{ item.title.bhs }}
+        </div>
       </template>
       <template v-slot:item.image_path="{ item }">
         <div class="p-2">
@@ -172,7 +200,8 @@ export default {
       valid: false,
       snackbarText: "",
       headers: [
-        { text: this.$t("common.titleLabel"), value: "title" },
+        { text: this.$t("common.titleLabel") + " (bhs)", value: "title.bhs" },
+        { text: this.$t("common.titleLabel") + " (en)", value: "title.en" },
         {
           text: this.$t("common.img"),
           value: "image_path",
@@ -189,17 +218,17 @@ export default {
       editedIndex: -1,
       image: "",
       editedItem: {
-        title: "",
+        title: { en: "", bhs: "" },
         image_path: "",
         active: false,
-        text: ``,
+        text: { en: ``, bhs: `` },
         id: ""
       },
       defaultItem: {
-        title: "",
+        title: { en: "", bhs: "" },
         image_path: "",
-        text: ``,
-        active: false
+        active: false,
+        text: { en: ``, bhs: `` }
       }
     };
   },
@@ -281,8 +310,10 @@ export default {
       if (this.isValid()) {
         this.loading = true;
         var articlesObj = new FormData();
-        articlesObj.append("title", this.editedItem.title);
-        articlesObj.append("text", this.editedItem.text);
+        articlesObj.append("title[en]", this.editedItem.title.en);
+        articlesObj.append("title[bhs]", this.editedItem.title.bhs);
+        articlesObj.append("text[en]", this.editedItem.text.en);
+        articlesObj.append("text[bhs]", this.editedItem.text.bhs);
         articlesObj.append("active", this.editedItem.active ? 1 : 0);
         if (this.editedIndex > -1) {
           if (this.editedItem.image_path instanceof File)
@@ -311,7 +342,7 @@ export default {
   },
   beforeMount() {
     this.SET_ARTICLES();
-    this.fetchArticles([]);
+    this.fetchArticles([{ withTranslations: 1 }]);
   }
 };
 </script>

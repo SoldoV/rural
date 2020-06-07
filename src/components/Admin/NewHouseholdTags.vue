@@ -148,7 +148,7 @@ export default {
     },
     post() {
       let tagsObj = {
-        method: "attach",
+        method: "syncWithoutDetaching",
         data: {}
       };
       tagsObj.data[this.tag.type.id] = {
@@ -182,7 +182,7 @@ export default {
     }
   },
   created() {
-    this.fetchTags();
+    this.fetchTags({ withTranslations: 1 });
   }
 };
 </script>

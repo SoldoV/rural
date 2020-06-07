@@ -1,5 +1,7 @@
 import axios from "axios";
-import { rootUrls } from "../../assets/_constants.js";
+import {
+  rootUrls
+} from "../../assets/_constants.js";
 
 const state = {
   singleArticle: {},
@@ -21,21 +23,26 @@ const getters = {
 var qs = require("qs");
 
 const actions = {
-  async fetchArticles({ commit, rootState }, data) {
+  async fetchArticles({
+    commit,
+    rootState
+  }, data) {
     await axios
       .get(`${rootUrls.URL}/news_articles`, {
         headers: {
           ...rootState.common.header,
-          Authorization: "Bearer " + rootState.common.loginToken
+          Authorization: "Bearer " + rootState.common.loginToken,
+          "X-Localization": localStorage.getItem("Lang")
         },
         params: {
           filter: {
-            ...(data[0] || "")
+            ...(data[1] || ""),
           },
-          perPage: data[2],
-          page: data[1]
+          ...(data[0] || ""),
+          perPage: data[3],
+          page: data[2]
         },
-        paramsSerializer: function(params) {
+        paramsSerializer: function (params) {
           return qs.stringify(params, {
             arrayFormat: "brackets"
           });
@@ -48,12 +55,16 @@ const actions = {
         console.log(error);
       });
   },
-  async fetchSingleArticle({ commit, rootState }, data) {
+  async fetchSingleArticle({
+    commit,
+    rootState
+  }, data) {
     await axios
       .get(`${rootUrls.URL}/news_articles/${data}`, {
         headers: {
           ...rootState.common.header,
-          Authorization: "Bearer " + rootState.common.loginToken
+          Authorization: "Bearer " + rootState.common.loginToken,
+          "X-Localization": localStorage.getItem("Lang")
         }
       })
       .then(response => {
@@ -63,7 +74,11 @@ const actions = {
         console.log(error);
       });
   },
-  async postArticle({ dispatch, commit, rootState }, data) {
+  async postArticle({
+    dispatch,
+    commit,
+    rootState
+  }, data) {
     await axios
       .post(`${rootUrls.URL}/news_articles`, data, {
         headers: {
@@ -74,14 +89,20 @@ const actions = {
       })
       .then(() => {
         commit("STORE_ARTICLE_RESP", true);
-        dispatch("fetchArticles", []);
+        dispatch("fetchArticles", [{
+          withTranslations: 1
+        }]);
       })
       .catch(error => {
         commit("STORE_ARTICLE_RESP", false);
         console.log(error);
       });
   },
-  async editArticle({ dispatch, rootState, commit }, data) {
+  async editArticle({
+    dispatch,
+    rootState,
+    commit
+  }, data) {
     await axios
       .post(`${rootUrls.URL}/news_articles/${data[1]}`, data[0], {
         headers: {
@@ -91,7 +112,9 @@ const actions = {
         }
       })
       .then(() => {
-        dispatch("fetchArticles", []);
+        dispatch("fetchArticles", [{
+          withTranslations: 1
+        }]);
         commit("STORE_ARTICLE_RESP", true);
       })
       .catch(error => {
@@ -99,7 +122,11 @@ const actions = {
         console.log(error);
       });
   },
-  async deleteArticle({ dispatch, rootState, commit }, data) {
+  async deleteArticle({
+    dispatch,
+    rootState,
+    commit
+  }, data) {
     await axios
       .delete(`${rootUrls.URL}/news_articles/${data}`, {
         headers: {
@@ -109,7 +136,9 @@ const actions = {
       })
       .then(() => {
         commit("STORE_ARTICLE_RESP", true);
-        dispatch("fetchArticles", []);
+        dispatch("fetchArticles", [{
+          withTranslations: 1
+        }]);
       })
       .catch(error => {
         commit("STORE_ARTICLE_RESP", false);

@@ -44,7 +44,7 @@ export default {
     households: []
   }),
   methods: {
-    ...mapActions(["fetchHouseholds", "fetchCities", "getHouseholdById"]),
+    ...mapActions(["fetchHouseholds", "fetchCities"]),
     ...mapGetters([
       "GET_HOUSEHOLDS",
       "GET_CITIES",

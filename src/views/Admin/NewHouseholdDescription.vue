@@ -17,15 +17,29 @@
             outlined
             :rules="descRules"
             required
-            v-model="household.title"
-            :label="$t('common.titleLabel')"
+            v-model="household.title.bhs"
+            :label="$t('common.titleLabel') + ' (bhs)'"
+          ></v-text-field>
+          <v-text-field
+            outlined
+            :rules="descRules"
+            required
+            v-model="household.title.en"
+            :label="$t('common.titleLabel') + ' (en)'"
           ></v-text-field>
           <v-textarea
             required
             :rules="descRules"
-            v-model="household.description"
+            v-model="household.description.bhs"
             outlined
-            :label="$t('admin.newHouseholdDesc.desc')"
+            :label="$t('admin.newHouseholdDesc.desc') + ' (bhs)'"
+          ></v-textarea>
+          <v-textarea
+            required
+            :rules="descRules"
+            v-model="household.description.en"
+            outlined
+            :label="$t('admin.newHouseholdDesc.desc') + ' (en)'"
           ></v-textarea>
           <v-text-field
             required
@@ -93,8 +107,14 @@ export default {
       valid: false,
       descRules: [v => !!v || this.$t("common.required")],
       household: {
-        title: "",
-        description: "",
+        title: {
+          en: "",
+          bhs: ""
+        },
+        description: {
+          en: "",
+          bhs: ""
+        },
         address: "",
         city_id: null,
         latitude: null,
@@ -152,8 +172,14 @@ export default {
         typeof this.markers.position !== "undefined"
       ) {
         let data = {
-          title: this.household.title,
-          description: this.household.description,
+          title: {
+            en: this.household.title.en,
+            bhs: this.household.title.bhs
+          },
+          description: {
+            en: this.household.description.en,
+            bhs: this.household.description.bhs
+          },
           address: this.household.address,
           city_id: this.household.city_id.id,
           latitude: this.markers.position.lat.toFixed(8),
@@ -189,8 +215,14 @@ export default {
     storeHousehold() {
       let data = this.GET_SINGLE_HOUSEHOLD();
       this.household = {
-        title: data.title,
-        description: data.description,
+        title: {
+          en: data.title.en,
+          bhs: data.title.bhs
+        },
+        description: {
+          en: data.description.en,
+          bhs: data.description.bhs
+        },
         address: data.address,
         city_id: data.city_id,
         latitude: data.latitude,
@@ -209,7 +241,10 @@ export default {
   mounted() {
     this.geolocate();
     this.fetchCities();
-    this.getHouseholdById(this.$route.params.id).then(() => {
+    this.getHouseholdById([
+      this.$route.params.id,
+      { withTranslations: 1 }
+    ]).then(() => {
       if (this.GET_HOUSEHOLDID_RESP()) {
         this.storeHousehold();
       }

@@ -52,7 +52,8 @@ const actions = {
       .get(`${rootUrls.URL}/households`, {
         headers: {
           ...rootState.common.header,
-          Authorization: "Bearer " + rootState.common.loginToken
+          Authorization: "Bearer " + rootState.common.loginToken,
+          "X-Localization": localStorage.getItem("Lang")
         },
         params: {
           filterRelation: {
@@ -91,10 +92,19 @@ const actions = {
   }, data) {
     await axios
       .get(
-        `${rootUrls.URL}/households/${data}?with[]=prices&with[]=images&with[]=tags&with[]=platforms`, {
+        `${rootUrls.URL}/households/${data[0]}?with[]=prices&with[]=images&with[]=tags&with[]=platforms`, {
           headers: {
             ...rootState.common.header,
-            Authorization: "Bearer " + rootState.common.loginToken
+            Authorization: "Bearer " + rootState.common.loginToken,
+            "X-Localization": localStorage.getItem("Lang")
+          },
+          params: {
+            ...data[1] || ""
+          },
+          paramsSerializer: function (params) {
+            return qs.stringify(params, {
+              arrayFormat: "brackets"
+            });
           }
         }
       )
@@ -150,7 +160,6 @@ const actions = {
       });
   },
   async deleteHousehold({
-    dispatch,
     rootState
   }, data) {
     await axios
@@ -160,9 +169,7 @@ const actions = {
           Authorization: "Bearer " + rootState.common.loginToken
         }
       })
-      .then(() => {
-        dispatch("fetchTags");
-      })
+      .then()
       .catch(error => {
         console.log(error);
       });

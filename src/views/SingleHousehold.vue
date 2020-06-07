@@ -196,7 +196,7 @@ export default {
     }
   },
   mounted() {
-    this.getHouseholdById(this.$route.params.id).then(() => {
+    this.getHouseholdById([this.$route.params.id, {}]).then(() => {
       if (this.GET_HOUSEHOLDID_RESP()) {
         this.storeHousehold();
       }
