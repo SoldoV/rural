@@ -75,6 +75,7 @@ export default {
       firstFilter: {},
       secondFilter: [],
       searchFilter: {},
+      priceFilter: {},
       cityFilter: {},
       lastPage: 1,
       households: [],
@@ -102,10 +103,11 @@ export default {
     getHouseholdPage(id) {
       this.$router.push(`/households/${id}`);
     },
-    setFilters(first, second, city) {
+    setFilters(first, second, city, price) {
       this.firstFilter = first;
       this.secondFilter = second;
       this.cityFilter = city;
+      this.priceFilter = price;
       this.getHouseholds(1);
     },
     search(val) {
@@ -119,7 +121,8 @@ export default {
         this.firstFilter,
         this.secondFilter,
         this.searchFilter,
-        this.cityFilter
+        this.cityFilter,
+        this.priceFilter
       ];
       this.fetchHouseholds(params).then(() => {
         this.fetchCities().then(() => {

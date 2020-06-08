@@ -59,14 +59,12 @@ const actions = {
           filterRelation: {
             ...data[2],
             ...data[3]
-            // prices: {
-            //   price: [">40", "<50"],
-            // }
           },
           filter: {
             ...data[4],
             ...data[5]
           },
+          ...data[6],
           with: ["prices", "images", "platforms", "tags"],
           perPage: data[1],
           page: data[0]

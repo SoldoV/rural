@@ -21,7 +21,7 @@
           {{ household.title }}
         </div>
         <div class="card-item-price">
-          {{ $t("cardItem.price") }} <b>{{ household.prices[0].price }} KM</b
+          {{ $t("cardItem.price") }} <b>{{ household.current_price }} KM</b
           >{{ $t("cardItem.night") }}
         </div>
         <div class="single-household-description">

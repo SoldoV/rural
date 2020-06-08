@@ -39,19 +39,21 @@
         <v-text-field
           type="number"
           min="0"
-          hide-details
           outlined
+          :rules="rules.concat(minRules)"
           onkeydown="return event.keyCode !== 69"
           v-model="price.min"
           :label="$t('catSidebar.min')"
+          @change="updateFilters"
         ></v-text-field>
         <div class="categories-sidebar-divider">—</div>
         <v-text-field
           type="number"
-          hide-details
           outlined
+          :rules="rules.concat(maxRules)"
           min="0"
           onkeydown="return event.keyCode !== 69"
+          @change="updateFilters"
           v-model="price.max"
           :label="$t('catSidebar.max')"
         ></v-text-field>
@@ -85,6 +87,7 @@ export default {
     filters: [],
     dialog: false,
     firstFilter: {},
+    rules: [],
     secondFilter: [],
     city: [],
     price: {
@@ -96,6 +99,18 @@ export default {
   computed: {
     getCities() {
       return JSON.parse(JSON.stringify(this.GET_CITIES()));
+    },
+    maxRules() {
+      let min = parseInt(this.price.min);
+      let max = parseInt(this.price.max);
+      if (isNaN(min) || isNaN(max)) return true;
+      return max > min || "Max > Min";
+    },
+    minRules() {
+      let min = parseInt(this.price.min);
+      let max = parseInt(this.price.max);
+      if (isNaN(min) || isNaN(max)) return true;
+      return max > min || "Max > Min";
     }
   },
   methods: {
@@ -109,7 +124,21 @@ export default {
       this.secondFilter = second;
       this.updateFilters();
     },
+    getPriceFilter() {
+      let priceObj = {};
+      let min = parseInt(this.price.min);
+      let max = parseInt(this.price.max);
+      if (!isNaN(min) && !isNaN(max) && min < max) {
+        priceObj = { price: `<>${min},${max}` };
+      } else if (isNaN(max) && min > 0) {
+        priceObj = { price: `v>${min}` };
+      } else if (isNaN(min) && max > 0) {
+        priceObj = { price: `v<${max}` };
+      }
+      return priceObj;
+    },
     updateFilters() {
+      let price = this.getPriceFilter();
       let cityFilter = { city_id: this.city.id };
       let tags = { tags: {} };
       let counter = 0;
@@ -125,7 +154,7 @@ export default {
         tags.tags[counter] = e;
         counter++;
       });
-      this.$emit("setFilters", tags, this.firstFilter, cityFilter);
+      this.$emit("setFilters", tags, this.firstFilter, cityFilter, price);
     }
   },
   created() {
