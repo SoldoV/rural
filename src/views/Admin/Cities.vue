@@ -1,6 +1,13 @@
 <template>
   <div class="tagovi">
-    <v-data-table :headers="headers" :items="getCities" class="elevation-1">
+    <v-data-table
+      :footer-props="{
+        itemsPerPageText: rowsPerPage
+      }"
+      :headers="headers"
+      :items="getCities"
+      class="elevation-1"
+    >
       <template v-slot:top>
         <v-toolbar flat color="white">
           <v-toolbar-title>{{ $t("admin.cities.cities") }}</v-toolbar-title>
@@ -81,6 +88,7 @@ export default {
   data: function() {
     return {
       dialog: false,
+      rowsPerPage: this.$t("common.rowsPerPage"),
       snackbar: false,
       titleRules: [v => !!v || this.$t("common.required")],
       valid: false,

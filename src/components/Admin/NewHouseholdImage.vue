@@ -1,5 +1,12 @@
 <template>
-  <v-data-table :headers="headers" :items="images" class="new-household-table">
+  <v-data-table
+    :footer-props="{
+      itemsPerPageText: rowsPerPage
+    }"
+    :headers="headers"
+    :items="images"
+    class="new-household-table"
+  >
     <template v-slot:top>
       <v-toolbar flat color="white">
         <v-toolbar-title>{{
@@ -51,6 +58,7 @@ export default {
   },
   data: function() {
     return {
+      rowsPerPage: this.$t("common.rowsPerPage"),
       loading: false,
       image: {
         image: ""

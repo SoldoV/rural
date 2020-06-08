@@ -21,7 +21,7 @@
       </v-expansion-panels>
       <categoriesSidebar class="hidden-md-and-down" @setFilters="setFilters" />
       <div class="households-right-wrapper">
-        <div class="households-right-sort">
+        <!-- <div class="households-right-sort">
           <div class="sort-label">{{ $t("households.sort") }}</div>
           <v-select
             class="footer-lang households-sort"
@@ -31,7 +31,7 @@
             outlined
             hide-details
           ></v-select>
-        </div>
+        </div> -->
         <div class="no-content" v-if="households.length == 0">
           {{ $t("households.noData") }}
         </div>
@@ -79,14 +79,14 @@ export default {
       lastPage: 1,
       households: [],
       cities: [],
-      sortSelected: this.$t("households.suggested"),
-      text: "Lorem Ipsum is simply dummy text",
-      sort: [
-        this.$t("households.suggested"),
-        this.$t("households.priceAsc"),
-        this.$t("households.priceDsc"),
-        this.$t("households.distance")
-      ]
+      // sortSelected: this.$t("households.suggested"),
+      text: "Lorem Ipsum is simply dummy text"
+      // sort: [
+      //   this.$t("households.suggested"),
+      //   this.$t("households.priceAsc"),
+      //   this.$t("households.priceDsc"),
+      //   this.$t("households.distance")
+      // ]
     };
   },
   methods: {

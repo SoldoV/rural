@@ -57,7 +57,8 @@ const actions = {
       .get(`${rootUrls.URL}/categories/${data}/tags`, {
         headers: {
           ...rootState.common.header,
-          Authorization: "Bearer " + rootState.common.loginToken
+          Authorization: "Bearer " + rootState.common.loginToken,
+          "X-Localization": localStorage.getItem("Lang")
         }
       })
       .then(response => {

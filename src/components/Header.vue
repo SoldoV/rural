@@ -40,7 +40,9 @@
               }}</v-list-item-title>
             </v-list-item>
             <v-list-item @click="dashboard()">
-              <v-list-item-title class="logout">Dashboard</v-list-item-title>
+              <v-list-item-title class="logout">{{
+                $t("common.dashboard")
+              }}</v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
@@ -133,8 +135,12 @@ export default {
       this.userLogout().then(() => this.$router.push("/"));
     },
     dashboard() {
-      this.$router.push("/dashboard");
+      this.$router.push("/dashboard/households");
     }
+  },
+  beforeCreate() {
+    if (localStorage.Lang != null) this.$i18n.locale = localStorage.Lang;
+    else this.$i18n.locale = "en";
   }
 };
 </script>

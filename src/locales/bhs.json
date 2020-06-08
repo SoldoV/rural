@@ -3,6 +3,7 @@
     "searchText": "Pretraži domaćinstva..."
   },
   "common": {
+    "rowsPerPage": "Redovi u tablici",
     "dashboard": "Admin sučelje",
     "readMore": "Pročitajte više",
     "logout": "Odjavi se",

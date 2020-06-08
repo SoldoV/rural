@@ -1,6 +1,9 @@
 <template>
   <div>
     <v-data-table
+      :footer-props="{
+        itemsPerPageText: rowsPerPage
+      }"
       :headers="headers"
       :items="prices"
       class="new-household-table mt-10"
@@ -98,6 +101,7 @@ export default {
   },
   data: function() {
     return {
+      rowsPerPage: this.$t("common.rowsPerPage"),
       dialog: false,
       valid: false,
       priceRules: [v => !!v || this.$t("common.required")],

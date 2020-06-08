@@ -1,6 +1,13 @@
 <template>
   <div class="tagovi">
-    <v-data-table :headers="headers" :items="getTags" class="elevation-1">
+    <v-data-table
+      :footer-props="{
+        itemsPerPageText: rowsPerPage
+      }"
+      :headers="headers"
+      :items="getTags"
+      class="elevation-1"
+    >
       <template v-slot:item.title="{ item }">
         <div class="p-2">
           <div>{{ item.title }}</div>
@@ -121,6 +128,7 @@ export default {
   data: function() {
     return {
       dialog: false,
+      rowsPerPage: this.$t("common.rowsPerPage"),
       snackbar: false,
       titleRules: [v => !!v || this.$t("common.required")],
       valid: false,

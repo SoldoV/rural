@@ -1,6 +1,13 @@
 <template>
   <div class="tagovi">
-    <v-data-table :headers="headers" :items="getArticles" class="elevation-1">
+    <v-data-table
+      :footer-props="{
+        itemsPerPageText: rowsPerPage
+      }"
+      :headers="headers"
+      :items="getArticles"
+      class="elevation-1"
+    >
       <template v-slot:top>
         <v-toolbar flat color="white">
           <v-toolbar-title>{{ $t("admin.articles.title") }}</v-toolbar-title>
@@ -194,6 +201,7 @@ export default {
         HardBreak
       ],
       loading: false,
+      rowsPerPage: this.$t("common.rowsPerPage"),
       dialog: false,
       snackbar: false,
       titleRules: [v => !!v || this.$t("common.required")],
