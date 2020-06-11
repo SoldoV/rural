@@ -30,7 +30,7 @@
     </template>
     <template v-slot:item.image="{ item }">
       <div class="p-2">
-        <img class="new-household-image" :src="imageSrc(item.image)" />
+        <img class="new-household-image" v-lazy="imageSrc(item.image)" />
       </div>
     </template>
     <template v-slot:item.actions="{ item }">

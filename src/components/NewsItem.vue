@@ -4,7 +4,7 @@
     class="news-item"
     v-bind:class="{ singleNews: selected }"
   >
-    <img class="news-item-image" :src="image" />
+    <img class="news-item-image" v-lazy="image" />
     <div class="news-items-wrapper">
       <div class="news-item-date">
         <v-icon>mdi-calendar</v-icon>

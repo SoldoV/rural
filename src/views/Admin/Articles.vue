@@ -56,7 +56,7 @@
                         <div class="p-2" v-if="editedItem.image_path">
                           <img
                             class="new-household-image"
-                            :src="imageSrc(editedItem.image_path)"
+                            v-lazy="imageSrc(editedItem.image_path)"
                           />
                         </div>
                       </v-col>

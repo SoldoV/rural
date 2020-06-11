@@ -76,7 +76,7 @@
       </template>
       <template v-slot:item.image="{ item }">
         <div class="p-2" v-if="item.type.icon">
-          <img class="tagovi-image" :src="getImgUrl(item.type.icon)" />
+          <img class="tagovi-image" v-lazy="getImgUrl(item.type.icon)" />
         </div>
       </template>
       <template v-slot:item.title="{ item }">

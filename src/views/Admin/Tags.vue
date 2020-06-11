@@ -17,7 +17,7 @@
         <div class="p-2" v-if="item.icon">
           <v-img
             class="tagovi-image"
-            :src="getImgUrl(item.icon)"
+            v-lazy="getImgUrl(item.icon)"
             :alt="item.title[0]"
           ></v-img>
         </div>

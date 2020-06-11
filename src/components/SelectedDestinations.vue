@@ -6,7 +6,7 @@
     <div class="selected-destinations-wrapper">
       <div
         class="destination-img"
-        :style="{ backgroundImage: `url(${getUrl(i + 1)})` }"
+        v-lazy:background-image="getUrl(i + 1)"
         v-for="(item, i) in destinations"
         :key="i"
         @click="goToHouseholds(item)"
