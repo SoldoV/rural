@@ -148,7 +148,7 @@ export default {
         });
       });
       data.images.forEach(a => {
-        this.images.push({ image: a.file_path, id: a.id });
+        this.images.push({ image: a.image_url, id: a.id });
       });
       data.prices.forEach(a => {
         this.prices.push({

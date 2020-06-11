@@ -166,6 +166,10 @@ body {
   }
 }
 
+.login-card {
+  box-shadow: none !important;
+}
+
 .article-title {
   max-width: 150px;
   word-break: break-all;
@@ -176,6 +180,10 @@ body {
   bottom: 1em !important;
   margin: 0 10% 0 10%;
   width: 80%;
+}
+
+.articles-checkbox {
+  margin-top: 0px !important;
 }
 
 .header {
@@ -240,6 +248,10 @@ body {
 @media only screen and (max-width: 964px) {
   .homepage-selected-households {
     left: -2em !important;
+  }
+
+  .single-household-airbnb-btn {
+    width: 200px !important;
   }
 
   #app {

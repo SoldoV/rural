@@ -18,15 +18,7 @@
             </v-list-item>
           </router-link>
         </template>
-        <div
-          v-if="!IS_LOGGED_IN()"
-          class="header-buttons header-buttons-sidebar"
-        >
-          <v-btn depressed class="header-log-in" @click="login">{{
-            $t("header.signIn")
-          }}</v-btn>
-        </div>
-        <v-menu v-else offset-y>
+        <v-menu v-if="IS_LOGGED_IN()" offset-y>
           <template v-slot:activator="{ on }">
             <v-btn depressed class="navigation-profile-button mt-5" v-on="on">
               Admin
@@ -70,12 +62,7 @@
           </v-tab>
         </v-tabs>
       </v-toolbar-items>
-      <div v-if="!IS_LOGGED_IN()" class="header-buttons hidden-md-and-down">
-        <v-btn depressed class="header-log-in" @click="login">{{
-          $t("header.signIn")
-        }}</v-btn>
-      </div>
-      <v-menu v-else class="hidden-md-and-down" offset-y>
+      <v-menu v-if="IS_LOGGED_IN()" class="hidden-md-and-down" offset-y>
         <template v-slot:activator="{ on }">
           <v-btn
             depressed
@@ -100,7 +87,6 @@
         </v-list>
       </v-menu>
     </v-toolbar>
-    <login :loginOpen="loginOpen" @login="login" />
   </div>
 </template>
 
@@ -108,12 +94,8 @@
 import { mapActions, mapGetters } from "vuex";
 
 export default {
-  components: {
-    Login: () => import("./Login.vue")
-  },
   data() {
     return {
-      loginOpen: false,
       appTitle: "Awesome App",
       sidebar: false,
       menuItems: [
@@ -127,10 +109,6 @@ export default {
   methods: {
     ...mapActions(["userLogout"]),
     ...mapGetters(["IS_LOGGED_IN"]),
-
-    login() {
-      this.loginOpen = !this.loginOpen;
-    },
     logout() {
       this.userLogout().then(() => this.$router.push("/"));
     },

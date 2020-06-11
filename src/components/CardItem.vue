@@ -36,7 +36,7 @@ export default {
   }),
   methods: {
     getImageSrc() {
-      return `http://test-api.rural.ba/${this.cardItem.images[0].file_path}`;
+      return this.cardItem.images[0].small_image_url;
     },
     getHousehold(id) {
       this.$emit("getHousehold", id);

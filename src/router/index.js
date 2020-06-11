@@ -23,6 +23,15 @@ const routes = [{
       )
   },
   {
+    path: "/login",
+    name: "login",
+    component: () =>
+      import(
+        /* webpackChunkName: "login" */
+        "../views/Login.vue"
+      )
+  },
+  {
     path: "/households/:id",
     name: "Household",
     component: () =>

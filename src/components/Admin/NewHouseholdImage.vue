@@ -74,9 +74,7 @@ export default {
     ...mapActions(["postHouseholdImages", "deleteImage"]),
 
     imageSrc(src) {
-      return !src.startsWith("data:image")
-        ? "http://test-api.rural.ba/" + src
-        : src;
+      return src;
     },
     deleteItem(item) {
       const index = this.images.indexOf(item);

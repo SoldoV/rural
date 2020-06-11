@@ -37,10 +37,7 @@ export default {
   }),
   computed: {
     imgPath() {
-      return (
-        "http://test-api.rural.ba/storage/news_images/" +
-        this.article.image_path
-      );
+      return this.article.image_url;
     }
   },
   methods: {

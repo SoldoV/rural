@@ -3,8 +3,8 @@
     <v-carousel cycle class="household-carousel">
       <v-carousel-item
         v-for="item in household.images"
-        :key="item.file_path"
-        :src="'http://test-api.rural.ba/' + item.file_path"
+        :key="item.image_url"
+        :src="item.image_url"
         reverse-transition="fade-transition"
         transition="fade-transition"
       ></v-carousel-item>

@@ -53,10 +53,10 @@
                           </label>
                           {{ $t("common.newImg") }}
                         </v-btn>
-                        <div class="p-2" v-if="editedItem.image_path">
+                        <div class="p-2" v-if="editedItem.image_url">
                           <img
                             class="new-household-image"
-                            :src="imageSrc(editedItem.image_path)"
+                            :src="imageSrc(editedItem.image_url)"
                           />
                         </div>
                       </v-col>
@@ -122,13 +122,18 @@
           {{ item.title.bhs }}
         </div>
       </template>
-      <template v-slot:item.image_path="{ item }">
+      <template v-slot:item.image_url="{ item }">
         <div class="p-2">
-          <img class="new-household-image" :src="imageSrc(item.image_path)" />
+          <img class="new-household-image" :src="imageSrc(item.image_url)" />
         </div>
       </template>
       <template v-slot:item.active="{ item }">
-        <v-checkbox hide-details readonly v-model="item.active"></v-checkbox>
+        <v-checkbox
+          class="articles-checkbox"
+          hide-details
+          readonly
+          v-model="item.active"
+        ></v-checkbox>
       </template>
       <template v-slot:item.actions="{ item }">
         <v-icon small class="mr-2" @click="editItem(item)">
@@ -212,7 +217,7 @@ export default {
         { text: this.$t("common.titleLabel") + " (en)", value: "title.en" },
         {
           text: this.$t("common.img"),
-          value: "image_path",
+          value: "image_url",
           sortable: true
         },
         { text: this.$t("admin.articles.active"), value: "active" },
@@ -227,14 +232,14 @@ export default {
       image: "",
       editedItem: {
         title: { en: "", bhs: "" },
-        image_path: "",
+        image_url: "",
         active: false,
         text: { en: ``, bhs: `` },
         id: ""
       },
       defaultItem: {
         title: { en: "", bhs: "" },
-        image_path: "",
+        image_url: "",
         active: false,
         text: { en: ``, bhs: `` }
       }
@@ -267,7 +272,7 @@ export default {
     upload(val) {
       val.stopImmediatePropagation();
       let file = val.target.files[0];
-      this.editedItem.image_path = file;
+      this.editedItem.image_url = file;
       let reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = e => {
@@ -279,12 +284,9 @@ export default {
       this.snackbar = true;
     },
     imageSrc(src) {
-      if (this.editedItem.image_path instanceof File) {
+      if (this.editedItem.image_url instanceof File) {
         return this.image;
-      } else
-        return !src.startsWith("data:image")
-          ? "http://test-api.rural.ba/storage/news_images/" + src
-          : src;
+      } else return src;
     },
     editItem(item) {
       this.editedIndex = this.getArticles.indexOf(item);
@@ -309,7 +311,7 @@ export default {
     },
     isValid() {
       return (
-        this.editedItem.image_path &&
+        this.editedItem.image_url &&
         this.editedItem.text &&
         this.editedItem.title
       );
@@ -324,8 +326,8 @@ export default {
         articlesObj.append("text[bhs]", this.editedItem.text.bhs);
         articlesObj.append("active", this.editedItem.active ? 1 : 0);
         if (this.editedIndex > -1) {
-          if (this.editedItem.image_path instanceof File)
-            articlesObj.append("image", this.editedItem.image_path);
+          if (this.editedItem.image_url instanceof File)
+            articlesObj.append("image", this.editedItem.image_url);
           articlesObj.append("_method", "PUT");
           articlesObj.append("id", this.editedItem.id);
           this.editArticle([articlesObj, this.editedItem.id]).then(() => {
@@ -336,7 +338,7 @@ export default {
             this.close();
           });
         } else {
-          articlesObj.append("image", this.editedItem.image_path);
+          articlesObj.append("image", this.editedItem.image_url);
           this.postArticle(articlesObj).then(() => {
             if (this.GET_ARTICLE_RESP())
               this.popSnackbar(this.$t("common.addSuccess"));

@@ -19,9 +19,7 @@
             :dateText="item.created_at.slice(0, 10)"
             :header="item.title"
             :text="item.text"
-            :image="
-              'http://test-api.rural.ba/storage/news_images/' + item.image_path
-            "
+            :image="item.small_image_url"
             :selected="true"
         /></swiper-slide>
       </swiper>
