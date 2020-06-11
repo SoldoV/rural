@@ -90,7 +90,6 @@ export default {
   },
   mounted() {
     this.getArticles(1);
-    this.swiper.slideTo(3, 1000, false);
   }
 };
 </script>

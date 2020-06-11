@@ -4,7 +4,7 @@
       <v-carousel-item
         v-for="item in household.images"
         :key="item.image_url"
-        :src="item.image_url"
+        v-lazy="item.image_url"
         reverse-transition="fade-transition"
         transition="fade-transition"
       ></v-carousel-item>
@@ -36,7 +36,7 @@
             >
               <v-img
                 class="single-household-tag"
-                :src="getImgUrl(tag.icon)"
+                v-lazy="getImgUrl(tag.icon)"
               ></v-img>
               <div class="single-household-tag-text-one">
                 <b class="mr-1">{{ tag.pivot.value }}</b
@@ -55,7 +55,7 @@
             >
               <v-img
                 class="single-household-tag"
-                :src="getImgUrl(tag.icon)"
+                v-lazy="getImgUrl(tag.icon)"
               ></v-img>
               <div class="single-household-tag-text">{{ tag.title }}</div>
             </div>

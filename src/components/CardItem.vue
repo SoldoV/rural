@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="card-item-wrapper" @click="getHousehold(cardItem.id)">
-      <img class="card-item-image" :src="getImageSrc()" />
+      <img class="card-item-image" v-lazy="getImageSrc()" />
       <div class="card-item-location">
         <v-icon>mdi-map-marker</v-icon>
         <div class="card-item-location-text">
