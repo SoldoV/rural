@@ -7,6 +7,7 @@ import i18n from "../../i18n.js"
 const state = {
   loginToken: localStorage.getItem("access_token") || null,
   errorMsg: "",
+  contactResp: "",
   headerJson: {
     "Content-Type": "application/json"
   },
@@ -25,6 +26,9 @@ const getters = {
   },
   GET_LOGIN_TOKEN: state => {
     return state.loginToken;
+  },
+  GET_CONTACT_RESP: state => {
+    return state.contactResp;
   },
   IS_LOGGED_IN: state => {
     return state.loginToken !== null;
@@ -52,6 +56,24 @@ const actions = {
         commit("STORE_ERROR_MSG", `ERROR: ${i18n.t('modules.login')}`);
       });
   },
+  async sendContactForm({
+    commit
+  }, data) {
+    await axios
+      .post(`${rootUrls.URL}/send_mail`, data, {
+        headers: {
+          ...state.header,
+          ...state.headerJson,
+        }
+      })
+      .then(() => {
+        commit("STORE_CONTACT_RESP", true);
+      })
+      .catch(error => {
+        console.log(error);
+        commit("STORE_CONTACT_RESP", false);
+      });
+  },
   userLogout({
     getters,
     commit
@@ -72,6 +94,9 @@ const mutations = {
   },
   STORE_LOGIN_RESP: (state, data) => {
     state.loginResp = data;
+  },
+  STORE_CONTACT_RESP: (state, data) => {
+    state.contactResp = data;
   },
   DESTROY_TOKEN: state => {
     state.loginToken = null;

@@ -94,19 +94,13 @@
   },
   "about": {
     "about": "About us",
-    "text1": "Union for sustainable return and integration in Bosnia and Herzegovina",
-    "text2": " has started the page ",
-    "text3": "'BH village'",
-    "text4": " with the aim of collecting data and creating information on tourist destinations related to ethno villages, rural households, national parks and other natural destinations in Bosnia and Herzegovina.",
-    "text5": "'BH village' seeks to improve rural areas that have great potential for the development of tourism capacity in Bosnia and Herzegovina. We want to motivate and support as many people living in rural areas as possible to start their own business through the opening of rural households and point out to them the opportunities offered by rural areas. Using good practices and direct insight into needs, together with the target group we strive to create solutions that are realistic and feasible.",
-    "text6": "In addition to preserving cultural heritage, renovating old houses and agricultural buildings, the goal is to stop the emigration of the population and encourage the return of the domicile population, with an emphasis, among other things, on the production of healthy food.",
-    "text7": "Union project called ",
-    "text8": "“Let's make life better together in BiH“",
-    "text9": " supported by the Government of Switzerland, and is implemented in the area of Bihać, Lukavac and Čapljina.",
-    "text10": "The 2016 survey of returnees and internally displaced persons in Bihać, Čapljina and Lukavac, conducted by the Union for Sustainable Return and Integration in BiH, allowed us to create a broader picture of investment needs in areas that have a chance to succeed and enable ordinary people to work and live from their work. Considering that the mentioned survey was mainly conducted in rural areas, we realized that we need to concretely help the surveyed families, and at the same time create an environment in order to strengthen the tourist potential.",
-    "text11": "Let's improve rural areas in BiH!",
-    "text12": "Rural areas in Bosnia and Herzegovina have great opportunities for the development of rural tourism. We motivate and support as many people living in rural areas as possible to start their own business in an organized way through the opening of rural households.",
-    "text13": "The project 'Let's make life better together in BiH' is supported by the Government of Switzerland."
+    "text": "Rural.ba is a Bosnian-Herzegovinian site for the presentation and promotion of rural households that offer accommodation and other tourist services in rural areas.",
+    "text2": "The rural.ba website was launched by ",
+    "text3": " MarketMakers",
+    "text4": " , a project supported by the Government of Switzerland implemented by the consortium partners",
+    "text5": "MarketMakers, Helvetas (Switzerland) and Kolektiv d.o.o. (Bosnia and Herzegovina).",
+    "text6": "Since 2012, MarketMakers, in cooperation with the private sector, has been implementing projects to support self-sustainable youth employment and will last until May 2021."
+
   },
   "additionalFilters": {
     "additional": "Additional filters"
@@ -124,6 +118,8 @@
     "max": "max"
   },
   "contact": {
+    "snackbar": "Message successfully sent",
+    "snackbarError": "Message couldn't be sent",
     "contact": "Contact",
     "firstAndLastName": "First and last name",
     "title": "Title:",

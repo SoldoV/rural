@@ -94,19 +94,12 @@
   },
   "about": {
     "about": "O nama",
-    "text1": "Unija za održivi povratak i integracije u Bosni i Hercegovini ",
-    "text2": "pokrenula je stranicu ",
-    "text3": "'BH SELO'",
-    "text4": " s ciljem prikupljanja podataka i kreiranja informacija o turističkim destinacijama koja se odnose na etno sela, seoska domaćinstva, nacionalne parkove i druge prirodne destinacije u Bosni i Hercegovini.",
-    "text5": "'BH SELO' nastoji unaprijedi ruralna područja koja imaju velike mogućnosti za razvoj turističkih kapaciteta u Bosni i Hercegovini. Želimo motivisati i podržati što više osoba koje žive u ruralnim sredinama da se organizovano bave pokretanjme sosptvenog biznisa kroz otvaranje seoskih domaćinstava i ukazati im na mogućnosti koje nude ruralna područja. Koristeći dobre prakse i direktni uvid u potrebe, zajedno sa ciljnom grupom nastojimo kreirati rješenja koja su realna i izvodljiva.",
-    "text6": "Pored očuvanja kulturne baštine, obnove starih kuća, poljoprivrednih objekata, cilj je i zaustaviti iseljavanje stanovništva te podstaći povratak domicilnog stanovništva, s naglaskom izmedju ostalog, i na proizvodnju zdrave hrane.",
-    "text7": "Projekat Unije pod nazivom ",
-    "text8": "“Zajedno učinimo život boljim u BiH”",
-    "text9": " podržan od strane Vlade Švicarske, a implementira se na području Bihaća, Lukavca i Čapljine.",
-    "text10": "Anketiranje povratnika i interno raseljenih lica u 2016. godini u Bihaću, Čapljini i Lukavcu koje je provela Unija za održivi povratak i integracije u BiH, omogućilo nam je stvaranje šire slike o potrebama za ulaganjem u oblasti koje imaju šanse da uspiju i omoguće običnom čovjeku da radi i živi od svog rada. Obzirom da se pomenuto anketiranje, uglavnom, provodilo u ruralnim područjima, shvatili smo da trebamo konkretno pomoći anketiranim porodicama, a ujedno i stvoriti ambijent u cilju jačanja turističkih potencijala.",
-    "text11": "Unaprijedimo ruralna područja u BIH !",
-    "text12": "Ruralna područja u Bosni i Hercegovini imaju velike mogućnosti za razvoj seoskog turizma. Motivišimo i podržimo što više osoba koje žive u ruralnim sredinama da se organizovano bave pokretanjem sopstvenog biznisa kroz otvaranje seoskih domaćinstava.",
-    "text13": "Projekat 'Zajedno učinimo život boljim u BiH' podržan je od strane Vlade Švicarske."
+    "text": "Rural.ba je bosanskohercegovačka stranica za predstavljanje i promociju ruralnih domaćinstava koje nude smještaj i druge turističke usluge u ruralnim područjima.",
+    "text2": " Stranicu rural.ba pokrenuo je",
+    "text3": " MarketMakers",
+    "text4": " , projekt podržan od Vlade Švicarske koji implementiraju konzorcijski partneri",
+    "text5": "Helvetas (Švicarska) i Kolektiv d.o.o. (Bosna i Hercegovina).",
+    "text6": "MarketMakers od 2012. godine u saradnji s privatnim sektorom implementira projekte podrške samoodrživog zapošljavanja mladih i trajat će do maja 2021. godine."
   },
   "additionalFilters": {
     "additional": "Dodatni filteri"
@@ -124,6 +117,8 @@
     "max": "maks"
   },
   "contact": {
+    "snackbarError": "Poruku nije moguće poslati",
+    "snackbar": "Poruka uspješno poslata",
     "contact": "Kontakt",
     "firstAndLastName": "Ime i prezime",
     "title": "Naslov:",

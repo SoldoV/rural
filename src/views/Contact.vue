@@ -19,7 +19,7 @@
               </div>
               <v-text-field
                 outlined
-                v-model="firstname"
+                v-model="name"
                 :rules="nameRules"
                 required
               ></v-text-field>
@@ -29,7 +29,7 @@
               <div class="contact-form-label">E-mail:</div>
               <v-text-field
                 outlined
-                v-model="lastname"
+                v-model="mail"
                 :rules="emailRules"
                 required
               ></v-text-field>
@@ -58,7 +58,7 @@
             </v-col>
           </v-row>
         </v-container>
-        <v-btn class="contact-form-btn" @click="validate">{{
+        <v-btn class="contact-form-btn" :loading="loading" @click="validate">{{
           $t("contact.send")
         }}</v-btn>
       </v-form>
@@ -122,17 +122,28 @@
         </v-col>
       </div>
     </div>
+    <v-snackbar v-model="snackbar" :timeout="2500">
+      {{ snackbarText }}
+      <v-btn color="white" text @click="snackbar = false">
+        {{ $t("common.close") }}
+      </v-btn>
+    </v-snackbar>
   </div>
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
+
 export default {
   data: function() {
     return {
       valid: false,
-      firstname: "",
-      lastname: "",
+      loading: false,
+      snackbar: false,
+      name: "",
+      mail: "",
       title: "",
+      snackbarText: "",
       message: "",
       titleRules: [v => !!v || this.$t("contact.titleRule")],
       messageRules: [v => !!v || this.$t("contact.messageRule")],
@@ -146,13 +157,33 @@ export default {
           /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
           this.$t("contact.mailRules"),
         v => !!v || this.$t("contact.mailRules2")
-      ],
-      email: ""
+      ]
     };
   },
   methods: {
+    ...mapActions(["sendContactForm"]),
+    ...mapGetters(["GET_CONTACT_RESP"]),
+    popSnackbar(text) {
+      this.snackbarText = text;
+      this.snackbar = true;
+    },
     validate() {
-      this.$refs.form.validate();
+      if (this.$refs.form.validate()) {
+        this.loading = true;
+        let data = {
+          name: this.name,
+          email: this.mail,
+          title: this.title,
+          message: this.message
+        };
+        this.sendContactForm(data).then(() => {
+          this.loading = false;
+          if (this.GET_CONTACT_RESP()) {
+            this.popSnackbar(this.$t("contact.snackbar"));
+            setTimeout(() => this.$router.push("/"), 2500);
+          } else this.popSnackbar(this.$t("contact.snackbarError"));
+        });
+      }
     }
   }
 };
