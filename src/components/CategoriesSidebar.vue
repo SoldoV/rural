@@ -22,6 +22,7 @@
       </div>
       <v-select
         required
+        multiple
         hide-details
         outlined
         :items="getCities"
@@ -30,7 +31,7 @@
         item-text="title"
         return-object
         v-model="city"
-        :label="$t('catSidebar.allLocations')"
+        :placeholder="$t('catSidebar.allLocations')"
       ></v-select>
     </div>
     <div class="categories-sidebar-price">
@@ -139,7 +140,11 @@ export default {
     },
     updateFilters() {
       let price = this.getPriceFilter();
-      let cityFilter = { city_id: this.city.id };
+      let cityFilter = { city_id: "i=" };
+      this.city.map(e => {
+        cityFilter.city_id += e.id + ",";
+      });
+      cityFilter.city_id = cityFilter.city_id.slice(0, -1);
       let tags = { tags: {} };
       let counter = 0;
       if (this.checkboxes.some(e => e.value === true)) {
@@ -154,7 +159,13 @@ export default {
         tags.tags[counter] = e;
         counter++;
       });
-      this.$emit("setFilters", tags, this.firstFilter, cityFilter, price);
+      this.$emit(
+        "setFilters",
+        tags,
+        this.firstFilter,
+        cityFilter.city_id == "i" ? {} : cityFilter,
+        price
+      );
     }
   },
   created() {

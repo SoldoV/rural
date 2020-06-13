@@ -10,7 +10,6 @@ const state = {
   householdResp: false,
   editHouseholdResp: false,
   householdIdResp: false,
-  householdId: null,
   homepageFilter: null,
   homepageSearchFilter: null
 };
@@ -24,9 +23,6 @@ const getters = {
   },
   GET_HOUSEHOLDID_RESP: state => {
     return state.householdIdResp;
-  },
-  GET_HOUSEHOLD_ID: state => {
-    return state.householdId;
   },
   GET_EDIT_HOUSEHOLD_RESP: state => {
     return state.householdIdResp;
@@ -127,7 +123,7 @@ const actions = {
         }
       })
       .then(response => {
-        commit("STORE_HOUSEHOLD_ID", response.data.id);
+        localStorage.setItem("household_id", response.data.id);
         commit("STORE_HOUSEHOLD_RESP", true);
       })
       .catch(error => {
@@ -180,9 +176,6 @@ const mutations = {
   },
   STORE_HOUSEHOLDID_RESP: (state, data) => {
     state.householdIdResp = data;
-  },
-  STORE_HOUSEHOLD_ID: (state, data) => {
-    state.householdId = data;
   },
   STORE_HOUSEHOLDS: (state, data) => {
     state.households = data;

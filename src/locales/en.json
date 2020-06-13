@@ -3,6 +3,8 @@
     "searchText": "Search the households..."
   },
   "common": {
+    "desc": "Description",
+    "props": "Properties",
     "rowsPerPage": "Rows per page",
     "dashboard": "Dashboard",
     "readMore": "Read more",

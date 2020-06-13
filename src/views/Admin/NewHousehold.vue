@@ -2,9 +2,11 @@
   <div class="newHousehold">
     <v-stepper :value="stepper">
       <v-stepper-header>
-        <v-stepper-step step="1" complete>Opis</v-stepper-step>
+        <v-stepper-step step="1" complete>{{
+          $t("common.desc")
+        }}</v-stepper-step>
         <v-divider></v-divider>
-        <v-stepper-step step="2">Svojstva</v-stepper-step>
+        <v-stepper-step step="2">{{ $t("common.props") }}</v-stepper-step>
       </v-stepper-header>
     </v-stepper>
     <router-view @increaseStepper="increaseStepper" />

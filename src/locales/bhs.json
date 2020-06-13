@@ -3,6 +3,8 @@
     "searchText": "Pretraži domaćinstva..."
   },
   "common": {
+    "desc": "Opis",
+    "props": "Svojstva",
     "rowsPerPage": "Redovi u tablici",
     "dashboard": "Admin sučelje",
     "readMore": "Pročitajte više",

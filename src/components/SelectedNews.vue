@@ -7,7 +7,7 @@
         >{{ $t("selectedNews.all") }} <v-icon>mdi-arrow-right</v-icon></v-btn
       >
     </div>
-    <div class="selected-news-wrapper">
+    <div class="selected-news-wrapper selected-news-swiper">
       <swiper ref="mySwiper" :options="swiperOptions">
         <swiper-slide
           v-for="item in articles"
@@ -45,9 +45,11 @@ export default {
       spaceBetween: 20,
       preventClicks: true,
       preventClicksPropagation: true,
-      pagination: {
-        el: ".swiper-pagination"
+      autoplay: {
+        delay: 2500,
+        disableOnInteraction: false
       },
+      loop: false,
       breakpoints: {
         1024: {
           slidesPerView: 3
@@ -55,11 +57,10 @@ export default {
         768: {
           slidesPerView: 3
         },
-        640: {
+        500: {
           slidesPerView: 2
         },
         320: {
-          direction: "horizontal",
           slidesPerView: 1
         },
         1: {

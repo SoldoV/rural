@@ -95,7 +95,6 @@ export default {
   },
   methods: {
     ...mapGetters([
-      "GET_HOUSEHOLD_ID",
       "PLATFORM_RESP",
       "GET_ERROR_MSG",
       "GET_SINGLE_HOUSEHOLD",
@@ -174,7 +173,7 @@ export default {
           this.setEditedHouseholdItems();
         }
       });
-    } else this.householdId = this.GET_HOUSEHOLD_ID();
+    } else this.householdId = localStorage.getItem("household_id");
   }
 };
 </script>

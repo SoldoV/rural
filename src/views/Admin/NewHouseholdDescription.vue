@@ -1,15 +1,5 @@
 <template>
   <div class="new-household">
-    <div class="align-column-center mt-10">
-      <v-btn
-        depressed
-        @click="deleteItem"
-        :to="'/dashboard/household/description'"
-        class="common-btn"
-        ><v-icon class="mr-3">mdi-delete</v-icon
-        >{{ $t("admin.newHouseholdDesc.delete") }}</v-btn
-      >
-    </div>
     <v-row class="justify-center mt-10">
       <v-col cols="12" lg="6" sm="10">
         <v-form ref="form" v-model="valid" lazy-validation>
@@ -74,17 +64,32 @@
             v-model="household.popular"
             :label="$t('admin.newHouseholdDesc.selected')"
           ></v-checkbox>
-          <div class="new-household-btn-wrapper">
+          <div class="household-description-buttons mt-10">
             <v-btn
+              v-if="$route.params.id"
               depressed
-              outlined
-              class="new-household-btn common-btn-outlined"
-              @click="close"
-              >{{ $t("common.cancel") }}</v-btn
+              color="error"
+              @click="deleteItem"
+              class="common-btn delete-btn"
+              ><v-icon class="mr-3">mdi-delete</v-icon
+              >{{ $t("admin.newHouseholdDesc.delete") }}</v-btn
             >
-            <v-btn depressed color="primary" class="common-btn" @click="save">{{
-              $t("common.next")
-            }}</v-btn>
+            <div class="new-household-btn-wrapper">
+              <v-btn
+                depressed
+                outlined
+                class="new-household-btn common-btn-outlined"
+                @click="close"
+                >{{ $t("common.cancel") }}</v-btn
+              >
+              <v-btn
+                depressed
+                color="primary"
+                class="common-btn"
+                @click="save"
+                >{{ $t("common.next") }}</v-btn
+              >
+            </div>
           </div>
         </v-form>
       </v-col>
@@ -100,8 +105,8 @@ export default {
     return {
       markers: {
         position: {
-          lat: 45.508,
-          lng: -73.587
+          lat: 43.344377868090525,
+          lng: 17.805408243266328
         }
       },
       valid: false,
@@ -241,14 +246,16 @@ export default {
   mounted() {
     this.geolocate();
     this.fetchCities();
-    this.getHouseholdById([
-      this.$route.params.id,
-      { withTranslations: 1 }
-    ]).then(() => {
-      if (this.GET_HOUSEHOLDID_RESP()) {
-        this.storeHousehold();
-      }
-    });
+    if (this.$route.params.id) {
+      this.getHouseholdById([
+        this.$route.params.id,
+        { withTranslations: 1 }
+      ]).then(() => {
+        if (this.GET_HOUSEHOLDID_RESP()) {
+          this.storeHousehold();
+        }
+      });
+    }
   }
 };
 </script>

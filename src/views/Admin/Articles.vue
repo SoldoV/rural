@@ -124,7 +124,10 @@
       </template>
       <template v-slot:item.image_url="{ item }">
         <div class="p-2">
-          <img class="new-household-image" :src="imageSrc(item.image_url)" />
+          <img
+            class="new-household-image"
+            :src="imageSrc(item.small_image_url)"
+          />
         </div>
       </template>
       <template v-slot:item.active="{ item }">
@@ -335,6 +338,7 @@ export default {
               this.popSnackbar(this.$t("common.editSuccess"));
             else this.popSnackbar(this.$t("common.editFail"));
             this.loading = false;
+            this.editedItem = Object.assign({}, this.defaultItem);
             this.close();
           });
         } else {
@@ -344,6 +348,7 @@ export default {
               this.popSnackbar(this.$t("common.addSuccess"));
             else this.popSnackbar(this.$t("common.addFail"));
             this.loading = false;
+            this.editedItem = Object.assign({}, this.defaultItem);
             this.close();
           });
         }

@@ -70,8 +70,12 @@ export default {
     };
   },
   methods: {
-    ...mapGetters(["HOUSEHOLD_IMAGE_RESP", "GET_ERROR_MSG"]),
-    ...mapActions(["postHouseholdImages", "deleteImage"]),
+    ...mapGetters([
+      "HOUSEHOLD_IMAGE_RESP",
+      "GET_ERROR_MSG",
+      "GET_SINGLE_HOUSEHOLD"
+    ]),
+    ...mapActions(["postHouseholdImages", "deleteImage", "getHouseholdById"]),
 
     imageSrc(src) {
       return src;
@@ -88,6 +92,16 @@ export default {
       let file = val.target.files[0];
       this.post(file);
     },
+    setImages() {
+      this.getHouseholdById([localStorage.getItem("household_id"), {}]).then(
+        () => {
+          let data = this.GET_SINGLE_HOUSEHOLD();
+          data.images.forEach(a => {
+            this.images.push({ image: a.image_url, id: a.id });
+          });
+        }
+      );
+    },
     post(file) {
       var imagesObj = new FormData();
       imagesObj.append("method", "createMany");
@@ -96,11 +110,7 @@ export default {
         this.loading = false;
         if (!this.HOUSEHOLD_IMAGE_RESP())
           return this.$emit("errorNotif", this.GET_ERROR_MSG());
-        let reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = e => {
-          this.images.push({ image: e.target.result });
-        };
+        this.setImages();
       });
     }
   }

@@ -166,6 +166,12 @@ body {
   }
 }
 
+.household-description-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 .login-card {
   box-shadow: none !important;
 }
@@ -213,6 +219,7 @@ body {
 }
 
 .swiper-wrapper {
+  width: fit-content !important;
   z-index: 3;
 }
 
@@ -246,6 +253,8 @@ body {
 }
 
 @media only screen and (max-width: 964px) {
+
+
   .homepage-selected-households {
     left: -2em !important;
   }
@@ -259,6 +268,16 @@ body {
 
     .app-page {
       min-height: calc(100vh - 426px);
+    }
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .household-description-buttons {
+    flex-direction: column;
+
+    .delete-btn {
+      margin-bottom: 2em;
     }
   }
 }

@@ -7,7 +7,7 @@
     </div>
     <div class="selected-news-wrapper">
       <swiper ref="mySwiper" :options="swiperOptions">
-        <swiper-slide v-for="(item, i) in households" :key="i"
+        <swiper-slide v-for="item in households" :key="item.id"
           ><card
             @getHousehold="getHouseholdPage"
             class="domacinstva-item"
@@ -36,17 +36,11 @@ export default {
     households: [],
     cities: [],
     swiperOptions: {
-      preventClicks: true,
-      preventClicksPropagation: true,
-      slidesPerView: 5,
       spaceBetween: 20,
+      loop: false,
       autoplay: {
         delay: 2500,
         disableOnInteraction: false
-      },
-      loop: true,
-      pagination: {
-        el: ".swiper-pagination"
       },
       breakpoints: {
         1700: {
@@ -88,11 +82,6 @@ export default {
           }
         });
       });
-    }
-  },
-  computed: {
-    swiper() {
-      return this.$refs.mySwiper.$swiper;
     }
   },
   mounted() {

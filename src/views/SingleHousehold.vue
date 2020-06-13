@@ -4,7 +4,7 @@
       <v-carousel-item
         v-for="item in household.images"
         :key="item.image_url"
-        v-lazy="item.image_url"
+        :src="item.image_url"
         reverse-transition="fade-transition"
         transition="fade-transition"
       ></v-carousel-item>
@@ -21,7 +21,7 @@
           {{ household.title }}
         </div>
         <div class="card-item-price">
-          {{ $t("cardItem.price") }} <b>{{ household.current_price }} KM</b
+          {{ $t("cardItem.price") }} <b>{{ household.prices[0].price }} KM</b
           >{{ $t("cardItem.night") }}
         </div>
         <div class="single-household-description">
@@ -36,7 +36,7 @@
             >
               <v-img
                 class="single-household-tag"
-                v-lazy="getImgUrl(tag.icon)"
+                :src="getImgUrl(tag.icon)"
               ></v-img>
               <div class="single-household-tag-text-one">
                 <b class="mr-1">{{ tag.pivot.value }}</b
@@ -68,7 +68,7 @@
           <gmap-map
             :center="markers.position || center"
             :zoom="12"
-            style="width:100%;  height: 400px;"
+            style="height: 400px;"
           >
             <gmap-marker
               icon="http://maps.google.com/mapfiles/ms/icons/green-dot.png"
@@ -109,7 +109,7 @@
         </a>
       </div>
     </div>
-    <featured class="homepage-selected-households" />
+    <featured class="homepage-selected-households mt-10" />
   </div>
 </template>
 
@@ -168,20 +168,7 @@ export default {
     },
     storeHousehold() {
       let data = this.GET_SINGLE_HOUSEHOLD();
-      this.household = {
-        title: data.title,
-        description: data.description,
-        address: data.address,
-        city_id: data.city_id,
-        prices: data.prices,
-        latitude: data.latitude,
-        longitude: data.longitude,
-        popular: data.popular,
-        images: data.images,
-        tags: data.tags,
-        id: data.id,
-        platforms: data.platforms
-      };
+      this.household = { ...data };
       this.household.tags.map(e => {
         if (e.category_id == 1) this.tagsCatOne.push(e);
         else if (e.category_id == 2) this.tagsCatTwo.push(e);

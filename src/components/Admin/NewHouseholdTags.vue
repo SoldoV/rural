@@ -138,12 +138,7 @@ export default {
   },
   methods: {
     ...mapActions(["fetchTags", "postHouseholdTags", "deleteHouseholdTag"]),
-    ...mapGetters([
-      "GET_TAGS",
-      "HOUSEHOLD_TAG_RESP",
-      "GET_ERROR_MSG",
-      "GET_HOUSEHOLD_ID"
-    ]),
+    ...mapGetters(["GET_TAGS", "HOUSEHOLD_TAG_RESP", "GET_ERROR_MSG"]),
     close() {
       this.dialog = false;
       this.$nextTick(() => {
@@ -186,7 +181,7 @@ export default {
     }
   },
   created() {
-    this.fetchTags({ withTranslations: 1 });
+    this.fetchTags();
   }
 };
 </script>

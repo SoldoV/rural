@@ -8,16 +8,11 @@
       :items="getTags"
       class="elevation-1"
     >
-      <template v-slot:item.title="{ item }">
-        <div class="p-2">
-          <div>{{ item.title }}</div>
-        </div>
-      </template>
       <template v-slot:item.icon="{ item }">
         <div class="p-2" v-if="item.icon">
           <v-img
             class="tagovi-image"
-            v-lazy="getImgUrl(item.icon)"
+            :src="getImgUrl(item.icon)"
             :alt="item.title[0]"
           ></v-img>
         </div>
@@ -78,7 +73,6 @@
                   </v-row>
                 </v-container>
               </v-card-text>
-
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn
@@ -163,7 +157,6 @@ export default {
         { text: this.$t("admin.householdTags.icon"), value: "icon" },
         { text: this.$t("common.actions"), value: "actions", sortable: false }
       ],
-      tags: [],
       editedIndex: -1,
       editedItem: {
         title: { en: "", bhs: "" },
@@ -176,7 +169,10 @@ export default {
       defaultItem: {
         title: { en: "", bhs: "" },
         category_id: "",
-        icon: ""
+        icon: "",
+        created_at: "",
+        updated_at: "",
+        id: ""
       }
     };
   },
@@ -191,7 +187,6 @@ export default {
       return JSON.parse(JSON.stringify(this.GET_TAGS()));
     }
   },
-
   watch: {
     dialog(val) {
       val || this.close();
@@ -201,7 +196,6 @@ export default {
   methods: {
     ...mapActions(["fetchTags", "editTag", "postTag", "deleteTag"]),
     ...mapGetters(["GET_TAGS", "GET_TAG_RESP"]),
-
     popSnackbar(text) {
       this.snackbarText = text;
       this.snackbar = true;
@@ -209,18 +203,12 @@ export default {
     getImgUrl(img) {
       return require("../../assets/icons/" + img + ".svg");
     },
-    returnItem() {
-      return this.editedItem;
-    },
-    setTags() {
-      this.tags = JSON.parse(JSON.stringify(this.GET_TAGS()));
-    },
     editItem(item) {
       this.editedIndex = this.getTags.indexOf(item);
       this.editedItem = Object.assign({}, item);
-      this.dialog = true;
+      (this.editedItem.title = { en: item.title.en, bhs: item.title.bhs }),
+        (this.dialog = true);
     },
-
     deleteItem(item) {
       confirm(this.$t("common.deleteConfirm")) &&
         this.deleteTag(item.id).then(() => {

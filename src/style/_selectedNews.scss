@@ -1,8 +1,13 @@
 .selected-news-wrapper {
-
   display: flex;
   flex-direction: row;
   margin-bottom: 80px;
+}
+
+.selected-news-swiper {
+  .swiper-slide {
+    width: auto;
+  }
 }
 
 .selected-news-btn {
