@@ -69,7 +69,17 @@
         <v-icon>mdi-filter-variant</v-icon></v-btn
       >
     </div>
+    <div class="categories-sidebar-additional">
+      <v-btn
+        depressed
+        outlined
+        @click="clearFilters"
+        class="common-btn-outlined categories-sidebar-btn-clear"
+        >{{ $t("catSidebar.clear") }} <v-icon>mdi-filter-remove</v-icon></v-btn
+      >
+    </div>
     <additionalFilters
+      ref="additionalFilters"
       :dialog="dialog"
       @additionalFilters="setAdditionalFilters"
       @toggleAdditionalFilters="toggleAdditionalFilters"
@@ -117,6 +127,17 @@ export default {
   methods: {
     ...mapGetters(["GET_CITIES", "GET_FILTERS"]),
     ...mapActions(["fetchCities", "fetchFilters"]),
+    clearFilters() {
+      this.price = {
+        min: null,
+        max: null
+      };
+      this.city = [];
+      this.checkboxes.forEach(e => {
+        e.value = false;
+      });
+      this.$refs.additionalFilters.clearFilters();
+    },
     toggleAdditionalFilters() {
       this.dialog = !this.dialog;
     },

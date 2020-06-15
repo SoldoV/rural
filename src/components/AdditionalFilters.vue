@@ -103,6 +103,15 @@ export default {
       this.$emit("additionalFilters", tags, secondaryTags);
       this.$emit("toggleAdditionalFilters");
     },
+    clearFilters() {
+      this.firstCategoryFilters.forEach(e => {
+        e.value = 0;
+      });
+      this.secondCategoryFilters.forEach(e => {
+        e.value = 0;
+      });
+      this.$emit("additionalFilters", { householdTags: {} }, []);
+    },
     setFilters() {
       this.fetchFilters(1).then(() => {
         this.filters = this.GET_FILTERS();

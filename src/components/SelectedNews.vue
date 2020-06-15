@@ -16,7 +16,7 @@
           ><news-item
             class="news-item"
             :id="item.id"
-            :dateText="item.created_at.slice(0, 10)"
+            :dateText="item.created_at"
             :header="item.title"
             :text="item.text"
             :image="item.small_image_url"

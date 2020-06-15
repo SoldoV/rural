@@ -19,6 +19,7 @@
     "newImg": "Nova slika",
     "img": "Slika",
     "next": "Dalje",
+    "back": "Nazad",
     "confirm": "Potvrdi",
     "val": "Vrijednost",
     "save": "Sačuvaj",
@@ -111,6 +112,7 @@
     "night": "/noć"
   },
   "catSidebar": {
+    "clear": "Očisti filtere",
     "cats": "Kategorije",
     "types": "Tipovi domaćinstava",
     "location": "Lokacija",

@@ -80,6 +80,11 @@
           mdi-delete
         </v-icon>
       </template>
+      <template v-slot:item.date="{ item }">
+        <div>
+          {{ getDate(item) }}
+        </div>
+      </template>
       <template v-slot:no-data>
         {{ $t("admin.newHouseholdPrice.noPrices") }}
       </template>
@@ -89,6 +94,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import moment from "moment";
 
 export default {
   props: {
@@ -127,6 +133,13 @@ export default {
   methods: {
     ...mapActions(["postPrice", "deletePrice"]),
     ...mapGetters(["PRICE_RESP", "GET_ERROR_MSG"]),
+    getDate(item) {
+      return (
+        moment(item.date[0], "YYYY-MM-DD").format("DD-MM-YYYY") +
+        " - " +
+        moment(item.date[1], "YYYY-MM-DD").format("DD-MM-YYYY")
+      );
+    },
     close() {
       this.dialog = false;
       this.$nextTick(() => {

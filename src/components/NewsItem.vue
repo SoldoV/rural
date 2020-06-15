@@ -9,7 +9,7 @@
       <div class="news-item-date">
         <v-icon>mdi-calendar</v-icon>
         <div class="news-item-date-text">
-          {{ dateText }}
+          {{ getDate(dateText) }}
         </div>
       </div>
       <div class="news-item-header">{{ header }}</div>
@@ -23,6 +23,8 @@
 </template>
 
 <script>
+import moment from "moment";
+
 export default {
   props: {
     dateText: {
@@ -48,6 +50,9 @@ export default {
     goToArticle() {
       this.$router.push(`/news/article/${this.id}`);
       window.scrollTo(0, 0);
+    },
+    getDate(item) {
+      return moment(item.slice(0, 10), "YYYY-MM-DD").format("DD-MM-YYYY");
     }
   }
 };

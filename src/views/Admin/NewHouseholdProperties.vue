@@ -30,6 +30,14 @@
       <div class="new-household-btn-wrapper">
         <v-btn
           depressed
+          outlined
+          v-if="this.$route.params.id"
+          class="new-household-btn common-btn-outlined"
+          @click="goBack()"
+          >{{ $t("common.back") }}</v-btn
+        >
+        <v-btn
+          depressed
           color="primary"
           class="common-btn"
           :loading="btnLoad"
@@ -101,6 +109,11 @@ export default {
       "GET_HOUSEHOLDID_RESP"
     ]),
     ...mapActions(["postPlatforms", "postHouseholdTags", "getHouseholdById"]),
+    goBack() {
+      this.$router.push(
+        `/dashboard/household/${this.$route.params.id}/description`
+      );
+    },
     save() {
       if (this.$refs.form.validate()) {
         this.btnLoad = true;

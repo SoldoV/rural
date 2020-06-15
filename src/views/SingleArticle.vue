@@ -11,7 +11,7 @@
       <div class="news-item-date mt-11 mb-2">
         <v-icon>mdi-calendar</v-icon>
         <div class="news-item-date-text">
-          {{ date }}
+          {{ getDate(date) }}
         </div>
       </div>
       <div class="news-item-title">{{ article.title }}</div>
@@ -25,6 +25,7 @@
 import { mapActions, mapGetters } from "vuex";
 import imageHeader from "../components/ImageHeader.vue";
 import selectedNews from "../components/SelectedNews.vue";
+import moment from "moment";
 
 export default {
   components: {
@@ -43,11 +44,14 @@ export default {
   methods: {
     ...mapActions(["fetchSingleArticle"]),
     ...mapGetters(["GET_SINGLE_ARTICLE"]),
+    getDate(item) {
+      return moment(item.slice(0, 10), "YYYY-MM-DD").format("DD-MM-YYYY");
+    },
     getArticles() {
       let id = this.$route.params.id;
       this.fetchSingleArticle(id).then(() => {
         this.article = this.GET_SINGLE_ARTICLE();
-        this.date = this.article.created_at.slice(0, 10);
+        this.date = this.article.created_at;
       });
     }
   },

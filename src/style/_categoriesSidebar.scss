@@ -62,7 +62,19 @@
     }
   }
 
+  .categories-sidebar-btn-clear {
+    width: 100%;
+    color: $secondary-text !important;
+
+    .v-icon {
+      margin-left: 12px;
+      font-size: 20px;
+    }
+  }
+
   .categories-sidebar-additional {
     margin-top: 24px;
+    display: flex;
+    justify-content: center;
   }
 }

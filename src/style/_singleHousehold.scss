@@ -17,6 +17,11 @@
     margin-right: 20px;
   }
 
+  .booking-image {
+    width: 104px;
+    height: 18px;
+  }
+
   .single-household-title {
     color: $primary-text;
     font-family: "MontserratBold";
@@ -36,6 +41,13 @@
     box-shadow: 0 10px 20px 0 rgba(255, 90, 95, 0.5);
     width: 312px;
     height: 36px;
+  }
+
+  .single-household-booking-btn {
+    margin-top: 2em;
+    background-color: #003580 !important;
+    box-shadow: 0 10px 20px 0 rgba(47, 113, 255, 0.5);
+
   }
 
   .single-household-airbnb-wrapper {

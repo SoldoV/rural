@@ -19,6 +19,7 @@
     "newImg": "New image",
     "img": "Image",
     "next": "Next",
+    "back": "Back",
     "confirm": "Confirm",
     "val": "Value",
     "save": "Save",
@@ -112,6 +113,7 @@
     "night": " per night"
   },
   "catSidebar": {
+    "clear": "Clear filters",
     "cats": "Categories",
     "types": "Types of households",
     "location": "Location",

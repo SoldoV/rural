@@ -107,6 +107,16 @@
             <img src="../assets/airbnb.svg" />
           </v-btn>
         </a>
+        <a
+          :href="'http://booking.com/' + household.platforms[1].pivot.uid"
+          target="_blank"
+        >
+          <v-btn
+            class="single-household-airbnb-btn single-household-booking-btn"
+          >
+            <img class="booking-image" src="../assets/booking.svg" />
+          </v-btn>
+        </a>
       </div>
     </div>
     <featured class="homepage-selected-households mt-10" />
@@ -144,7 +154,7 @@ export default {
       popular: false,
       tags: [],
       images: [],
-      platforms: [{ pivot: { uid: "" } }]
+      platforms: [{ pivot: { uid: "" } }, { pivot: { uid: "" } }]
     }
   }),
   computed: {

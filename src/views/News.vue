@@ -13,7 +13,7 @@
       v-for="item in articles"
       :key="item.id"
       :id="item.id"
-      :dateText="item.created_at.slice(0, 10)"
+      :dateText="item"
       :header="item.title"
       :text="item.text"
       :image="item.small_image_url"
