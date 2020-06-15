@@ -74,7 +74,7 @@
         depressed
         outlined
         @click="clearFilters"
-        class="common-btn-outlined categories-sidebar-btn-clear"
+        class="common-btn-outlined categories-sidebar-btn-clear mr-0"
         >{{ $t("catSidebar.clear") }} <v-icon>mdi-filter-remove</v-icon></v-btn
       >
     </div>
