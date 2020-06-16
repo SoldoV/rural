@@ -211,7 +211,6 @@ export default {
       }
     },
     navigateNext(url) {
-      this.$emit("increaseStepper");
       this.$router.push(url);
     },
     close() {
@@ -244,6 +243,7 @@ export default {
     }
   },
   mounted() {
+    this.$emit("setStepper", 1);
     this.geolocate();
     this.fetchCities();
     if (this.$route.params.id) {

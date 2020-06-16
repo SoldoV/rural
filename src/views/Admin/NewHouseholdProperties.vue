@@ -1,57 +1,63 @@
 <template>
-  <div class="new-household-properties">
-    <v-form v-model="valid" ref="form" lazy-validation>
-      <tags :householdId="householdId" @errorNotif="errorNotif" :tags="tags" />
-      <images
-        @errorNotif="errorNotif"
-        :householdId="householdId"
-        :images="images"
-      />
-      <priceComp
-        @errorNotif="errorNotif"
-        :householdId="householdId"
-        :prices="prices"
-      />
-      <v-text-field
-        required
-        :rules="inputRules"
-        outlined
-        v-model="links.airBnb"
-        :label="$t('admin.newHouseholdProperties.airBnb')"
-        class="mt-10"
-      ></v-text-field>
-      <v-text-field
-        :rules="inputRules"
-        required
-        outlined
-        v-model="links.booking"
-        :label="$t('admin.newHouseholdProperties.booking')"
-      ></v-text-field>
-      <div class="new-household-btn-wrapper">
-        <v-btn
-          depressed
+  <div class="new-household-properties row justify-center">
+    <v-col cols="12" lg="8" md="10">
+      <v-form v-model="valid" ref="form" lazy-validation>
+        <tags
+          :householdId="householdId"
+          @errorNotif="errorNotif"
+          :tags="tags"
+        />
+        <images
+          @errorNotif="errorNotif"
+          :householdId="householdId"
+          :images="images"
+        />
+        <priceComp
+          @errorNotif="errorNotif"
+          :householdId="householdId"
+          :prices="prices"
+        />
+        <v-text-field
+          required
+          :rules="inputRules"
           outlined
-          v-if="this.$route.params.id"
-          class="new-household-btn common-btn-outlined"
-          @click="goBack()"
-          >{{ $t("common.back") }}</v-btn
-        >
-        <v-btn
-          depressed
-          color="primary"
-          class="common-btn"
-          :loading="btnLoad"
-          @click="save"
-          >{{ $t("common.next") }}</v-btn
-        >
-      </div>
-    </v-form>
-    <v-alert type="success" class="success-alert" v-if="success">
-      {{ successMessage }}
-    </v-alert>
-    <v-alert type="error" class="success-alert" v-if="error">
-      {{ errorValue }}
-    </v-alert>
+          v-model="links.airBnb"
+          :label="$t('admin.newHouseholdProperties.airBnb')"
+          class="mt-10"
+        ></v-text-field>
+        <v-text-field
+          :rules="inputRules"
+          required
+          outlined
+          v-model="links.booking"
+          :label="$t('admin.newHouseholdProperties.booking')"
+        ></v-text-field>
+        <div class="new-household-btn-wrapper">
+          <v-btn
+            depressed
+            outlined
+            v-if="this.$route.params.id"
+            class="new-household-btn common-btn-outlined"
+            @click="goBack()"
+            >{{ $t("common.back") }}</v-btn
+          >
+          <v-btn
+            depressed
+            color="primary"
+            class="common-btn"
+            :loading="btnLoad"
+            @click="save"
+            >{{ $t("common.next") }}</v-btn
+          >
+        </div>
+      </v-form>
+      <v-alert type="success" class="success-alert" v-if="success">
+        {{ successMessage }}
+      </v-alert>
+      <v-alert type="error" class="success-alert" v-if="error">
+        {{ errorValue }}
+      </v-alert>
+    </v-col>
   </div>
 </template>
 
@@ -133,6 +139,7 @@ export default {
             return this.errorNotif(this.GET_ERROR_MSG());
           this.success = true;
           this.btnLoad = false;
+          this.$emit("setStepper", 3);
           setTimeout(() => this.$router.push("/dashboard/households"), 2000);
         });
       }
@@ -177,6 +184,7 @@ export default {
     }
   },
   created() {
+    this.$emit("setStepper", 2);
     if (this.$route.params.id) {
       this.getHouseholdById([
         this.$route.params.id,

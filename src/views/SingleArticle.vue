@@ -45,7 +45,7 @@ export default {
     ...mapActions(["fetchSingleArticle"]),
     ...mapGetters(["GET_SINGLE_ARTICLE"]),
     getDate(item) {
-      return moment(item.slice(0, 10), "YYYY-MM-DD").format("DD-MM-YYYY");
+      return moment(item).format("DD-MM-YYYY");
     },
     getArticles() {
       let id = this.$route.params.id;

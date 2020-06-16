@@ -52,7 +52,7 @@ export default {
       window.scrollTo(0, 0);
     },
     getDate(item) {
-      return moment(item.slice(0, 10), "YYYY-MM-DD").format("DD-MM-YYYY");
+      return moment(item).format("DD-MM-YYYY");
     }
   }
 };
