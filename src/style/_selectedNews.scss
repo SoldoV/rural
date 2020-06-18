@@ -1,31 +1,34 @@
 .selected-news-wrapper {
-  display: flex;
-  flex-direction: row;
-  margin-bottom: 80px;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 80px;
 }
 
 .selected-news-swiper {
-  .swiper-slide {
+    .swiper-slide {
+        width: auto !important;
+    }
+}
+
+.swiper-slide {
     width: auto !important;
-  }
 }
 
 .selected-news-btn {
-  background-color: none !important;
+    background-color: none !important;
 }
 
 .selected-news-title {
-  color: $primary-text;
-  font-family: "BalooPaaji2Bold";
-  font-size: 34px;
+    color: $primary-text;
+    font-family: "BalooPaaji2Bold";
+    font-size: 34px;
 }
 
 .selected-news-btn {
-  text-transform: none !important;
-  border-color: $border;
-
-  .v-icon {
-    font-size: 14px;
-    margin-left: 1em;
-  }
+    text-transform: none !important;
+    border-color: $border;
+    .v-icon {
+        font-size: 14px;
+        margin-left: 1em;
+    }
 }
