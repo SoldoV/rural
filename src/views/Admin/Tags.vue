@@ -1,5 +1,17 @@
 <template>
   <div class="tagovi">
+    <v-select
+      required
+      outlined
+      class="my-10 tagovi-select"
+      :rules="titleRules"
+      :items="categories"
+      v-model="selectedCategory"
+      @input="getCategoryTags()"
+      item-value="id"
+      item-text="title"
+      :label="$t('admin.householdTags.category')"
+    ></v-select>
     <v-data-table
       :footer-props="{
         itemsPerPageText: rowsPerPage
@@ -121,6 +133,7 @@ import { mapActions, mapGetters } from "vuex";
 export default {
   data: function() {
     return {
+      selectedCategory: 1,
       dialog: false,
       rowsPerPage: this.$t("common.rowsPerPage"),
       snackbar: false,
@@ -149,11 +162,6 @@ export default {
       headers: [
         { text: this.$t("common.titleLabel") + " (en)", value: "title.en" },
         { text: this.$t("common.titleLabel") + " (bhs)", value: "title.bhs" },
-        {
-          text: this.$t("admin.householdTags.category"),
-          value: "category_id",
-          sortable: true
-        },
         { text: this.$t("admin.householdTags.icon"), value: "icon" },
         { text: this.$t("common.actions"), value: "actions", sortable: false }
       ],
@@ -194,7 +202,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(["fetchTags", "editTag", "postTag", "deleteTag"]),
+    ...mapActions(["fetchCategoryTags", "editTag", "postTag", "deleteTag"]),
     ...mapGetters(["GET_TAGS", "GET_TAG_RESP"]),
     popSnackbar(text) {
       this.snackbarText = text;
@@ -211,7 +219,7 @@ export default {
     },
     deleteItem(item) {
       confirm(this.$t("common.deleteConfirm")) &&
-        this.deleteTag(item.id).then(() => {
+        this.deleteTag([item.id, this.selectedCategory]).then(() => {
           if (this.GET_TAG_RESP())
             this.popSnackbar(this.$t("common.deleteSuccess"));
           else this.popSnackbar(this.$t("common.deleteFail"));
@@ -253,13 +261,13 @@ export default {
             updated_at: this.editedItem.updated_at,
             ...data
           };
-          this.editTag(editedData).then(() => {
+          this.editTag([editedData, this.selectedCategory]).then(() => {
             if (this.GET_TAG_RESP())
               this.popSnackbar(this.$t("common.editSuccess"));
             else this.popSnackbar(this.$t("common.editFail"));
           });
         } else {
-          this.postTag(data).then(() => {
+          this.postTag([data, this.selectedCategory]).then(() => {
             if (this.GET_TAG_RESP())
               this.popSnackbar(this.$t("common.addSuccess"));
             else this.popSnackbar(this.$t("common.addFail"));
@@ -267,10 +275,13 @@ export default {
         }
         this.close();
       }
+    },
+    getCategoryTags() {
+      this.fetchCategoryTags([{ withTranslations: 1 }, this.selectedCategory]);
     }
   },
   mounted() {
-    this.fetchTags({ withTranslations: 1 });
+    this.getCategoryTags();
   }
 };
 </script>

@@ -5,8 +5,6 @@
         v-for="item in household.images"
         :key="item.image_url"
         :src="item.image_url"
-        reverse-transition="fade-transition"
-        transition="fade-transition"
       ></v-carousel-item>
     </v-carousel>
     <div class="single-household-body">
@@ -109,6 +107,7 @@
           </v-btn>
         </a>
         <a
+          v-if="household.platforms.length > 1"
           :href="'http://booking.com/' + household.platforms[1].pivot.uid"
           target="_blank"
         >
@@ -155,7 +154,7 @@ export default {
       popular: false,
       tags: [],
       images: [],
-      platforms: [{ pivot: { uid: "" } }, { pivot: { uid: "" } }]
+      platforms: [{ pivot: { uid: "" } }]
     }
   }),
   computed: {

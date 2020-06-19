@@ -5,7 +5,7 @@
         itemsPerPageText: rowsPerPage
       }"
       :headers="headers"
-      :items="prices"
+      :items="householdPrices"
       class="new-household-table mt-10"
     >
       <template v-slot:top>
@@ -39,7 +39,7 @@
                           type="number"
                           outlined
                           onkeydown="return event.keyCode !== 69"
-                          v-model="price.price"
+                          v-model="price.value"
                           :label="$t('admin.newHouseholdPrice.price')"
                         ></v-text-field>
                         <div class="new-household-properties-price">
@@ -108,21 +108,22 @@ export default {
   data: function() {
     return {
       rowsPerPage: this.$t("common.rowsPerPage"),
+      householdPrices: this.prices,
       dialog: false,
       valid: false,
       priceRules: [v => !!v || this.$t("common.required")],
       price: {
-        price: "",
+        value: "",
         date: []
       },
       defaultPrice: {
-        price: "",
+        value: "",
         date: []
       },
       headers: [
         {
           text: this.$t("admin.newHouseholdPrice.price"),
-          value: "price",
+          value: "value",
           sortable: false
         },
         { text: this.$t("admin.newHouseholdPrice.date"), value: "date" },
@@ -131,8 +132,13 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["postPrice", "deletePrice"]),
-    ...mapGetters(["PRICE_RESP", "GET_ERROR_MSG"]),
+    ...mapActions(["postPrice", "deletePrice", "getHouseholdById"]),
+    ...mapGetters([
+      "PRICE_RESP",
+      "GET_ERROR_MSG",
+      "GET_HOUSEHOLDID_RESP",
+      "GET_SINGLE_HOUSEHOLD"
+    ]),
     getDate(item) {
       return (
         moment(item.date[0], "YYYY-MM-DD").format("DD-MM-YYYY") +
@@ -149,14 +155,23 @@ export default {
     post() {
       let priceData = {
         household_id: this.householdId,
-        price: this.price.price,
+        value: this.price.value,
         date_to: this.price.date[1],
         date_from: this.price.date[0]
       };
       this.postPrice(priceData).then(() => {
         if (!this.PRICE_RESP())
           return this.$emit("errorNotif", this.GET_ERROR_MSG());
-        this.prices.push(this.price);
+        this.getHouseholdById([this.householdId, { withTranslations: 1 }]).then(
+          () => {
+            if (this.GET_HOUSEHOLDID_RESP()) {
+              this.householdPrices = this.GET_SINGLE_HOUSEHOLD().prices;
+              this.householdPrices.forEach(e => {
+                e.date = [e.date_from, e.date_to];
+              });
+            }
+          }
+        );
         this.close();
       });
     },
@@ -166,9 +181,11 @@ export default {
       }
     },
     deleteItem(item) {
-      const index = this.prices.indexOf(item);
+      const index = this.householdPrices.indexOf(item);
       confirm(this.$t("common.deleteConfirm")) &&
-        this.deletePrice(item.id).then(() => this.prices.splice(index, 1));
+        this.deletePrice(item.id).then(() =>
+          this.householdPrices.splice(index, 1)
+        );
     }
   }
 };

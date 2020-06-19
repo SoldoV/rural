@@ -39,8 +39,30 @@ const actions = {
           "X-Localization": localStorage.getItem("Lang")
         },
         params: {
-          ...data
-        }
+          ...data,
+        },
+      })
+      .then(response => {
+        commit("STORE_TAGS", response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  },
+  async fetchCategoryTags({
+    commit,
+    rootState
+  }, data) {
+    await axios
+      .get(`${rootUrls.URL}/categories/${data[1]}/tags`, {
+        headers: {
+          ...rootState.common.header,
+          Authorization: "Bearer " + rootState.common.loginToken,
+          "X-Localization": localStorage.getItem("Lang")
+        },
+        params: {
+          ...data[0],
+        },
       })
       .then(response => {
         commit("STORE_TAGS", response.data);
@@ -74,7 +96,7 @@ const actions = {
     commit
   }, data) {
     await axios
-      .post(`${rootUrls.URL}/tags`, data, {
+      .post(`${rootUrls.URL}/tags`, data[0], {
         headers: {
           ...rootState.common.header,
           Authorization: "Bearer " + rootState.common.loginToken
@@ -82,9 +104,9 @@ const actions = {
       })
       .then(() => {
         commit("STORE_TAG_RESP", true);
-        dispatch("fetchTags", {
+        dispatch("fetchCategoryTags", [{
           withTranslations: 1
-        });
+        }, data[1]]);
       })
       .catch(error => {
         commit("STORE_TAG_RESP", false);
@@ -97,7 +119,7 @@ const actions = {
     commit
   }, data) {
     await axios
-      .put(`${rootUrls.URL}/tags/${data.id}`, data, {
+      .put(`${rootUrls.URL}/tags/${data[0].id}`, data[0], {
         headers: {
           ...rootState.common.header,
           Authorization: "Bearer " + rootState.common.loginToken
@@ -105,9 +127,9 @@ const actions = {
       })
       .then(() => {
         commit("STORE_TAG_RESP", true);
-        dispatch("fetchTags", {
+        dispatch("fetchCategoryTags", [{
           withTranslations: 1
-        });
+        }, data[1]]);
       })
       .catch(error => {
         commit("STORE_TAG_RESP", false);
@@ -120,7 +142,7 @@ const actions = {
     commit
   }, data) {
     await axios
-      .delete(`${rootUrls.URL}/tags/${data}`, {
+      .delete(`${rootUrls.URL}/tags/${data[0]}`, {
         headers: {
           ...rootState.common.header,
           Authorization: "Bearer " + rootState.common.loginToken
@@ -128,9 +150,9 @@ const actions = {
       })
       .then(() => {
         commit("STORE_TAG_RESP", true);
-        dispatch("fetchTags", {
+        dispatch("fetchCategoryTags", [{
           withTranslations: 1
-        });
+        }, data[1]]);
       })
       .catch(error => {
         commit("STORE_TAG_RESP", false);

@@ -26,8 +26,6 @@
           class="mt-10"
         ></v-text-field>
         <v-text-field
-          :rules="inputRules"
-          required
           outlined
           v-model="links.booking"
           :label="$t('admin.newHouseholdProperties.booking')"
@@ -124,17 +122,18 @@ export default {
       if (this.$refs.form.validate()) {
         this.btnLoad = true;
         let platforms = {
-          method: "syncWithoutDetaching",
+          method: "sync",
           data: {
             1: {
               uid: this.links.airBnb
-            },
-            2: {
-              uid: this.links.booking
             }
           }
         };
-        console.log(platforms);
+        if (this.links.booking.length !== 0) {
+          platforms.data[2] = {
+            uid: this.links.booking
+          };
+        }
         this.postPlatforms([platforms, this.householdId]).then(() => {
           if (!this.PLATFORM_RESP())
             return this.errorNotif(this.GET_ERROR_MSG());
@@ -172,7 +171,7 @@ export default {
       });
       data.prices.forEach(a => {
         this.prices.push({
-          price: a.price,
+          value: a.value,
           date: [a.date_from, a.date_to],
           id: a.id,
           householdId: this.householdId
@@ -180,7 +179,7 @@ export default {
       });
       this.links = {
         airBnb: data.platforms[0].pivot.uid,
-        booking: data.platforms[1].pivot.uid
+        booking: data.platforms.length > 1 ? data.platforms[1].pivot.uid : ""
       };
     }
   },
