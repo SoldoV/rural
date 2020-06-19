@@ -134,6 +134,7 @@ export default {
             }
           }
         };
+        console.log(platforms);
         this.postPlatforms([platforms, this.householdId]).then(() => {
           if (!this.PLATFORM_RESP())
             return this.errorNotif(this.GET_ERROR_MSG());

@@ -21,7 +21,8 @@
           {{ household.title }}
         </div>
         <div class="card-item-price">
-          {{ $t("cardItem.price") }} <b>{{ household.prices[0].price }} KM</b
+          {{ $t("cardItem.price") }}
+          <b>{{ household.current_price.value }} KM</b
           >{{ $t("cardItem.night") }}
         </div>
         <div class="single-household-description">
@@ -147,7 +148,7 @@ export default {
       title: "",
       description: "",
       address: "",
-      prices: [{ price: null }],
+      current_price: [{ value: null }],
       city_id: null,
       latitude: null,
       longitude: null,

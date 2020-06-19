@@ -50,7 +50,7 @@
             :label="$t('admin.newHouseholdDesc.city')"
           ></v-select>
           <gmap-map
-            :center="markers.position || center"
+            :center="markers.position"
             :zoom="12"
             @click="addMarker"
             style="width:100%;  height: 400px;"
