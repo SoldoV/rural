@@ -3,6 +3,7 @@
     "searchText": "Pretraži domaćinstva..."
   },
   "common": {
+    "allHouseholds": "Sva domaćinstva",
     "desc": "Opis",
     "props": "Svojstva",
     "rowsPerPage": "Redovi u tablici",

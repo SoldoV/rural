@@ -167,6 +167,7 @@ export default {
             if (this.GET_HOUSEHOLDID_RESP()) {
               this.householdPrices = this.GET_SINGLE_HOUSEHOLD().prices;
               this.householdPrices.forEach(e => {
+                this.prices.push(e);
                 e.date = [e.date_from, e.date_to];
               });
             }

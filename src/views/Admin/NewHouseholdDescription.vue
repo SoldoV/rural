@@ -57,6 +57,7 @@
           >
             <gmap-marker
               :position="markers.position"
+              :icon="{ url: require('../../assets/marker.svg') }"
               @click="center = markers.position"
             ></gmap-marker>
           </gmap-map>

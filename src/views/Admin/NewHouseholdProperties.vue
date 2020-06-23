@@ -44,6 +44,7 @@
             color="primary"
             class="common-btn"
             :loading="btnLoad"
+            :disabled="!isValid()"
             @click="save"
             >{{ $t("common.next") }}</v-btn
           >
@@ -108,6 +109,9 @@ export default {
   methods: {
     ...mapGetters([
       "PLATFORM_RESP",
+      "HOUSEHOLD_IMAGE_RESP",
+      "PRICE_RESP",
+      "HOUSEHOLD_TAG_RESP",
       "GET_ERROR_MSG",
       "GET_SINGLE_HOUSEHOLD",
       "GET_HOUSEHOLDID_RESP"
@@ -116,6 +120,11 @@ export default {
     goBack() {
       this.$router.push(
         `/dashboard/household/${this.$route.params.id}/description`
+      );
+    },
+    isValid() {
+      return (
+        this.tags.length > 0 && this.images.length > 0 && this.prices.length > 0
       );
     },
     save() {

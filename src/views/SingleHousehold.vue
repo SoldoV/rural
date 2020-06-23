@@ -70,7 +70,7 @@
             style="height: 400px;"
           >
             <gmap-marker
-              icon="http://maps.google.com/mapfiles/ms/icons/green-dot.png"
+              :icon="{ url: require('../assets/marker.svg') }"
               :position="markers.position"
             ></gmap-marker>
           </gmap-map>

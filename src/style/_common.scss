@@ -243,7 +243,8 @@ body {
   }
 }
 
-.homepage-selected-households {
+.homepage-selected-households,
+.map-gmap {
   left: -120px !important;
 }
 
@@ -255,7 +256,8 @@ body {
 @media only screen and (max-width: 964px) {
 
 
-  .homepage-selected-households {
+  .homepage-selected-households,
+  .map-gmap {
     left: -2em !important;
   }
 

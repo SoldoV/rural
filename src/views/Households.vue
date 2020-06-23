@@ -8,6 +8,7 @@
       @search="search"
       :imgSrc="'bg.webp'"
     />
+    <householdMap ref="map" />
     <div class="housholds-body">
       <v-expansion-panels class="categories-mobile-view hidden-lg-and-up">
         <v-expansion-panel>
@@ -61,11 +62,13 @@
 import imageHeader from "../components/ImageHeader.vue";
 import categoriesSidebar from "../components/CategoriesSidebar.vue";
 import card from "../components/CardItem.vue";
+import householdMap from "../components/Map.vue";
 import { mapActions, mapGetters, mapMutations } from "vuex";
 
 export default {
   components: {
     imageHeader,
+    householdMap,
     categoriesSidebar,
     card
   },
@@ -132,6 +135,7 @@ export default {
             this.lastPage = household.last_page;
             this.currentPage = household.current_page;
             this.cities = this.GET_CITIES();
+            this.$refs.map.getData();
           }
         });
       });
