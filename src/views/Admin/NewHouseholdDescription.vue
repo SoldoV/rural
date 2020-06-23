@@ -194,7 +194,6 @@ export default {
         };
         let householdId = this.$route.params.id;
         if (householdId) {
-          data.city_id = this.household.city_id;
           this.editHousehold([data, householdId]).then(() => {
             if (this.GET_EDIT_HOUSEHOLD_RESP()) {
               this.navigateNext(
