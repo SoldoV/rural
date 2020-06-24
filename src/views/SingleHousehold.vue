@@ -174,7 +174,6 @@ export default {
     ]),
     ...mapActions(["fetchCities", "getHouseholdById"]),
     getImgUrl(img) {
-      console.log(img);
       return require("../assets/icons/" + img + ".svg");
     },
     storeHousehold() {
