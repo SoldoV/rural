@@ -54,7 +54,7 @@
             >
               <v-img
                 class="single-household-tag"
-                v-lazy="getImgUrl(tag.icon)"
+                :src="getImgUrl(tag.icon)"
               ></v-img>
               <div class="single-household-tag-text">{{ tag.title }}</div>
             </div>
@@ -174,6 +174,7 @@ export default {
     ]),
     ...mapActions(["fetchCities", "getHouseholdById"]),
     getImgUrl(img) {
+      console.log(img);
       return require("../assets/icons/" + img + ".svg");
     },
     storeHousehold() {

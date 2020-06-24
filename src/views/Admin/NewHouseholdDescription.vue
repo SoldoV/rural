@@ -187,7 +187,7 @@ export default {
             bhs: this.household.description.bhs
           },
           address: this.household.address,
-          city_id: this.household.city_id.id,
+          city_id: this.household.city_id.id || this.household.city_id,
           latitude: this.markers.position.lat.toFixed(8),
           longitude: this.markers.position.lng.toFixed(8),
           popular: this.household.popular

@@ -95,10 +95,7 @@ export default {
     setImages() {
       this.getHouseholdById([localStorage.getItem("household_id"), {}]).then(
         () => {
-          let data = this.GET_SINGLE_HOUSEHOLD();
-          data.images.forEach(a => {
-            this.images.push({ image: a.image_url, id: a.id });
-          });
+          this.$emit("setImages", this.GET_SINGLE_HOUSEHOLD());
         }
       );
     },

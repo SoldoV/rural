@@ -8,6 +8,7 @@
           :tags="tags"
         />
         <images
+          @setImages="setImages"
           @errorNotif="errorNotif"
           :householdId="householdId"
           :images="images"
@@ -158,6 +159,12 @@ export default {
       this.errorValue = val;
       this.btnLoad = false;
     },
+    setImages(data) {
+      this.images = [];
+      data.images.forEach(a => {
+        this.images.push({ image: a.image_url, id: a.id });
+      });
+    },
     setEditedHouseholdItems() {
       this.householdId = this.$route.params.id;
       let data = this.GET_SINGLE_HOUSEHOLD();
@@ -175,9 +182,7 @@ export default {
           householdId: this.householdId
         });
       });
-      data.images.forEach(a => {
-        this.images.push({ image: a.image_url, id: a.id });
-      });
+      this.setImages(data);
       data.prices.forEach(a => {
         this.prices.push({
           value: a.value,

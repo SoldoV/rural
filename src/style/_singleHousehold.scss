@@ -16,6 +16,10 @@
     max-height: 46px;
     max-width: 46px;
     margin-right: 20px;
+
+    .v-image__image {
+      background-size: contain !important;
+    }
   }
 
   .booking-image {
@@ -157,6 +161,10 @@
   }
 
   @media only screen and (max-width: 1240px) {
+    .single-household-tags-one-wrapper {
+      justify-content: space-evenly !important;
+    }
+
     .single-household-body {
       flex-direction: column !important;
       padding: 0px;
