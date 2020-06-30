@@ -98,19 +98,12 @@
         <div class="single-household-airbnb-text">
           {{ $t("common.reserve") }}
         </div>
-        <a
-          :href="'http://airbnb.com/' + household.platforms[0].pivot.uid"
-          target="_blank"
-        >
+        <a v-if="isAirbnb" :href="airbnb.uid" target="_blank">
           <v-btn class="single-household-airbnb-btn">
             <img src="../assets/airbnb.svg" />
           </v-btn>
         </a>
-        <a
-          v-if="household.platforms.length > 1"
-          :href="'http://booking.com/' + household.platforms[1].pivot.uid"
-          target="_blank"
-        >
+        <a v-if="isBooking" :href="booking.uid" target="_blank">
           <v-btn
             class="single-household-airbnb-btn single-household-booking-btn"
           >
@@ -142,19 +135,22 @@ export default {
     tagsCatTwo: [],
     tagsCatThree: [],
     cities: [],
+    isAirbnb: false,
+    isBooking: false,
+    airbnb: { uid: "" },
+    booking: { uid: "" },
     household: {
       id: null,
       title: "",
       description: "",
       address: "",
-      current_price: [{ value: null }],
+      current_price: [{ value: "" }],
       city_id: null,
       latitude: null,
       longitude: null,
       popular: false,
       tags: [],
-      images: [],
-      platforms: [{ pivot: { uid: "" } }]
+      images: []
     }
   }),
   computed: {
@@ -172,6 +168,19 @@ export default {
       "GET_HOUSEHOLDID_RESP",
       "GET_CITIES"
     ]),
+    platformsValue(household) {
+      household.platforms.forEach(x => {
+        if (x.title == "airbnb") {
+          this.airBnb = x.pivot;
+          this.isAirbnb = true;
+          console.log(x.pivot);
+        }
+        if (x.title == "booking") {
+          this.booking = x.pivot;
+          this.isBooking = true;
+        }
+      });
+    },
     ...mapActions(["fetchCities", "getHouseholdById"]),
     getImgUrl(img) {
       return require("../assets/icons/" + img + ".svg");
@@ -182,7 +191,7 @@ export default {
       this.household.tags.map(e => {
         if (e.category_id == 1) this.tagsCatOne.push(e);
         else if (e.category_id == 2) this.tagsCatTwo.push(e);
-        else this.tagsCatThree.push(e);
+        else if (e.category_id == 3) this.tagsCatThree.push(e);
       });
       this.markers = {
         position: {
@@ -190,9 +199,11 @@ export default {
           lng: parseFloat(data.longitude)
         }
       };
+      this.platformsValue(this.household);
     }
   },
   mounted() {
+    window.scrollTo(0, 0);
     this.getHouseholdById([this.$route.params.id, {}]).then(() => {
       if (this.GET_HOUSEHOLDID_RESP()) {
         this.storeHousehold();

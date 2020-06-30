@@ -92,6 +92,11 @@ export default {
           icon: "mdi-newspaper",
           text: this.$t("admin.navigation.articles"),
           url: "/dashboard/articles"
+        },
+        {
+          icon: "mdi-file-image",
+          text: this.$t("admin.navigation.image"),
+          url: "/dashboard/image"
         }
       ]
     };

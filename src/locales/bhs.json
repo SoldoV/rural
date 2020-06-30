@@ -3,6 +3,7 @@
     "searchText": "Pretraži domaćinstva..."
   },
   "common": {
+    "min": "Vrijednost mora biti pozitivna",
     "allHouseholds": "Sva domaćinstva",
     "desc": "Opis",
     "props": "Svojstva",
@@ -58,7 +59,8 @@
       "households": "Domaćinstva",
       "tags": "Tagovi",
       "cities": "Gradovi",
-      "articles": "Članci"
+      "articles": "Članci",
+      "image": "Slika"
     },
     "newHouseholdDesc": {
       "delete": "Izbriši domaćinstvo",

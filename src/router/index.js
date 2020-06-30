@@ -118,6 +118,18 @@ const routes = [{
           )
       },
       {
+        path: "image",
+        name: "Admin image",
+        meta: {
+          requiresAuth: true
+        },
+        component: () =>
+          import(
+            /* webpackChunkName: "HomepageImage" */
+            "../views/Admin/HomepageImage.vue"
+          )
+      },
+      {
         path: "household/:id?",
         name: "Admin household",
         meta: {

@@ -19,8 +19,6 @@
           :prices="prices"
         />
         <v-text-field
-          required
-          :rules="inputRules"
           outlined
           v-model="links.airBnb"
           :label="$t('admin.newHouseholdProperties.airBnb')"
@@ -133,12 +131,13 @@ export default {
         this.btnLoad = true;
         let platforms = {
           method: "sync",
-          data: {
-            1: {
-              uid: this.links.airBnb
-            }
-          }
+          data: {}
         };
+        if (this.links.airBnb.length !== 0) {
+          platforms.data[1] = {
+            uid: this.links.airBnb
+          };
+        }
         if (this.links.booking.length !== 0) {
           platforms.data[2] = {
             uid: this.links.booking
@@ -192,7 +191,7 @@ export default {
         });
       });
       this.links = {
-        airBnb: data.platforms[0].pivot.uid,
+        airBnb: data.platforms.length > 0 ? data.platforms[0].pivot.uid : "",
         booking: data.platforms.length > 1 ? data.platforms[1].pivot.uid : ""
       };
     }

@@ -43,7 +43,7 @@
                         ></v-select>
                         <v-text-field
                           outlined
-                          :rules="tagRules"
+                          :rules="tagRulesMin"
                           type="number"
                           v-model="tag.value"
                           :label="$t('common.val')"
@@ -114,6 +114,10 @@ export default {
       dialog: false,
       valid: false,
       tagRules: [v => !!v || this.$t("common.required")],
+      tagRulesMin: [
+        v => !!v || this.$t("common.required"),
+        v => v >= 0 || this.$t("common.min")
+      ],
       newTags: [],
       tag: {
         type: {},

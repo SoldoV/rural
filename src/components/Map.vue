@@ -16,7 +16,7 @@
         fullscreenControl: false
       }"
       :center="markers.position"
-      :zoom="12"
+      :zoom="10"
     >
       <gmap-info-window
         class="map-window"
@@ -64,8 +64,8 @@ export default {
     currentMidx: null,
     markers: {
       position: {
-        lat: 43.344377868090525,
-        lng: 17.805408243266328
+        lat: 43.8563,
+        lng: 18.4131
       }
     }
   }),
@@ -118,7 +118,7 @@ export default {
     width: 100vw;
     position: relative;
     overflow: visible;
-    height: 298px;
+    height: 40vh;
   }
 }
 </style>

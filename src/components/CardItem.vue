@@ -43,6 +43,7 @@ export default {
     }
   },
   created() {
+    console.log(this.cardItem);
     this.cities.forEach(e => {
       if (e.id == this.cardItem.city_id) this.cityName = e.title;
     });

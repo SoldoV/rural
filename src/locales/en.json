@@ -3,6 +3,7 @@
     "searchText": "Search the households..."
   },
   "common": {
+    "min": "Value must be positive",
     "allHouseholds": "All households",
     "desc": "Description",
     "props": "Properties",
@@ -58,7 +59,8 @@
       "households": "Households",
       "tags": "Tags",
       "cities": "Cities",
-      "articles": "Articles"
+      "articles": "Articles",
+      "image": "Image"
     },
     "newHouseholdDesc": {
       "delete": "Delete household",
