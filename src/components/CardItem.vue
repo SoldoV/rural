@@ -1,6 +1,10 @@
 <template>
   <div>
-    <div class="card-item-wrapper" @click="getHousehold(cardItem.id)">
+    <div
+      v-if="isCard"
+      class="card-item-wrapper"
+      @click="getHousehold(cardItem.id)"
+    >
       <img class="card-item-image" v-lazy="getImageSrc()" />
       <div class="card-item-location">
         <v-icon>mdi-map-marker</v-icon>
@@ -12,7 +16,8 @@
         {{ cardItem.title }}
       </div>
       <div class="card-item-price">
-        {{ $t("cardItem.price") }} <b>{{ cardItem.current_price.value }} KM</b
+        {{ $t("cardItem.price") }}
+        <b>{{ getPrice(cardItem.current_price) }} KM</b
         >{{ $t("cardItem.night") }}
       </div>
     </div>
@@ -35,15 +40,22 @@ export default {
     cityName: ""
   }),
   methods: {
+    isCard() {
+      return this.cardItem.current_price;
+    },
+    getPrice(price) {
+      return price ? price.value : "";
+    },
     getImageSrc() {
-      return this.cardItem.images[0].small_image_url;
+      return this.cardItem.images.length > 0
+        ? this.cardItem.images[0].small_image_url
+        : "";
     },
     getHousehold(id) {
       this.$emit("getHousehold", id);
     }
   },
   created() {
-    console.log(this.cardItem);
     this.cities.forEach(e => {
       if (e.id == this.cardItem.city_id) this.cityName = e.title;
     });

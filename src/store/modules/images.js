@@ -5,12 +5,16 @@ import {
 import i18n from "../../i18n.js";
 
 const state = {
-  householdImage: false
+  householdImage: false,
+  coverImage: null,
 };
 
 const getters = {
   HOUSEHOLD_IMAGE_RESP: state => {
     return state.householdImage;
+  },
+  GET_COVER_IMAGE: state => {
+    return state.coverImage;
   }
 };
 
@@ -52,12 +56,56 @@ const actions = {
           root: true
         });
       });
+  },
+  async postCoverImage({
+    commit,
+    rootState
+  }, data) {
+    await axios
+      .post(`${rootUrls.URL}/cover`, data, {
+        headers: {
+          ...rootState.common.header,
+          ...rootState.common.headerForm,
+          Authorization: "Bearer " + rootState.common.loginToken
+        }
+      })
+      .then(() => {
+        commit("STORE_HOUSEHOLD_IMAGE_RESP", true);
+      })
+      .catch(error => {
+        console.log(error);
+        commit("STORE_HOUSEHOLD_IMAGE_RESP", false);
+        commit("STORE_ERROR_MSG", `ERROR: ${i18n.t('modules.images')}`, {
+          root: true
+        });
+      });
+  },
+  async fetchCoverImage({
+    commit,
+    rootState
+  }) {
+    await axios
+      .get(`${rootUrls.URL}/cover`, {
+        headers: {
+          ...rootState.common.header,
+          Authorization: "Bearer " + rootState.common.loginToken
+        }
+      })
+      .then((res) => {
+        commit("STORE_COVER_IMAGE", res.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 };
 
 const mutations = {
   STORE_HOUSEHOLD_IMAGE_RESP: (state, data) => {
     state.householdImage = data;
+  },
+  STORE_COVER_IMAGE: (state, data) => {
+    state.coverImage = data;
   }
 };
 

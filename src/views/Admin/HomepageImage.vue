@@ -18,26 +18,36 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
+
 export default {
   data: () => ({
-    itemUrl: ""
+    itemUrl: "",
+    image: null
   }),
   methods: {
+    ...mapActions(["fetchCoverImage"]),
+    ...mapGetters(["GET_COVER_IMAGE"]),
     imageSrc(src) {
-      if (this.editedItem.image_url instanceof File) {
+      if (this.image instanceof File) {
         return this.image;
       } else return src;
     },
     upload(val) {
       val.stopImmediatePropagation();
       let file = val.target.files[0];
-      this.editedItem.image_url = file;
+      this.image = file;
       let reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = e => {
         this.image = e.target.result;
       };
     }
+  },
+  mounted() {
+    this.fetchCoverImage().then(() => {
+      this.itemUrl = this.GET_COVER_IMAGE();
+    });
   }
 };
 </script>
