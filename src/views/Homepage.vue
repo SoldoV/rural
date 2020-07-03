@@ -5,7 +5,7 @@
       :headerText="text"
       :searchText="$t('homepage.searchText')"
       :single="false"
-      :imgSrc="'bg.webp'"
+      :imgSrc="image"
       @search="search"
     />
     <selectedDestinations />
@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { mapMutations } from "vuex";
+import { mapMutations, mapGetters, mapActions } from "vuex";
 import imageHeader from "../components/ImageHeader.vue";
 import featured from "../components/FeaturedHouseholds.vue";
 import selectedNews from "../components/SelectedNews.vue";
@@ -28,15 +28,25 @@ export default {
     selectedNews,
     selectedDestinations
   },
-  data: () => ({
-    text: "Lorem Ipsum is simply dummy text"
-  }),
+  data: function() {
+    return {
+      image: "",
+      text: this.$t("common.search")
+    };
+  },
   methods: {
     ...mapMutations(["STORE_SEARCH_FILTER"]),
+    ...mapActions(["fetchCoverImage"]),
+    ...mapGetters(["GET_COVER_IMAGE"]),
     search(val) {
       this.STORE_SEARCH_FILTER(val);
       this.$router.push("/households");
     }
+  },
+  mounted() {
+    this.fetchCoverImage().then(() => {
+      this.image = this.GET_COVER_IMAGE();
+    });
   }
 };
 </script>

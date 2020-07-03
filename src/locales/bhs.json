@@ -1,8 +1,9 @@
 {
   "homepage": {
-    "searchText": "Pretraži domaćinstva..."
+    "searchText": "Pretražite domaćinstva..."
   },
   "common": {
+    "search": "Pretražite domaćinstva",
     "min": "Vrijednost mora biti pozitivna",
     "allHouseholds": "Sva domaćinstva",
     "desc": "Opis",
@@ -124,6 +125,7 @@
     "max": "maks"
   },
   "contact": {
+    "text": "Ukoliko nas želite kontaktirati popunite navedena polja:",
     "snackbarError": "Poruku nije moguće poslati",
     "snackbar": "Poruka uspješno poslata",
     "contact": "Kontakt",
@@ -170,7 +172,7 @@
     "passRules2": "Lozinka mora sadržavati više od 5 znakova"
   },
   "news": {
-    "search": "Pretraži vijesti..."
+    "search": "Pretražite vijesti"
   },
   "selectedDestinations": {
     "selected": "Izdvojene destinacije",

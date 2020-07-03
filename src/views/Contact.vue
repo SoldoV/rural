@@ -4,10 +4,7 @@
       {{ $t("contact.contact") }}
     </div>
     <div class="contact-text">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi pulvinar
-      sem euismod lorem molestie, vel lobortis magna euismod. Aliquam fermentum
-      in ex et porttitor. Praesent felis dui, volutpat et odio ut, facilisis
-      blandit dolor.
+      {{ $t("contact.text") }}
     </div>
     <div class="contact-form-wrapper">
       <v-form ref="form" v-model="valid" lazy-validation>
@@ -115,7 +112,10 @@
                 <v-icon>mdi-instagram</v-icon>
               </div>
             </a>
-            <a href="https://facebook.com" target="_blank">
+            <a
+              href="https://www.facebook.com/Ruralba-107119387731176"
+              target="_blank"
+            >
               <div class="footer-social-box"><v-icon>mdi-facebook</v-icon></div>
             </a>
           </div>

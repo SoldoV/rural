@@ -6,7 +6,10 @@
       <a href="https://instagram.com" target="_blank">
         <div class="footer-social-box"><v-icon>mdi-instagram</v-icon></div>
       </a>
-      <a href="https://facebook.com" target="_blank">
+      <a
+        href="https://www.facebook.com/Ruralba-107119387731176"
+        target="_blank"
+      >
         <div class="footer-social-box"><v-icon>mdi-facebook</v-icon></div>
       </a>
       <v-select

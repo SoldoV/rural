@@ -7,6 +7,7 @@ import i18n from "../../i18n.js";
 const state = {
   householdImage: false,
   coverImage: null,
+  coverImageResp: false,
 };
 
 const getters = {
@@ -14,6 +15,9 @@ const getters = {
     return state.householdImage;
   },
   GET_COVER_IMAGE: state => {
+    return state.coverImage;
+  },
+  GET_COVER_IMAGE_RESP: state => {
     return state.coverImage;
   }
 };
@@ -70,14 +74,11 @@ const actions = {
         }
       })
       .then(() => {
-        commit("STORE_HOUSEHOLD_IMAGE_RESP", true);
+        commit("STORE_COVER_IMAGE_RESP", true);
       })
       .catch(error => {
         console.log(error);
-        commit("STORE_HOUSEHOLD_IMAGE_RESP", false);
-        commit("STORE_ERROR_MSG", `ERROR: ${i18n.t('modules.images')}`, {
-          root: true
-        });
+        commit("STORE_COVER_IMAGE_RESP", false);
       });
   },
   async fetchCoverImage({
@@ -105,6 +106,9 @@ const mutations = {
     state.householdImage = data;
   },
   STORE_COVER_IMAGE: (state, data) => {
+    state.coverImage = data;
+  },
+  STORE_COVER_IMAGE_RESP: (state, data) => {
     state.coverImage = data;
   }
 };

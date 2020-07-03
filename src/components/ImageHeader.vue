@@ -1,9 +1,6 @@
 <template>
   <div>
-    <div
-      class="image-header"
-      :style="{ backgroundImage: `url(${getUrl(imgSrc)})` }"
-    >
+    <div class="image-header" :style="{ backgroundImage: `url(${imgSrc})` }">
       <div class="image-header-text">{{ headerText }}</div>
       <div class="image-header-searchbar" v-if="!single">
         <v-text-field
@@ -42,9 +39,6 @@ export default {
   methods: {
     search(val) {
       this.$emit("search", { title: `~=${val}` });
-    },
-    getUrl(val) {
-      return this.single ? val : require("@/assets/" + val);
     }
   }
 };

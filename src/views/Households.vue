@@ -2,11 +2,11 @@
   <div class="households">
     <image-header
       class="image-header-parent households-header"
-      :searchText="'Pretražite domaćinstva...'"
+      :searchText="searchText"
       :headerText="text"
       :single="false"
       @search="search"
-      :imgSrc="'bg.webp'"
+      :imgSrc="image"
     />
     <householdMap ref="map" />
     <div class="housholds-body">
@@ -74,6 +74,7 @@ export default {
   },
   data: function() {
     return {
+      searchText: this.$t("homepage.searchText"),
       currentPage: 1,
       firstFilter: {},
       secondFilter: [],
@@ -81,10 +82,11 @@ export default {
       priceFilter: {},
       cityFilter: {},
       lastPage: 1,
+      image: "",
       households: [],
       cities: [],
       // sortSelected: this.$t("households.suggested"),
-      text: "Lorem Ipsum is simply dummy text"
+      text: this.$t("common.search")
       // sort: [
       //   this.$t("households.suggested"),
       //   this.$t("households.priceAsc"),
@@ -94,8 +96,9 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["fetchCities", "fetchHouseholds"]),
+    ...mapActions(["fetchCities", "fetchHouseholds", "fetchCoverImage"]),
     ...mapGetters([
+      "GET_COVER_IMAGE",
       "GET_HOUSEHOLDS",
       "HOUSEHOLD_RESP",
       "GET_CITIES",
@@ -142,6 +145,9 @@ export default {
     }
   },
   created() {
+    this.fetchCoverImage().then(() => {
+      this.image = this.GET_COVER_IMAGE();
+    });
     this.firstFilter = this.GET_HOMEPAGE_FILTER();
     this.searchFilter = this.GET_HOMEPAGE_SEARCH_FILTER();
     this.STORE_FILTER(null);

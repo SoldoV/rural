@@ -2,7 +2,7 @@
   <div class="news">
     <image-header
       class="image-header-parent"
-      :imgSrc="'image.webp'"
+      :imgSrc="image"
       :searchText="$t('news.search')"
       :headerText="text"
       @search="search"
@@ -39,15 +39,18 @@ export default {
     imageHeader,
     newsItem
   },
-  data: () => ({
-    currentPage: 1,
-    lastPage: 1,
-    articles: null,
-    text: "Lorem Ipsum is simply dummy text"
-  }),
+  data: function() {
+    return {
+      currentPage: 1,
+      lastPage: 1,
+      articles: null,
+      image: "",
+      text: this.$t("news.search")
+    };
+  },
   methods: {
-    ...mapActions(["fetchArticles"]),
-    ...mapGetters(["GET_ARTICLES"]),
+    ...mapActions(["fetchArticles", "fetchCoverImage"]),
+    ...mapGetters(["GET_ARTICLES", "GET_COVER_IMAGE"]),
     search(val) {
       this.getArticles(1, val);
     },
@@ -62,6 +65,9 @@ export default {
   },
   mounted() {
     this.getArticles(1);
+    this.fetchCoverImage().then(() => {
+      this.image = this.GET_COVER_IMAGE();
+    });
   }
 };
 </script>
