@@ -18,7 +18,7 @@
         <div class="single-household-title my-2">
           {{ household.title }}
         </div>
-        <div class="card-item-price">
+        <div class="card-item-price" v-if="household.current_price">
           {{ $t("cardItem.price") }}
           <b>{{ household.current_price.value }} KM</b
           >{{ $t("cardItem.night") }}
@@ -98,12 +98,12 @@
         <div class="single-household-airbnb-text">
           {{ $t("common.reserve") }}
         </div>
-        <a v-if="isAirbnb" :href="airbnb.uid" target="_blank">
+        <a v-if="isAirbnb" :href="airbnb.url" target="_blank">
           <v-btn class="single-household-airbnb-btn">
             <img src="../assets/airbnb.svg" />
           </v-btn>
         </a>
-        <a v-if="isBooking" :href="booking.uid" target="_blank">
+        <a v-if="isBooking" :href="booking.url" target="_blank">
           <v-btn
             class="single-household-airbnb-btn single-household-booking-btn"
           >
@@ -137,8 +137,8 @@ export default {
     cities: [],
     isAirbnb: false,
     isBooking: false,
-    airbnb: { uid: "" },
-    booking: { uid: "" },
+    airbnb: { url: "" },
+    booking: { url: "" },
     household: {
       id: null,
       title: "",
@@ -171,9 +171,8 @@ export default {
     platformsValue(household) {
       household.platforms.forEach(x => {
         if (x.title == "airbnb") {
-          this.airBnb = x.pivot;
+          this.airbnb = x.pivot;
           this.isAirbnb = true;
-          console.log(x.pivot);
         }
         if (x.title == "booking") {
           this.booking = x.pivot;

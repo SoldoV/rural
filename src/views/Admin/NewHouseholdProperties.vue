@@ -135,12 +135,12 @@ export default {
         };
         if (this.links.airBnb.length !== 0) {
           platforms.data[1] = {
-            uid: this.links.airBnb
+            url: this.links.airBnb
           };
         }
         if (this.links.booking.length !== 0) {
           platforms.data[2] = {
-            uid: this.links.booking
+            url: this.links.booking
           };
         }
         this.postPlatforms([platforms, this.householdId]).then(() => {
@@ -191,8 +191,8 @@ export default {
         });
       });
       this.links = {
-        airBnb: data.platforms.length > 0 ? data.platforms[0].pivot.uid : "",
-        booking: data.platforms.length > 1 ? data.platforms[1].pivot.uid : ""
+        airBnb: data.platforms.length > 0 ? data.platforms[0].pivot.url : "",
+        booking: data.platforms.length > 1 ? data.platforms[1].pivot.url : ""
       };
     }
   },
