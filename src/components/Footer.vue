@@ -48,8 +48,12 @@ export default {
   },
   mounted() {
     this.setSelected();
-    if (localStorage.Lang != null) this.$i18n.locale = localStorage.Lang;
-    else this.$i18n.locale = "en";
+    if (localStorage.Lang != null){
+      this.$i18n.locale = localStorage.Lang;
+    } else {
+      localStorage.setItem("Lang", "en");
+      this.$i18n.locale = "en";
+    }
   }
 };
 </script>
