@@ -3,7 +3,7 @@
     <div class="footer-logo"></div>
     <div class="footer-copyright">Rural.ba © 2020 {{ $t("footer") }}</div>
     <div class="footer-social">
-      <a href="https://instagram.com" target="_blank">
+      <a href="https://instagram.com/rural.ba/" target="_blank">
         <div class="footer-social-box"><v-icon>mdi-instagram</v-icon></div>
       </a>
       <a

@@ -107,7 +107,7 @@
         </v-col>
         <v-col cols="6" class="contact-inf-right">
           <div class="footer-social">
-            <a href="https://instagram.com" target="_blank">
+            <a href="https://instagram.com/rural.ba/" target="_blank">
               <div class="footer-social-box">
                 <v-icon>mdi-instagram</v-icon>
               </div>
