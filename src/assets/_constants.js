@@ -1,3 +1,3 @@
 export const rootUrls = {
-  URL: "http://test-api.rural.ba"
+  URL: "https://api.rural.ba"
 };
