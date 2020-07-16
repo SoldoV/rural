@@ -25,12 +25,21 @@
                   $t("admin.householdTags.new")
                 }}</span>
               </v-card-title>
-
               <v-card-text>
                 <v-container>
                   <v-row>
                     <v-col cols="24">
                       <v-form v-model="valid" ref="form" lazy-validation>
+                        <v-select
+                          required
+                          outlined
+                          :items="categories"
+                          v-model="selectedCategory"
+                          @input="getCategoryTags()"
+                          item-value="id"
+                          item-text="title"
+                          :label="$t('admin.householdTags.category')"
+                        ></v-select>
                         <v-select
                           required
                           outlined
@@ -46,6 +55,7 @@
                           :rules="tagRulesMin"
                           type="number"
                           v-model="tag.value"
+                          v-if="[1,3].includes(selectedCategory)"
                           :label="$t('common.val')"
                         ></v-text-field>
                       </v-form>
@@ -132,7 +142,14 @@ export default {
         { text: this.$t("common.title"), value: "title" },
         { text: this.$t("common.val"), value: "value" },
         { text: this.$t("common.actions"), value: "actions", sortable: false }
-      ]
+      ],
+      categories: [
+        { title: this.$t("admin.householdTags.main"), id: 1 },
+        { title: this.$t("admin.householdTags.additional"), id: 2 },
+        { title: this.$t("admin.householdTags.distance"), id: 3 },
+        { title: this.$t("admin.householdTags.mainFilters"), id: 4 }
+      ],
+      selectedCategory: 1
     };
   },
   computed: {
@@ -141,7 +158,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["fetchTags", "postHouseholdTags", "deleteHouseholdTag"]),
+    ...mapActions(["fetchTags", "postHouseholdTags", "deleteHouseholdTag", "fetchCategoryTags"]),
     ...mapGetters(["GET_TAGS", "HOUSEHOLD_TAG_RESP", "GET_ERROR_MSG"]),
     close() {
       this.dialog = false;
@@ -182,10 +199,13 @@ export default {
     getImgUrl(img) {
       var images = require.context("../../assets/icons/", false, /\.svg$/);
       return images("./" + img + ".svg");
+    },
+    getCategoryTags() {
+      this.fetchCategoryTags([{ withTranslations: 0 }, this.selectedCategory]);
     }
   },
   created() {
-    this.fetchTags();
+    this.getCategoryTags();
   }
 };
 </script>
