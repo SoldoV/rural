@@ -6,7 +6,9 @@ import {
 const state = {
   singleArticle: {},
   articleResp: false,
-  articles: []
+  articleImageResp: false,
+  articles: [],
+  articleImages: []
 };
 const getters = {
   GET_ARTICLES: state => {
@@ -17,7 +19,13 @@ const getters = {
   },
   GET_SINGLE_ARTICLE: state => {
     return state.singleArticle;
-  }
+  },
+  GET_ARTICLE_IMAGES: state => {
+    return state.articleImages;
+  },
+  GET_ARTICLE_IMAGE_RESP: state => {
+    return state.articleImageResp;
+  },
 };
 
 var qs = require("qs");
@@ -69,6 +77,62 @@ const actions = {
       })
       .then(response => {
         commit("STORE_SINGLE_ARTICLE", response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  },
+  async fetchArticleImages({
+    commit,
+    rootState
+  }, data) {
+    await axios
+      .get(`${rootUrls.URL}/news_articles/${data}/images`, {
+        headers: {
+          ...rootState.common.header,
+          Authorization: "Bearer " + rootState.common.loginToken,
+          "X-Localization": localStorage.getItem("Lang")
+        }
+      })
+      .then(response => {
+        commit("STORE_ARTICLE_IMAGES", response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  },
+  async postArticleImages({
+    commit,
+    rootState
+  }, data) {
+    await axios
+      .post(`${rootUrls.URL}/news_articles/${data[1]}/images`, data[0], {
+        headers: {
+          ...rootState.common.header,
+          Authorization: "Bearer " + rootState.common.loginToken,
+        }
+      })
+      .then(() => {
+        commit("STORE_ARTICLE_IMAGE_RESP", true);
+      })
+      .catch(error => {
+        console.log(error);
+        commit("STORE_HOUSEHOLD_IMAGE_RESP", false);
+      });
+  },
+  async deleteArticleImage({
+    commit,
+    rootState
+  }, data) {
+    await axios
+      .delete(`${rootUrls.URL}/news_articles/${data[0]}/images/${data[1]}`, {
+        headers: {
+          ...rootState.common.header,
+          Authorization: "Bearer " + rootState.common.loginToken,
+        }
+      })
+      .then(response => {
+        commit("STORE_ARTICLE_IMAGES", response.data);
       })
       .catch(error => {
         console.log(error);
@@ -159,7 +223,13 @@ const mutations = {
   },
   SET_ARTICLES: state => {
     state.articles = [];
-  }
+  },
+  STORE_ARTICLE_IMAGES: (state, data) => {
+    state.articleImages = data;
+  },
+  STORE_ARTICLE_IMAGE_RESP: (state, data) => {
+    state.articleImageResp = data;
+  },
 };
 
 export default {

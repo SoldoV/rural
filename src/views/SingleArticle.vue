@@ -1,12 +1,12 @@
 <template>
   <div class="single-article">
-    <image-header
-      class="image-header-parent"
-      :searchText="''"
-      :imgSrc="imgPath"
-      headerText=""
-      :single="true"
-    />
+    <v-carousel cycle class="household-carousel">
+      <v-carousel-item
+        v-for="item in images"
+        :key="item.image_url"
+        :src="item.image_url"
+      ></v-carousel-item>
+    </v-carousel>
     <div class="news-item-wrapper">
       <div class="news-item-date mt-11 mb-2">
         <v-icon>mdi-calendar</v-icon>
@@ -23,17 +23,16 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import imageHeader from "../components/ImageHeader.vue";
 import selectedNews from "../components/SelectedNews.vue";
 import moment from "moment";
 
 export default {
   components: {
-    imageHeader,
     selectedNews
   },
   data: () => ({
     article: {},
+    images: [],
     date: ""
   }),
   computed: {
@@ -42,8 +41,8 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["fetchSingleArticle"]),
-    ...mapGetters(["GET_SINGLE_ARTICLE"]),
+    ...mapActions(["fetchSingleArticle", "fetchArticleImages"]),
+    ...mapGetters(["GET_SINGLE_ARTICLE", "GET_ARTICLE_IMAGES"]),
     getDate(item) {
       return moment(item).format("DD-MM-YYYY");
     },
@@ -51,7 +50,13 @@ export default {
       let id = this.$route.params.id;
       this.fetchSingleArticle(id).then(() => {
         this.article = this.GET_SINGLE_ARTICLE();
+        this.images.push({ image_url: this.article.image_url });
         this.date = this.article.created_at;
+        this.fetchArticleImages(id).then(() => {
+          this.GET_ARTICLE_IMAGES().forEach(a => {
+            this.images.push({ image_url: a.image_url });
+          });
+        });
       });
     }
   },

@@ -41,6 +41,7 @@
   },
   "admin": {
     "articles": {
+      "cover": "Nova naslovna slika",
       "labelEn": "Tekst članka (en):",
       "labelBhs": "Tekst članka (bhs):",
       "title": "Članci",

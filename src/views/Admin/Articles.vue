@@ -51,7 +51,7 @@
                           <label class="file-input">
                             <input type="file" @change="upload" />
                           </label>
-                          {{ $t("common.newImg") }}
+                          {{ $t("admin.articles.cover") }}
                         </v-btn>
                         <div class="p-2" v-if="editedItem.image_url">
                           <img
@@ -60,6 +60,7 @@
                           />
                         </div>
                       </v-col>
+                      <images :itemId="editedItem.id" />
                       <v-col cols="12">
                         <v-checkbox
                           hide-details
@@ -160,6 +161,7 @@
 </template>
 
 <script>
+import images from "../../components/Admin/ArticleImages.vue";
 import { mapActions, mapGetters, mapMutations } from "vuex";
 import {
   TiptapVuetify,
@@ -181,7 +183,7 @@ import {
 } from "tiptap-vuetify";
 
 export default {
-  components: { TiptapVuetify },
+  components: { TiptapVuetify, images },
   data: function() {
     return {
       extensions: [

@@ -30,7 +30,10 @@
     </template>
     <template v-slot:item.image="{ item }">
       <div class="p-2">
-        <img class="new-household-image" v-lazy="imageSrc(item.image)" />
+        <img
+          class="new-household-image"
+          v-lazy="imageSrc(item.small_image_url)"
+        />
       </div>
     </template>
     <template v-slot:item.actions="{ item }">
@@ -49,10 +52,7 @@ import { mapGetters, mapActions } from "vuex";
 
 export default {
   props: {
-    images: {
-      required: true
-    },
-    householdId: {
+    itemId: {
       required: true
     }
   },
@@ -60,6 +60,7 @@ export default {
     return {
       rowsPerPage: this.$t("common.rowsPerPage"),
       loading: false,
+      images: [],
       image: {
         image: ""
       },
@@ -71,19 +72,23 @@ export default {
   },
   methods: {
     ...mapGetters([
-      "HOUSEHOLD_IMAGE_RESP",
+      "GET_ARTICLE_IMAGE_RESP",
       "GET_ERROR_MSG",
-      "GET_SINGLE_HOUSEHOLD"
+      "GET_ARTICLE_IMAGES"
     ]),
-    ...mapActions(["postHouseholdImages", "deleteImage", "getHouseholdById"]),
-
+    ...mapActions([
+      "deleteArticleImage",
+      "fetchArticleImages",
+      "postArticleImages"
+    ]),
     imageSrc(src) {
       return src;
     },
     deleteItem(item) {
-      const index = this.images.indexOf(item);
       confirm(this.$t("common.deleteConfirm")) &&
-        this.deleteImage(item.id).then(() => this.images.splice(index, 1));
+        this.deleteArticleImage([this.itemId, item.id]).then(() =>
+          this.setImages()
+        );
     },
     upload(val) {
       this.loading = true;
@@ -92,23 +97,22 @@ export default {
       this.post(file);
     },
     setImages() {
-      this.getHouseholdById([localStorage.getItem("household_id"), {}]).then(
-        () => {
-          this.$emit("setImages", this.GET_SINGLE_HOUSEHOLD());
-        }
-      );
+      this.fetchArticleImages(this.itemId).then(() => {
+        this.images = this.GET_ARTICLE_IMAGES();
+      });
     },
     post(file) {
       var imagesObj = new FormData();
       imagesObj.append("method", "createMany");
       imagesObj.append(`data[0][image]`, file);
-      this.postHouseholdImages([imagesObj, this.householdId]).then(() => {
+      this.postArticleImages([imagesObj, this.itemId]).then(() => {
         this.loading = false;
-        if (!this.HOUSEHOLD_IMAGE_RESP())
-          return this.$emit("errorNotif", this.GET_ERROR_MSG());
-        this.setImages();
+        if (!this.GET_ARTICLE_IMAGE_RESP()) this.setImages();
       });
     }
+  },
+  mounted() {
+    this.setImages();
   }
 };
 </script>

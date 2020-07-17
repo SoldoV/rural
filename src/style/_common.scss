@@ -166,6 +166,20 @@ body {
   }
 }
 
+.household-carousel {
+  margin-bottom: 32px;
+  min-height: 400px;
+
+  .v-carousel__item {
+    border-radius: 8px !important;
+  }
+
+  .v-carousel__controls {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+  }
+}
+
 .homepage-image {
   max-width: 100% !important;
   max-height: 100%;

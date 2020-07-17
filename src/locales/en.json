@@ -41,6 +41,7 @@
   },
   "admin": {
     "articles": {
+      "cover": "New cover picture",
       "labelEn": "Article text (en):",
       "labelBhs": "Article text (bhs):",
       "title": "Articles",
