@@ -31,13 +31,6 @@
             outlined
             :label="$t('admin.newHouseholdDesc.desc') + ' (en)'"
           ></v-textarea>
-          <v-text-field
-            required
-            :rules="descRules"
-            outlined
-            v-model="household.address"
-            :label="$t('admin.newHouseholdDesc.address')"
-          ></v-text-field>
           <v-select
             required
             outlined
@@ -121,7 +114,6 @@ export default {
           en: "",
           bhs: ""
         },
-        address: "",
         city_id: null,
         latitude: null,
         longitude: null,
@@ -186,7 +178,6 @@ export default {
             en: this.household.description.en,
             bhs: this.household.description.bhs
           },
-          address: this.household.address,
           city_id: this.household.city_id.id || this.household.city_id,
           latitude: this.markers.position.lat.toFixed(8),
           longitude: this.markers.position.lng.toFixed(8),
@@ -227,7 +218,6 @@ export default {
           en: data.description.en,
           bhs: data.description.bhs
         },
-        address: data.address,
         city_id: data.city_id,
         latitude: data.latitude,
         longitude: data.longitude,

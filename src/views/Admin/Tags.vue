@@ -144,7 +144,8 @@ export default {
         { title: this.$t("admin.householdTags.main"), id: 1 },
         { title: this.$t("admin.householdTags.additional"), id: 2 },
         { title: this.$t("admin.householdTags.distance"), id: 3 },
-        { title: this.$t("admin.householdTags.mainFilters"), id: 4 }
+        { title: this.$t("admin.householdTags.mainFilters"), id: 4 },
+        { title: this.$t("admin.householdTags.articles"), id: 5 }
       ],
       icons: [
         "icon-gym",
@@ -239,7 +240,7 @@ export default {
           this.editedItem.title.en.length &&
           this.editedItem.title.bhs.length
         );
-      if ([3, 4].indexOf(this.editedItem.category_id) > -1)
+      if ([3, 4, 5].indexOf(this.editedItem.category_id) > -1)
         return (
           this.editedItem.title.en.length && this.editedItem.title.bhs.length
         );

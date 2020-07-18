@@ -40,6 +40,18 @@
                           v-model="editedItem.title.en"
                           :label="$t('common.titleLabel') + '(en)'"
                         ></v-text-field>
+                        <v-select
+                          required
+                          multiple
+                          hide-details
+                          outlined
+                          :items="getTags"
+                          item-value="id"
+                          item-text="title"
+                          return-object
+                          v-model="editedItem.tag_id"
+                          :placeholder="$t('admin.navigation.tags')"
+                        ></v-select>
                       </v-col>
                       <v-col cols="12">
                         <v-btn
@@ -213,6 +225,7 @@ export default {
       loading: false,
       rowsPerPage: this.$t("common.rowsPerPage"),
       dialog: false,
+      tags: [],
       snackbar: false,
       titleRules: [v => !!v || this.$t("common.required")],
       valid: false,
@@ -240,13 +253,15 @@ export default {
         image_url: "",
         active: false,
         text: { en: ``, bhs: `` },
-        id: ""
+        id: "",
+        tag_id: ""
       },
       defaultItem: {
         title: { en: "", bhs: "" },
         image_url: "",
         active: false,
-        text: { en: ``, bhs: `` }
+        text: { en: ``, bhs: `` },
+        tag_id: ""
       }
     };
   },
@@ -258,6 +273,9 @@ export default {
     },
     getArticles() {
       return JSON.parse(JSON.stringify(this.GET_ARTICLES()));
+    },
+    getTags() {
+      return JSON.parse(JSON.stringify(this.GET_TAGS()));
     }
   },
   watch: {
@@ -270,9 +288,10 @@ export default {
       "fetchArticles",
       "editArticle",
       "postArticle",
-      "deleteArticle"
+      "deleteArticle",
+      "fetchCategoryTags"
     ]),
-    ...mapGetters(["GET_ARTICLES", "GET_ARTICLE_RESP"]),
+    ...mapGetters(["GET_ARTICLES", "GET_ARTICLE_RESP", "GET_TAGS"]),
     ...mapMutations(["SET_ARTICLES"]),
     upload(val) {
       val.stopImmediatePropagation();
@@ -330,6 +349,8 @@ export default {
         articlesObj.append("text[en]", this.editedItem.text.en);
         articlesObj.append("text[bhs]", this.editedItem.text.bhs);
         articlesObj.append("active", this.editedItem.active ? 1 : 0);
+        articlesObj.append("tag_id", this.editedItem.tag_id.id);
+        console.log(this.editedItem.tag_id);
         if (this.editedIndex > -1) {
           if (this.editedItem.image_url instanceof File)
             articlesObj.append("image", this.editedItem.image_url);
@@ -359,6 +380,7 @@ export default {
   },
   beforeMount() {
     this.SET_ARTICLES();
+    this.fetchCategoryTags([{ withTranslations: 0 }, 5]);
     this.fetchArticles([{ withTranslations: 1 }]);
   }
 };

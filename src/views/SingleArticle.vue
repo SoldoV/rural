@@ -17,7 +17,7 @@
       <div class="news-item-title">{{ article.title }}</div>
       <div v-html="article.text" class="article-item-text"></div>
     </div>
-    <selected-news />
+    <selected-news :seeAll="true" />
   </div>
 </template>
 

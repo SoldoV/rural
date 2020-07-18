@@ -3,7 +3,11 @@
     <div class="align-row-center mb-8 selected-news-header">
       <div class="selected-news-title">{{ $t("selectedNews.selected") }}</div>
       <v-spacer />
-      <v-btn outlined @click="$router.push('/news')" class="selected-news-btn"
+      <v-btn
+        v-if="seeAll"
+        outlined
+        @click="$router.push('/news')"
+        class="selected-news-btn"
         >{{ $t("selectedNews.all") }} <v-icon>mdi-arrow-right</v-icon></v-btn
       >
     </div>
@@ -38,6 +42,11 @@ export default {
     Swiper,
     newsItem,
     SwiperSlide
+  },
+  props: {
+    seeAll: {
+      required: true
+    }
   },
   data: () => ({
     swiperOptions: {
@@ -76,9 +85,8 @@ export default {
     goToArticle() {
       this.$refs.newsItem.goToArticle();
     },
-    getArticles(i) {
-      let pages = `?perPage=5&page=${i}`;
-      this.fetchArticles([{}, {}, pages, 5]).then(() => {
+    getArticles() {
+      this.fetchArticles([{}, {}, "", ""]).then(() => {
         let article = this.GET_ARTICLES();
         this.articles = article.data;
       });
@@ -90,7 +98,7 @@ export default {
     }
   },
   mounted() {
-    this.getArticles(1);
+    this.getArticles();
   }
 };
 </script>

@@ -89,6 +89,7 @@
       "successAdd": "Household successfully added"
     },
     "householdTags": {
+      "articles": "Articles",
       "new": "New tag",
       "tag": "Tag",
       "noTags": "No tags",
@@ -100,15 +101,8 @@
       "mainFilters": "Main filters"
     }
   },
-  "about": {
-    "about": "About us",
-    "text": "Rural.ba is a Bosnian-Herzegovinian site for the presentation and promotion of rural households that offer accommodation and other tourist services in rural areas.",
-    "text2": "The rural.ba website was launched by ",
-    "text3": " MarketMakers",
-    "text4": " , a project supported by the Government of Switzerland implemented by the consortium partners",
-    "text5": "MarketMakers, Helvetas (Switzerland) and Kolektiv d.o.o. (Bosnia and Herzegovina).",
-    "text6": "Since 2012, MarketMakers, in cooperation with the private sector, has been implementing projects to support self-sustainable youth employment and will last until May 2021."
-
+  "activities": {
+    "activities": "Activities"
   },
   "additionalFilters": {
     "additional": "Additional filters"
@@ -155,8 +149,8 @@
   "header": {
     "signIn": "Sign in",
     "households": "Households",
-    "news": "News",
-    "about": "About",
+    "news": "Blog",
+    "activities": "Activities",
     "contact": "Contact"
   },
   "households": {
@@ -174,7 +168,7 @@
     "passRules2": "Password must contain more than 5 characters"
   },
   "news": {
-    "search": "Search the news"
+    "search": "Search the blog"
   },
   "selectedDestinations": {
     "selected": "Selected destinations",

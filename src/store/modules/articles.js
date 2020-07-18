@@ -57,6 +57,7 @@ const actions = {
         }
       })
       .then(response => {
+        console.log(response.data)
         commit("STORE_ARTICLES", response.data);
       })
       .catch(error => {
@@ -121,19 +122,16 @@ const actions = {
       });
   },
   async deleteArticleImage({
-    commit,
     rootState
   }, data) {
     await axios
-      .delete(`${rootUrls.URL}/news_articles/${data[0]}/images/${data[1]}`, {
+      .delete(`${rootUrls.URL}/news_images/${data[1]}`, {
         headers: {
           ...rootState.common.header,
           Authorization: "Bearer " + rootState.common.loginToken,
         }
       })
-      .then(response => {
-        commit("STORE_ARTICLE_IMAGES", response.data);
-      })
+      .then()
       .catch(error => {
         console.log(error);
       });

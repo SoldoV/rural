@@ -100,8 +100,8 @@ export default {
       sidebar: false,
       menuItems: [
         { title: this.$t("header.households"), path: "/households" },
-        { title: this.$t("header.news"), path: "/news" },
-        { title: this.$t("header.about"), path: "/about" },
+        { title: this.$t("header.news"), path: "/blog" },
+        { title: this.$t("header.activities"), path: "/activities" },
         { title: this.$t("header.contact"), path: "/contact" }
       ]
     };

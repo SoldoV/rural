@@ -89,6 +89,7 @@
       "successAdd": "Domaćinstvo uspješno dodano"
     },
     "householdTags": {
+      "articles": "Članci",
       "new": "Novi tag",
       "tag": "Tag",
       "noTags": "Nema tagova",
@@ -100,14 +101,8 @@
       "mainFilters": "Glavni filteri"
     }
   },
-  "about": {
-    "about": "O nama",
-    "text": "Rural.ba je bosanskohercegovačka stranica za predstavljanje i promociju ruralnih domaćinstava koje nude smještaj i druge turističke usluge u ruralnim područjima.",
-    "text2": " Stranicu rural.ba pokrenuo je",
-    "text3": " MarketMakers",
-    "text4": " , projekt podržan od Vlade Švicarske koji implementiraju konzorcijski partneri",
-    "text5": "Helvetas (Švicarska) i Kolektiv d.o.o. (Bosna i Hercegovina).",
-    "text6": "MarketMakers od 2012. godine u saradnji s privatnim sektorom implementira projekte podrške samoodrživog zapošljavanja mladih i trajat će do maja 2021. godine."
+  "activities": {
+    "activities": "Aktivnosti"
   },
   "additionalFilters": {
     "additional": "Dodatni filteri"
@@ -154,8 +149,8 @@
   "header": {
     "signIn": "Prijavi se",
     "households": "Domaćinstva",
-    "news": "Vijesti",
-    "about": "O nama",
+    "news": "Blog",
+    "Activities": "Aktivnosti",
     "contact": "Kontakt"
   },
   "households": {
@@ -173,14 +168,14 @@
     "passRules2": "Lozinka mora sadržavati više od 5 znakova"
   },
   "news": {
-    "search": "Pretražite vijesti"
+    "search": "Pretražite blog"
   },
   "selectedDestinations": {
     "selected": "Izdvojene destinacije",
     "offer": "Pogledaj ponudu "
   },
   "selectedNews": {
-    "selected": "Izdvojene vijesti",
+    "selected": "Izdvojene novosti",
     "all": "Pogledaj sve novosti"
   },
   "modules": {

@@ -10,7 +10,7 @@
     />
     <selectedDestinations />
     <featured class="homepage-selected-households" />
-    <selected-news />
+    <selected-news :seeAll="true" />
   </div>
 </template>
 

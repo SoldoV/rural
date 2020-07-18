@@ -107,7 +107,7 @@ export default {
       imagesObj.append(`data[0][image]`, file);
       this.postArticleImages([imagesObj, this.itemId]).then(() => {
         this.loading = false;
-        if (!this.GET_ARTICLE_IMAGE_RESP()) this.setImages();
+        if (this.GET_ARTICLE_IMAGE_RESP()) this.setImages();
       });
     }
   },

@@ -41,7 +41,7 @@ const routes = [{
       )
   },
   {
-    path: "/news",
+    path: "/blog",
     name: "news",
     component: () =>
       import(
@@ -169,12 +169,12 @@ const routes = [{
     ]
   },
   {
-    path: "/about",
-    name: "About",
+    path: "/activities",
+    name: "Activities",
     component: () =>
       import(
-        /* webpackChunkName: "about" */
-        "../views/About.vue"
+        /* webpackChunkName: "Activities" */
+        "../views/Activities.vue"
       )
   },
   {
