@@ -10,7 +10,11 @@
     />
     <selectedDestinations />
     <featured class="homepage-selected-households" />
-    <selected-news :seeAll="true" />
+    <selected-news
+      :seeAll="true"
+      :items="false"
+      :title="$t('selectedNews.selected')"
+    />
   </div>
 </template>
 

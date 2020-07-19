@@ -17,7 +17,11 @@
       <div class="news-item-title">{{ article.title }}</div>
       <div v-html="article.text" class="article-item-text"></div>
     </div>
-    <selected-news :seeAll="true" />
+    <selected-news
+      :seeAll="true"
+      :items="false"
+      :title="$t('selectedNews.selected')"
+    />
   </div>
 </template>
 

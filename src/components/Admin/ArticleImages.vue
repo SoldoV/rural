@@ -54,6 +54,9 @@ export default {
   props: {
     itemId: {
       required: true
+    },
+    newItem: {
+      required: true
     }
   },
   data: function() {
@@ -69,6 +72,14 @@ export default {
         { text: this.$t("common.actions"), value: "actions", sortable: false }
       ]
     };
+  },
+  watch: {
+    newItem(a) {
+      if (a) this.images = [];
+    },
+    itemId(i) {
+      if (i && !this.newItem) this.setImages();
+    }
   },
   methods: {
     ...mapGetters([
@@ -110,9 +121,6 @@ export default {
         if (this.GET_ARTICLE_IMAGE_RESP()) this.setImages();
       });
     }
-  },
-  mounted() {
-    this.setImages();
   }
 };
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div class="selected-news">
     <div class="align-row-center mb-8 selected-news-header">
-      <div class="selected-news-title">{{ $t("selectedNews.selected") }}</div>
+      <div class="selected-news-title">{{ title }}</div>
       <v-spacer />
       <v-btn
         v-if="seeAll"
@@ -44,6 +44,12 @@ export default {
     SwiperSlide
   },
   props: {
+    items: {
+      required: true
+    },
+    title: {
+      required: true
+    },
     seeAll: {
       required: true
     }
@@ -77,8 +83,13 @@ export default {
         }
       }
     },
-    articles: null
+    articles: []
   }),
+  watch: {
+    items() {
+      this.getArticles();
+    }
+  },
   methods: {
     ...mapActions(["fetchArticles"]),
     ...mapGetters(["GET_ARTICLES"]),
@@ -86,10 +97,16 @@ export default {
       this.$refs.newsItem.goToArticle();
     },
     getArticles() {
-      this.fetchArticles([{}, {}, "", ""]).then(() => {
-        let article = this.GET_ARTICLES();
-        this.articles = article.data;
-      });
+      if (!this.items) {
+        this.fetchArticles([{}, {}, "", ""]).then(() => {
+          let article = this.GET_ARTICLES();
+          article.forEach(a => {
+            if (!a.tag_id) this.articles.push(a);
+          });
+        });
+      } else {
+        this.articles = this.items;
+      }
     }
   },
   computed: {

@@ -57,7 +57,6 @@ const actions = {
         }
       })
       .then(response => {
-        console.log(response.data)
         commit("STORE_ARTICLES", response.data);
       })
       .catch(error => {

@@ -29,26 +29,27 @@
                     <v-form ref="form" v-model="valid" lazy-validation>
                       <v-col cols="24">
                         <v-text-field
+                          outlined
                           required
                           :rules="titleRules"
                           v-model="editedItem.title.bhs"
                           :label="$t('common.titleLabel') + '(bhs)'"
                         ></v-text-field>
                         <v-text-field
+                          outlined
                           required
                           :rules="titleRules"
                           v-model="editedItem.title.en"
                           :label="$t('common.titleLabel') + '(en)'"
                         ></v-text-field>
                         <v-select
+                          clearable
                           required
-                          multiple
                           hide-details
                           outlined
                           :items="getTags"
                           item-value="id"
                           item-text="title"
-                          return-object
                           v-model="editedItem.tag_id"
                           :placeholder="$t('admin.navigation.tags')"
                         ></v-select>
@@ -72,7 +73,10 @@
                           />
                         </div>
                       </v-col>
-                      <images :itemId="editedItem.id" />
+                      <images
+                        :itemId="editedItem.id"
+                        :newItem="editedIndex === -1"
+                      />
                       <v-col cols="12">
                         <v-checkbox
                           hide-details
@@ -349,8 +353,7 @@ export default {
         articlesObj.append("text[en]", this.editedItem.text.en);
         articlesObj.append("text[bhs]", this.editedItem.text.bhs);
         articlesObj.append("active", this.editedItem.active ? 1 : 0);
-        articlesObj.append("tag_id", this.editedItem.tag_id.id);
-        console.log(this.editedItem.tag_id);
+        articlesObj.append("tag_id", this.editedItem.tag_id || null);
         if (this.editedIndex > -1) {
           if (this.editedItem.image_url instanceof File)
             articlesObj.append("image", this.editedItem.image_url);
