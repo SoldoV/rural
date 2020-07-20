@@ -98,11 +98,8 @@ export default {
     },
     getArticles() {
       if (!this.items) {
-        this.fetchArticles([{}, {}, "", ""]).then(() => {
-          let article = this.GET_ARTICLES();
-          article.forEach(a => {
-            if (!a.tag_id) this.articles.push(a);
-          });
+        this.fetchArticles([{}, {}, "", "", "n="]).then(() => {
+          this.articles = this.GET_ARTICLES();
         });
       } else {
         this.articles = this.items;

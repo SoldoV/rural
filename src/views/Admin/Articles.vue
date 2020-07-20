@@ -73,10 +73,6 @@
                           />
                         </div>
                       </v-col>
-                      <images
-                        :itemId="editedItem.id"
-                        :newItem="editedIndex === -1"
-                      />
                       <v-col cols="12">
                         <v-checkbox
                           hide-details
@@ -106,7 +102,7 @@
                   </v-row>
                 </v-container>
               </v-card-text>
-              <v-card-actions>
+              <v-card-actions class="mr-7">
                 <v-spacer></v-spacer>
                 <v-btn
                   depressed
@@ -122,9 +118,19 @@
                   class="common-btn"
                   @click="save"
                   :loading="loading"
-                  >{{ $t("common.save") }}</v-btn
+                  >{{ $t("common.next") }}</v-btn
                 >
               </v-card-actions>
+              <div v-if="ready" class="article-images">
+                <images :itemId="articleId" :newItem="editedIndex === -1" />
+                <v-btn
+                  depressed
+                  color="primary"
+                  class="common-btn"
+                  @click="saveAndClose"
+                  >{{ $t("common.save") }}</v-btn
+                >
+              </div>
             </v-card>
           </v-dialog>
         </v-toolbar>
@@ -226,6 +232,7 @@ export default {
         Paragraph,
         HardBreak
       ],
+      ready: false,
       loading: false,
       rowsPerPage: this.$t("common.rowsPerPage"),
       dialog: false,
@@ -251,6 +258,7 @@ export default {
       ],
       articles: [],
       editedIndex: -1,
+      articleId: null,
       image: "",
       editedItem: {
         title: { en: "", bhs: "" },
@@ -297,6 +305,13 @@ export default {
     ]),
     ...mapGetters(["GET_ARTICLES", "GET_ARTICLE_RESP", "GET_TAGS"]),
     ...mapMutations(["SET_ARTICLES"]),
+    saveAndClose() {
+      this.close();
+      this.editedItem = Object.assign({}, this.defaultItem);
+      if (this.editedIndex > -1)
+        this.popSnackbar(this.$t("common.editSuccess"));
+      else this.popSnackbar(this.$t("common.addSuccess"));
+    },
     upload(val) {
       val.stopImmediatePropagation();
       let file = val.target.files[0];
@@ -331,6 +346,8 @@ export default {
     },
     close() {
       this.dialog = false;
+      this.ready = false;
+      this.articleId = null;
       this.$nextTick(() => {
         this.editedItem = Object.assign({}, this.defaultItem);
         this.image = null;
@@ -360,22 +377,20 @@ export default {
           articlesObj.append("_method", "PUT");
           articlesObj.append("id", this.editedItem.id);
           this.editArticle([articlesObj, this.editedItem.id]).then(() => {
-            if (this.GET_ARTICLE_RESP())
-              this.popSnackbar(this.$t("common.editSuccess"));
-            else this.popSnackbar(this.$t("common.editFail"));
+            if (this.GET_ARTICLE_RESP()[1]) {
+              this.articleId = this.GET_ARTICLE_RESP()[0];
+              this.ready = true;
+            } else this.popSnackbar(this.$t("common.editFail"));
             this.loading = false;
-            this.editedItem = Object.assign({}, this.defaultItem);
-            this.close();
           });
         } else {
           articlesObj.append("image", this.editedItem.image_url);
           this.postArticle(articlesObj).then(() => {
-            if (this.GET_ARTICLE_RESP())
-              this.popSnackbar(this.$t("common.addSuccess"));
-            else this.popSnackbar(this.$t("common.addFail"));
+            if (this.GET_ARTICLE_RESP()[1]) {
+              this.articleId = this.GET_ARTICLE_RESP()[0];
+              this.ready = true;
+            } else this.popSnackbar(this.$t("common.addFail"));
             this.loading = false;
-            this.editedItem = Object.assign({}, this.defaultItem);
-            this.close();
           });
         }
       }

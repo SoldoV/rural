@@ -45,6 +45,7 @@ const actions = {
         params: {
           filter: {
             ...(data[1] || ""),
+            tag_id: data[4]
           },
           ...(data[0] || ""),
           perPage: data[3],
@@ -148,8 +149,8 @@ const actions = {
           Authorization: "Bearer " + rootState.common.loginToken
         }
       })
-      .then(() => {
-        commit("STORE_ARTICLE_RESP", true);
+      .then((resp) => {
+        commit("STORE_ARTICLE_RESP", [resp.data.id, true]);
         dispatch("fetchArticles", [{
           withTranslations: 1
         }]);
@@ -172,11 +173,11 @@ const actions = {
           Authorization: "Bearer " + rootState.common.loginToken
         }
       })
-      .then(() => {
+      .then((resp) => {
         dispatch("fetchArticles", [{
           withTranslations: 1
         }]);
-        commit("STORE_ARTICLE_RESP", true);
+        commit("STORE_ARTICLE_RESP", [resp.data.id, true]);
       })
       .catch(error => {
         commit("STORE_ARTICLE_RESP", false);

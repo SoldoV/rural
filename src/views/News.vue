@@ -55,7 +55,7 @@ export default {
       this.getArticles(1, val);
     },
     getArticles(i, filter) {
-      this.fetchArticles([{}, filter, i, 5]).then(() => {
+      this.fetchArticles([{}, filter, i, 5, "n="]).then(() => {
         let article = this.GET_ARTICLES();
         this.articles = article.data;
         this.lastPage = article.last_page;

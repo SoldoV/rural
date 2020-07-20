@@ -5,7 +5,7 @@
     }"
     :headers="headers"
     :items="images"
-    class="new-household-table"
+    class="new-household-table article-images-table"
   >
     <template v-slot:top>
       <v-toolbar flat color="white">
@@ -52,9 +52,6 @@ import { mapGetters, mapActions } from "vuex";
 
 export default {
   props: {
-    itemId: {
-      required: true
-    },
     newItem: {
       required: true
     }
@@ -76,16 +73,19 @@ export default {
   watch: {
     newItem(a) {
       if (a) this.images = [];
-    },
-    itemId(i) {
-      if (i && !this.newItem) this.setImages();
+    }
+  },
+  computed: {
+    articleId() {
+      return this.GET_ARTICLE_RESP()[0];
     }
   },
   methods: {
     ...mapGetters([
       "GET_ARTICLE_IMAGE_RESP",
       "GET_ERROR_MSG",
-      "GET_ARTICLE_IMAGES"
+      "GET_ARTICLE_IMAGES",
+      "GET_ARTICLE_RESP"
     ]),
     ...mapActions([
       "deleteArticleImage",
@@ -97,7 +97,7 @@ export default {
     },
     deleteItem(item) {
       confirm(this.$t("common.deleteConfirm")) &&
-        this.deleteArticleImage([this.itemId, item.id]).then(() =>
+        this.deleteArticleImage([this.articleId, item.id]).then(() =>
           this.setImages()
         );
     },
@@ -108,7 +108,7 @@ export default {
       this.post(file);
     },
     setImages() {
-      this.fetchArticleImages(this.itemId).then(() => {
+      this.fetchArticleImages(this.articleId).then(() => {
         this.images = this.GET_ARTICLE_IMAGES();
       });
     },
@@ -116,11 +116,14 @@ export default {
       var imagesObj = new FormData();
       imagesObj.append("method", "createMany");
       imagesObj.append(`data[0][image]`, file);
-      this.postArticleImages([imagesObj, this.itemId]).then(() => {
+      this.postArticleImages([imagesObj, this.articleId]).then(() => {
         this.loading = false;
         if (this.GET_ARTICLE_IMAGE_RESP()) this.setImages();
       });
     }
+  },
+  mounted() {
+    this.setImages();
   }
 };
 </script>
