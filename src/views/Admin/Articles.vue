@@ -98,11 +98,24 @@
                           :extensions="extensions"
                         />
                       </v-col>
+                      <div v-if="ready" class="article-images">
+                        <images
+                          :itemId="articleId"
+                          :newItem="editedIndex === -1"
+                        />
+                        <v-btn
+                          depressed
+                          color="primary"
+                          class="common-btn"
+                          @click="saveAndClose"
+                          >{{ $t("common.save") }}</v-btn
+                        >
+                      </div>
                     </v-form>
                   </v-row>
                 </v-container>
               </v-card-text>
-              <v-card-actions class="mr-7">
+              <v-card-actions v-if="!ready" class="mr-7">
                 <v-spacer></v-spacer>
                 <v-btn
                   depressed
@@ -121,16 +134,6 @@
                   >{{ $t("common.next") }}</v-btn
                 >
               </v-card-actions>
-              <div v-if="ready" class="article-images">
-                <images :itemId="articleId" :newItem="editedIndex === -1" />
-                <v-btn
-                  depressed
-                  color="primary"
-                  class="common-btn"
-                  @click="saveAndClose"
-                  >{{ $t("common.save") }}</v-btn
-                >
-              </div>
             </v-card>
           </v-dialog>
         </v-toolbar>

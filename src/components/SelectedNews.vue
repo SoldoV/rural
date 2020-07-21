@@ -66,13 +66,13 @@ export default {
       },
       loop: false,
       breakpoints: {
-        1024: {
+        1700: {
+          slidesPerView: 4
+        },
+        1100: {
           slidesPerView: 3
         },
-        768: {
-          slidesPerView: 3
-        },
-        500: {
+        600: {
           slidesPerView: 2
         },
         320: {
@@ -104,11 +104,6 @@ export default {
       } else {
         this.articles = this.items;
       }
-    }
-  },
-  computed: {
-    swiper() {
-      return this.$refs.mySwiper.$swiper;
     }
   },
   mounted() {

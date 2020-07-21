@@ -4,18 +4,14 @@
     margin-bottom: 80px;
 }
 
-.selected-news-swiper {
-    .swiper-slide {
-        width: auto !important;
-    }
-}
-
-.swiper-slide {
-    width: auto !important;
-}
-
 .selected-news-btn {
     background-color: none !important;
+}
+
+
+
+.swiper-wrapper {
+    min-width: 80vw !important;
 }
 
 .selected-news-title {
@@ -27,6 +23,7 @@
 .selected-news-btn {
     text-transform: none !important;
     border-color: $border;
+
     .v-icon {
         font-size: 14px;
         margin-left: 1em;
