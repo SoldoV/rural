@@ -1,8 +1,6 @@
 import axios from "axios";
-import {
-  rootUrls
-} from "../../assets/_constants.js";
-import i18n from "../../i18n.js"
+import { rootUrls } from "../../assets/_constants.js";
+import i18n from "../../i18n.js";
 
 const state = {
   priceResp: false
@@ -15,9 +13,7 @@ const getters = {
 };
 
 const actions = {
-  async deletePrice({
-    rootState
-  }, data) {
+  async deletePrice({ rootState }, data) {
     await axios
       .delete(`${rootUrls.URL}/prices/${data}`, {
         headers: {
@@ -31,10 +27,7 @@ const actions = {
         console.log(error);
       });
   },
-  async postPrice({
-    rootState,
-    commit
-  }, data) {
+  async postPrice({ rootState, commit }, data) {
     await axios
       .post(`${rootUrls.URL}/prices`, data, {
         headers: {
@@ -48,7 +41,7 @@ const actions = {
       .catch(error => {
         console.log(error);
         commit("STORE_PRICE_RESP", false);
-        commit("STORE_ERROR_MSG", `ERROR: ${i18n.t('modules.price')}`, {
+        commit("STORE_ERROR_MSG", `ERROR: ${i18n.t("modules.price")}`, {
           root: true
         });
       });

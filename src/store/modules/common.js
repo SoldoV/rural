@@ -1,8 +1,6 @@
 import axios from "axios";
-import {
-  rootUrls
-} from "../../assets/_constants.js";
-import i18n from "../../i18n.js"
+import { rootUrls } from "../../assets/_constants.js";
+import i18n from "../../i18n.js";
 
 const state = {
   loginToken: localStorage.getItem("access_token") || null,
@@ -36,9 +34,7 @@ const getters = {
 };
 
 const actions = {
-  async userLogin({
-    commit
-  }, data) {
+  async userLogin({ commit }, data) {
     await axios
       .post(`${rootUrls.URL}/auth/login`, data, {
         headers: {
@@ -53,17 +49,15 @@ const actions = {
       })
       .catch(error => {
         console.log(error);
-        commit("STORE_ERROR_MSG", `ERROR: ${i18n.t('modules.login')}`);
+        commit("STORE_ERROR_MSG", `ERROR: ${i18n.t("modules.login")}`);
       });
   },
-  async sendContactForm({
-    commit
-  }, data) {
+  async sendContactForm({ commit }, data) {
     await axios
       .post(`${rootUrls.URL}/send_mail`, data, {
         headers: {
           ...state.header,
-          ...state.headerJson,
+          ...state.headerJson
         }
       })
       .then(() => {
@@ -74,10 +68,7 @@ const actions = {
         commit("STORE_CONTACT_RESP", false);
       });
   },
-  userLogout({
-    getters,
-    commit
-  }) {
+  userLogout({ getters, commit }) {
     if (getters.IS_LOGGED_IN) {
       localStorage.removeItem("access_token");
       commit("DESTROY_TOKEN");

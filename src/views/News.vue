@@ -16,7 +16,7 @@
       :dateText="item"
       :header="item.title"
       :text="item.text"
-      :image="item.small_image_url"
+      :image="item.images[0] ? item.images[0].small_image_url : ''"
       class="news-item-parent"
     />
     <v-pagination

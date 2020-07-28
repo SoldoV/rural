@@ -4,7 +4,8 @@ import store from "../store/index.js";
 
 Vue.use(VueRouter);
 
-const routes = [{
+const routes = [
+  {
     path: "/",
     name: "home",
     component: () =>
@@ -69,7 +70,8 @@ const routes = [{
         /* webpackChunkName: "AdminDashboard" */
         "../views/Admin/AdminDashboard.vue"
       ),
-    children: [{
+    children: [
+      {
         path: "tags",
         name: "Admin tags",
         meta: {
@@ -140,7 +142,8 @@ const routes = [{
             /* webpackChunkName: "AdminHousehold" */
             "../views/Admin/NewHousehold.vue"
           ),
-        children: [{
+        children: [
+          {
             path: "description",
             name: "Admin household description",
             meta: {

@@ -1,13 +1,11 @@
 import axios from "axios";
-import {
-  rootUrls
-} from "../../assets/_constants.js";
+import { rootUrls } from "../../assets/_constants.js";
 import i18n from "../../i18n.js";
 
 const state = {
   householdImage: false,
   coverImage: null,
-  coverImageResp: false,
+  coverImageResp: false
 };
 
 const getters = {
@@ -23,9 +21,7 @@ const getters = {
 };
 
 const actions = {
-  async deleteImage({
-    rootState
-  }, data) {
+  async deleteImage({ rootState }, data) {
     await axios
       .delete(`${rootUrls.URL}/images/${data}`, {
         headers: {
@@ -38,10 +34,7 @@ const actions = {
         console.log(error);
       });
   },
-  async postHouseholdImages({
-    commit,
-    rootState
-  }, data) {
+  async postHouseholdImages({ commit, rootState }, data) {
     await axios
       .post(`${rootUrls.URL}/households/${data[1]}/images`, data[0], {
         headers: {
@@ -56,15 +49,12 @@ const actions = {
       .catch(error => {
         console.log(error);
         commit("STORE_HOUSEHOLD_IMAGE_RESP", false);
-        commit("STORE_ERROR_MSG", `ERROR: ${i18n.t('modules.images')}`, {
+        commit("STORE_ERROR_MSG", `ERROR: ${i18n.t("modules.images")}`, {
           root: true
         });
       });
   },
-  async postCoverImage({
-    commit,
-    rootState
-  }, data) {
+  async postCoverImage({ commit, rootState }, data) {
     await axios
       .post(`${rootUrls.URL}/cover`, data, {
         headers: {
@@ -81,10 +71,7 @@ const actions = {
         commit("STORE_COVER_IMAGE_RESP", false);
       });
   },
-  async fetchCoverImage({
-    commit,
-    rootState
-  }) {
+  async fetchCoverImage({ commit, rootState }) {
     await axios
       .get(`${rootUrls.URL}/cover`, {
         headers: {
@@ -92,7 +79,7 @@ const actions = {
           Authorization: "Bearer " + rootState.common.loginToken
         }
       })
-      .then((res) => {
+      .then(res => {
         commit("STORE_COVER_IMAGE", res.data);
       })
       .catch(error => {

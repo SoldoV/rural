@@ -57,7 +57,15 @@ export default {
       this.$router.push(`/dashboard/household/${id}/description`);
     },
     getHouseholds(i) {
-      this.fetchHouseholds([i, 12, null, null, null, null, {showAll: true}]).then(() => {
+      this.fetchHouseholds([
+        i,
+        12,
+        null,
+        null,
+        null,
+        null,
+        { showAll: true }
+      ]).then(() => {
         this.fetchCities().then(() => {
           if (this.HOUSEHOLD_RESP()) {
             let household = this.GET_HOUSEHOLDS();

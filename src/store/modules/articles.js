@@ -1,7 +1,5 @@
 import axios from "axios";
-import {
-  rootUrls
-} from "../../assets/_constants.js";
+import { rootUrls } from "../../assets/_constants.js";
 
 const state = {
   singleArticle: {},
@@ -25,16 +23,13 @@ const getters = {
   },
   GET_ARTICLE_IMAGE_RESP: state => {
     return state.articleImageResp;
-  },
+  }
 };
 
 var qs = require("qs");
 
 const actions = {
-  async fetchArticles({
-    commit,
-    rootState
-  }, data) {
+  async fetchArticles({ commit, rootState }, data) {
     await axios
       .get(`${rootUrls.URL}/news_articles`, {
         headers: {
@@ -48,10 +43,11 @@ const actions = {
             tag_id: data[4]
           },
           ...(data[0] || ""),
+          with: "images",
           perPage: data[3],
           page: data[2]
         },
-        paramsSerializer: function (params) {
+        paramsSerializer: function(params) {
           return qs.stringify(params, {
             arrayFormat: "brackets"
           });
@@ -64,10 +60,7 @@ const actions = {
         console.log(error);
       });
   },
-  async fetchSingleArticle({
-    commit,
-    rootState
-  }, data) {
+  async fetchSingleArticle({ commit, rootState }, data) {
     await axios
       .get(`${rootUrls.URL}/news_articles/${data}`, {
         headers: {
@@ -83,10 +76,7 @@ const actions = {
         console.log(error);
       });
   },
-  async fetchArticleImages({
-    commit,
-    rootState
-  }, data) {
+  async fetchArticleImages({ commit, rootState }, data) {
     await axios
       .get(`${rootUrls.URL}/news_articles/${data}/images`, {
         headers: {
@@ -102,33 +92,33 @@ const actions = {
         console.log(error);
       });
   },
-  async postArticleImages({
-    commit,
-    rootState
-  }, data) {
+  async postArticleImages({ commit, dispatch, rootState }, data) {
     await axios
       .post(`${rootUrls.URL}/news_articles/${data[1]}/images`, data[0], {
         headers: {
           ...rootState.common.header,
-          Authorization: "Bearer " + rootState.common.loginToken,
+          Authorization: "Bearer " + rootState.common.loginToken
         }
       })
       .then(() => {
         commit("STORE_ARTICLE_IMAGE_RESP", true);
+        dispatch("fetchArticles", [
+          {
+            withTranslations: 1
+          }
+        ]);
       })
       .catch(error => {
         console.log(error);
         commit("STORE_HOUSEHOLD_IMAGE_RESP", false);
       });
   },
-  async deleteArticleImage({
-    rootState
-  }, data) {
+  async deleteArticleImage({ rootState }, data) {
     await axios
       .delete(`${rootUrls.URL}/news_images/${data[1]}`, {
         headers: {
           ...rootState.common.header,
-          Authorization: "Bearer " + rootState.common.loginToken,
+          Authorization: "Bearer " + rootState.common.loginToken
         }
       })
       .then()
@@ -136,59 +126,51 @@ const actions = {
         console.log(error);
       });
   },
-  async postArticle({
-    dispatch,
-    commit,
-    rootState
-  }, data) {
+  async postArticle({ dispatch, commit, rootState }, data) {
     await axios
       .post(`${rootUrls.URL}/news_articles`, data, {
         headers: {
           ...rootState.common.header,
-          ...rootState.common.headerForm,
+          ...rootState.common.headerJson,
           Authorization: "Bearer " + rootState.common.loginToken
         }
       })
-      .then((resp) => {
+      .then(resp => {
         commit("STORE_ARTICLE_RESP", [resp.data.id, true]);
-        dispatch("fetchArticles", [{
-          withTranslations: 1
-        }]);
+        dispatch("fetchArticles", [
+          {
+            withTranslations: 1
+          }
+        ]);
       })
       .catch(error => {
         commit("STORE_ARTICLE_RESP", false);
         console.log(error);
       });
   },
-  async editArticle({
-    dispatch,
-    rootState,
-    commit
-  }, data) {
+  async editArticle({ dispatch, rootState, commit }, data) {
     await axios
       .post(`${rootUrls.URL}/news_articles/${data[1]}`, data[0], {
         headers: {
           ...rootState.common.header,
-          ...rootState.common.headerForm,
+          ...rootState.common.headerJson,
           Authorization: "Bearer " + rootState.common.loginToken
         }
       })
-      .then((resp) => {
-        dispatch("fetchArticles", [{
-          withTranslations: 1
-        }]);
-        commit("STORE_ARTICLE_RESP", [resp.data.id, true]);
+      .then(resp => {
+        dispatch("fetchArticles", [
+          {
+            withTranslations: 1
+          }
+        ]);
+        commit("STORE_ARTICLE_RESP", [JSON.parse(resp.config.data).id, true]);
       })
       .catch(error => {
         commit("STORE_ARTICLE_RESP", false);
         console.log(error);
       });
   },
-  async deleteArticle({
-    dispatch,
-    rootState,
-    commit
-  }, data) {
+  async deleteArticle({ dispatch, rootState, commit }, data) {
     await axios
       .delete(`${rootUrls.URL}/news_articles/${data}`, {
         headers: {
@@ -198,9 +180,11 @@ const actions = {
       })
       .then(() => {
         commit("STORE_ARTICLE_RESP", true);
-        dispatch("fetchArticles", [{
-          withTranslations: 1
-        }]);
+        dispatch("fetchArticles", [
+          {
+            withTranslations: 1
+          }
+        ]);
       })
       .catch(error => {
         commit("STORE_ARTICLE_RESP", false);
@@ -227,7 +211,7 @@ const mutations = {
   },
   STORE_ARTICLE_IMAGE_RESP: (state, data) => {
     state.articleImageResp = data;
-  },
+  }
 };
 
 export default {

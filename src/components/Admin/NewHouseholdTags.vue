@@ -55,7 +55,7 @@
                           :rules="tagRulesMin"
                           type="number"
                           v-model="tag.value"
-                          v-if="[1,3].includes(selectedCategory)"
+                          v-if="[1, 3].includes(selectedCategory)"
                           :label="$t('common.val')"
                         ></v-text-field>
                       </v-form>
@@ -158,7 +158,12 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["fetchTags", "postHouseholdTags", "deleteHouseholdTag", "fetchCategoryTags"]),
+    ...mapActions([
+      "fetchTags",
+      "postHouseholdTags",
+      "deleteHouseholdTag",
+      "fetchCategoryTags"
+    ]),
     ...mapGetters(["GET_TAGS", "HOUSEHOLD_TAG_RESP", "GET_ERROR_MSG"]),
     close() {
       this.dialog = false;

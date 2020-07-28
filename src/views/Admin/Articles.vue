@@ -55,25 +55,6 @@
                         ></v-select>
                       </v-col>
                       <v-col cols="12">
-                        <v-btn
-                          depressed
-                          color="primary"
-                          class="common-btn file-input-btn"
-                          @change="upload"
-                        >
-                          <label class="file-input">
-                            <input type="file" @change="upload" />
-                          </label>
-                          {{ $t("admin.articles.cover") }}
-                        </v-btn>
-                        <div class="p-2" v-if="editedItem.image_url">
-                          <img
-                            class="new-household-image"
-                            v-lazy="imageSrc(editedItem.image_url)"
-                          />
-                        </div>
-                      </v-col>
-                      <v-col cols="12">
                         <v-checkbox
                           hide-details
                           v-model="editedItem.active"
@@ -152,7 +133,7 @@
         <div class="p-2">
           <img
             class="new-household-image"
-            :src="imageSrc(item.small_image_url)"
+            :src="item.images[0] ? item.images[0].small_image_url : ''"
           />
         </div>
       </template>
@@ -262,10 +243,8 @@ export default {
       articles: [],
       editedIndex: -1,
       articleId: null,
-      image: "",
       editedItem: {
         title: { en: "", bhs: "" },
-        image_url: "",
         active: false,
         text: { en: ``, bhs: `` },
         id: "",
@@ -273,7 +252,6 @@ export default {
       },
       defaultItem: {
         title: { en: "", bhs: "" },
-        image_url: "",
         active: false,
         text: { en: ``, bhs: `` },
         tag_id: ""
@@ -315,24 +293,9 @@ export default {
         this.popSnackbar(this.$t("common.editSuccess"));
       else this.popSnackbar(this.$t("common.addSuccess"));
     },
-    upload(val) {
-      val.stopImmediatePropagation();
-      let file = val.target.files[0];
-      this.editedItem.image_url = file;
-      let reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = e => {
-        this.image = e.target.result;
-      };
-    },
     popSnackbar(text) {
       this.snackbarText = text;
       this.snackbar = true;
-    },
-    imageSrc(src) {
-      if (this.editedItem.image_url instanceof File) {
-        return this.image;
-      } else return src;
     },
     editItem(item) {
       this.editedIndex = this.getArticles.indexOf(item);
@@ -353,33 +316,34 @@ export default {
       this.articleId = null;
       this.$nextTick(() => {
         this.editedItem = Object.assign({}, this.defaultItem);
-        this.image = null;
         this.editedIndex = -1;
       });
     },
     isValid() {
-      return (
-        this.editedItem.image_url &&
-        this.editedItem.text &&
-        this.editedItem.title
-      );
+      return this.editedItem.text && this.editedItem.title;
     },
     save() {
       if (this.isValid()) {
         this.loading = true;
-        var articlesObj = new FormData();
-        articlesObj.append("title[en]", this.editedItem.title.en);
-        articlesObj.append("title[bhs]", this.editedItem.title.bhs);
-        articlesObj.append("text[en]", this.editedItem.text.en);
-        articlesObj.append("text[bhs]", this.editedItem.text.bhs);
-        articlesObj.append("active", this.editedItem.active ? 1 : 0);
-        articlesObj.append("tag_id", this.editedItem.tag_id || null);
+        let data = {
+          title: {
+            en: this.editedItem.title.en,
+            bhs: this.editedItem.title.bhs
+          },
+          text: {
+            en: this.editedItem.text.en,
+            bhs: this.editedItem.text.bhs
+          },
+          actitve: this.editedItem.active ? 1 : 0,
+          tag_id: this.editedItem.tag_id || null
+        };
         if (this.editedIndex > -1) {
-          if (this.editedItem.image_url instanceof File)
-            articlesObj.append("image", this.editedItem.image_url);
-          articlesObj.append("_method", "PUT");
-          articlesObj.append("id", this.editedItem.id);
-          this.editArticle([articlesObj, this.editedItem.id]).then(() => {
+          let editedData = {
+            _method: "PUT",
+            id: this.editedItem.id,
+            ...data
+          };
+          this.editArticle([editedData, this.editedItem.id]).then(() => {
             if (this.GET_ARTICLE_RESP()[1]) {
               this.articleId = this.GET_ARTICLE_RESP()[0];
               this.ready = true;
@@ -387,8 +351,7 @@ export default {
             this.loading = false;
           });
         } else {
-          articlesObj.append("image", this.editedItem.image_url);
-          this.postArticle(articlesObj).then(() => {
+          this.postArticle(data).then(() => {
             if (this.GET_ARTICLE_RESP()[1]) {
               this.articleId = this.GET_ARTICLE_RESP()[0];
               this.ready = true;
