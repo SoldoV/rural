@@ -179,8 +179,10 @@ body {
 .household-carousel {
   margin-bottom: 32px;
   min-height: 400px;
+  height: 100% !important;
 
   .v-carousel__item {
+    height: 100% !important;
     border-radius: 8px !important;
   }
 

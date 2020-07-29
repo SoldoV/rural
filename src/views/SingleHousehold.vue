@@ -1,6 +1,6 @@
 <template>
   <div class="single-household">
-    <v-carousel cycle class="household-carousel">
+    <v-carousel class="household-carousel">
       <v-carousel-item
         v-for="item in household.images"
         :key="item.image_url"
