@@ -51,7 +51,7 @@ const routes = [
       )
   },
   {
-    path: "/news/article/:id?",
+    path: "/blog/article/:id?",
     name: "AdminSingleArticle",
     component: () =>
       import(

@@ -6,7 +6,7 @@
       <v-btn
         v-if="seeAll"
         outlined
-        @click="$router.push('/news')"
+        @click="$router.push('/blog')"
         class="selected-news-btn"
         >{{ $t("selectedNews.all") }} <v-icon>mdi-arrow-right</v-icon></v-btn
       >

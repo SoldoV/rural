@@ -48,7 +48,7 @@ export default {
   },
   methods: {
     goToArticle() {
-      this.$router.push(`/news/article/${this.id}`);
+      this.$router.push(`/blog/article/${this.id}`);
       window.scrollTo(0, 0);
     },
     getDate(item) {
