@@ -39,11 +39,6 @@ export default {
     images: [],
     date: ""
   }),
-  computed: {
-    imgPath() {
-      return this.article.image_url;
-    }
-  },
   methods: {
     ...mapActions(["fetchSingleArticle", "fetchArticleImages"]),
     ...mapGetters(["GET_SINGLE_ARTICLE", "GET_ARTICLE_IMAGES"]),
@@ -54,7 +49,6 @@ export default {
       let id = this.$route.params.id;
       this.fetchSingleArticle(id).then(() => {
         this.article = this.GET_SINGLE_ARTICLE();
-        this.images.push({ image_url: this.article.image_url });
         this.date = this.article.created_at;
         this.fetchArticleImages(id).then(() => {
           this.GET_ARTICLE_IMAGES().forEach(a => {
