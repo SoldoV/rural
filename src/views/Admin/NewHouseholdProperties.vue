@@ -2,22 +2,14 @@
   <div class="new-household-properties row justify-center">
     <v-col cols="12" lg="8" md="10">
       <v-form v-model="valid" ref="form" lazy-validation>
-        <tags
-          :householdId="householdId"
-          @errorNotif="errorNotif"
-          :tags="tags"
-        />
+        <tags :householdId="householdId" @errorNotif="errorNotif" :tags="tags"/>
         <images
           @setImages="setImages"
           @errorNotif="errorNotif"
           :householdId="householdId"
           :images="images"
         />
-        <priceComp
-          @errorNotif="errorNotif"
-          :householdId="householdId"
-          :prices="prices"
-        />
+        <priceComp @errorNotif="errorNotif" :householdId="householdId" :prices="prices"/>
         <v-text-field
           outlined
           v-model="links.airBnb"
@@ -36,8 +28,7 @@
             v-if="this.$route.params.id"
             class="new-household-btn common-btn-outlined"
             @click="goBack()"
-            >{{ $t("common.back") }}</v-btn
-          >
+          >{{ $t("common.back") }}</v-btn>
           <v-btn
             depressed
             color="primary"
@@ -45,16 +36,11 @@
             :loading="btnLoad"
             :disabled="!isValid()"
             @click="save"
-            >{{ $t("common.next") }}</v-btn
-          >
+          >{{ $t("common.next") }}</v-btn>
         </div>
       </v-form>
-      <v-alert type="success" class="success-alert" v-if="success">
-        {{ successMessage }}
-      </v-alert>
-      <v-alert type="error" class="success-alert" v-if="error">
-        {{ errorValue }}
-      </v-alert>
+      <v-alert type="success" class="success-alert" v-if="success">{{ successMessage }}</v-alert>
+      <v-alert type="error" class="success-alert" v-if="error">{{ errorValue }}</v-alert>
     </v-col>
   </div>
 </template>
@@ -122,9 +108,7 @@ export default {
       );
     },
     isValid() {
-      return (
-        this.tags.length > 0 && this.images.length > 0 && this.prices.length > 0
-      );
+      return this.tags.length > 0 && this.images.length > 0;
     },
     save() {
       if (this.$refs.form.validate()) {

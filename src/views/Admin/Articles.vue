@@ -15,9 +15,11 @@
           <v-spacer></v-spacer>
           <v-dialog fullscreen v-model="dialog" max-width="500px">
             <template v-slot:activator="{ on }">
-              <v-btn color="primary" dark class="mb-2 common-btn" v-on="on">{{
+              <v-btn color="primary" dark class="mb-2 common-btn" v-on="on">
+                {{
                 $t("admin.articles.new")
-              }}</v-btn>
+                }}
+              </v-btn>
             </template>
             <v-card>
               <v-card-title>
@@ -62,35 +64,21 @@
                         ></v-checkbox>
                       </v-col>
                       <v-col cols="12">
-                        <div class="articles-label">
-                          {{ $t("admin.articles.labelEn") }}
-                        </div>
-                        <tiptap-vuetify
-                          v-model="editedItem.text.en"
-                          :extensions="extensions"
-                        />
+                        <div class="articles-label">{{ $t("admin.articles.labelEn") }}</div>
+                        <tiptap-vuetify v-model="editedItem.text.en" :extensions="extensions"/>
                       </v-col>
                       <v-col cols="12">
-                        <div class="articles-label">
-                          {{ $t("admin.articles.labelBhs") }}
-                        </div>
-                        <tiptap-vuetify
-                          v-model="editedItem.text.bhs"
-                          :extensions="extensions"
-                        />
+                        <div class="articles-label">{{ $t("admin.articles.labelBhs") }}</div>
+                        <tiptap-vuetify v-model="editedItem.text.bhs" :extensions="extensions"/>
                       </v-col>
                       <div v-if="ready" class="article-images">
-                        <images
-                          :itemId="articleId"
-                          :newItem="editedIndex === -1"
-                        />
+                        <images :itemId="articleId" :newItem="editedIndex === -1"/>
                         <v-btn
                           depressed
                           color="primary"
                           class="common-btn"
                           @click="saveAndClose"
-                          >{{ $t("common.save") }}</v-btn
-                        >
+                        >{{ $t("common.save") }}</v-btn>
                       </div>
                     </v-form>
                   </v-row>
@@ -104,64 +92,45 @@
                   class="common-btn-outlined"
                   @click="close"
                   :disabled="loading"
-                  >{{ $t("common.cancel") }}</v-btn
-                >
+                >{{ $t("common.cancel") }}</v-btn>
                 <v-btn
                   depressed
                   color="primary"
                   class="common-btn"
                   @click="save"
                   :loading="loading"
-                  >{{ $t("common.next") }}</v-btn
-                >
+                >{{ $t("common.next") }}</v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>
         </v-toolbar>
       </template>
       <template v-slot:item.title.en="{ item }">
-        <div class="p-2 article-title">
-          {{ item.title.en }}
-        </div>
+        <div class="p-2 article-title">{{ item.title.en }}</div>
       </template>
       <template v-slot:item.title.bhs="{ item }">
-        <div class="p-2 article-title">
-          {{ item.title.bhs }}
-        </div>
+        <div class="p-2 article-title">{{ item.title.bhs }}</div>
       </template>
       <template v-slot:item.image_url="{ item }">
         <div class="p-2">
           <img
             class="new-household-image"
             :src="item.images[0] ? item.images[0].small_image_url : ''"
-          />
+          >
         </div>
       </template>
       <template v-slot:item.active="{ item }">
-        <v-checkbox
-          class="articles-checkbox"
-          hide-details
-          readonly
-          v-model="item.active"
-        ></v-checkbox>
+        <v-checkbox class="articles-checkbox" hide-details readonly v-model="item.active"></v-checkbox>
       </template>
       <template v-slot:item.actions="{ item }">
-        <v-icon small class="mr-2" @click="editItem(item)">
-          mdi-pencil
-        </v-icon>
-        <v-icon small @click="deleteItem(item)">
-          mdi-delete
-        </v-icon>
+        <v-icon small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
+        <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
       </template>
-      <template v-slot:no-data>
-        {{ $t("common.noData") }}
-      </template>
+      <template v-slot:no-data>{{ $t("common.noData") }}</template>
     </v-data-table>
     <v-snackbar v-model="snackbar" :timeout="3000">
       {{ snackbarText }}
-      <v-btn color="white" text @click="snackbar = false">
-        {{ $t("common.close") }}
-      </v-btn>
+      <v-btn color="white" text @click="snackbar = false">{{ $t("common.close") }}</v-btn>
     </v-snackbar>
   </div>
 </template>
@@ -337,6 +306,7 @@ export default {
           actitve: this.editedItem.active ? 1 : 0,
           tag_id: this.editedItem.tag_id || null
         };
+        console.log(data);
         if (this.editedIndex > -1) {
           let editedData = {
             _method: "PUT",

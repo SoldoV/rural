@@ -1,20 +1,18 @@
 <template>
   <div class="selected-news">
     <div class="align-row-center mb-8 selected-news-header">
-      <div class="selected-news-title">
-        {{ $t("featuredHouseholds.featured") }}
-      </div>
+      <div class="selected-news-title">{{ $t("featuredHouseholds.featured") }}</div>
     </div>
-    <div class="selected-news-wrapper">
+    <div class="selected-news-wrapper selected-households-wrapper">
       <swiper ref="mySwiper" :options="swiperOptions">
-        <swiper-slide v-for="item in households" :key="item.id"
-          ><card
+        <swiper-slide v-for="item in households" :key="item.id">
+          <card
             @getHousehold="getHouseholdPage"
             class="domacinstva-item"
             :cardItem="item"
             :cities="cities"
-          ></card
-        ></swiper-slide>
+          ></card>
+        </swiper-slide>
       </swiper>
     </div>
   </div>

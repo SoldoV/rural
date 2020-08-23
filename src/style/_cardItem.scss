@@ -11,6 +11,7 @@
   .card-item-image {
     background-image: url("~@/assets/image.webp");
     background-size: 100%;
+    object-fit: cover;
     border-radius: 8px;
     width: 282px;
     height: 165px;
