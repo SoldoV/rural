@@ -1,35 +1,37 @@
 .card-item-wrapper {
-  cursor: pointer;
-  display: flex;
-  width: 282px;
-  flex-direction: column;
-  align-items: flex-start;
-  margin-bottom: 56px;
-  margin-left: 10px;
-  margin-right: 10px;
-
-  .card-item-image {
-    background-image: url("~@/assets/image.webp");
-    background-size: 100%;
-    object-fit: cover;
-    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
     width: 282px;
-    height: 165px;
-  }
-
-  .card-item-name {
-    color: $primary-text;
-    font-size: 16px;
-    margin: 8px 0px 8px 0px !important;
-    font-weight: 600;
-    height: 20px;
-    width: 282px;
-    word-break: break-all;
-  }
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 56px;
+    margin-left: 10px;
+    margin-right: 10px;
+    .card-item-image {
+        background-image: url("~@/assets/image.webp");
+        background-size: 100%;
+        object-fit: cover;
+        border-radius: 8px;
+        width: 282px;
+        height: 165px;
+    }
+    .card-item-name {
+        white-space: nowrap;
+        line-height: 100%;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        color: $primary-text;
+        font-size: 16px;
+        margin: 8px 0px 8px 0px !important;
+        font-weight: 600;
+        height: 20px;
+        width: 282px;
+        word-break: break-all;
+    }
 }
 
 .card-item-wrapper:hover {
-  .card-item-name {
-    color: $primary;
-  }
+    .card-item-name {
+        color: $primary;
+    }
 }

@@ -2,14 +2,14 @@
   <div class="new-household-properties row justify-center">
     <v-col cols="12" lg="8" md="10">
       <v-form v-model="valid" ref="form" lazy-validation>
-        <tags :householdId="householdId" @errorNotif="errorNotif" :tags="tags"/>
+        <tags :householdId="householdId" @errorNotif="errorNotif" :tags="tags" />
         <images
           @setImages="setImages"
           @errorNotif="errorNotif"
           :householdId="householdId"
           :images="images"
         />
-        <priceComp @errorNotif="errorNotif" :householdId="householdId" :prices="prices"/>
+        <priceComp @errorNotif="errorNotif" :householdId="householdId" :prices="prices" />
         <v-text-field
           outlined
           v-model="links.airBnb"
@@ -183,6 +183,7 @@ export default {
   created() {
     this.$emit("setStepper", 2);
     if (this.$route.params.id) {
+      localStorage.setItem("household_id", this.$route.params.id);
       this.getHouseholdById([
         this.$route.params.id,
         { withTranslations: 1 }
